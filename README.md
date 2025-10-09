@@ -38,6 +38,8 @@
 5. 点击购买
 6. 完成
 
+![ipabuyer](./images/ipabuyer.png)
+
 ## 如何下载IPAbuyer？
 
 ## 常见问题
