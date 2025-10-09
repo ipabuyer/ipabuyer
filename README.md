@@ -15,7 +15,7 @@
 5. 等待弹窗
 6. 双击锁屏按钮
 
-![appstore](images\appstore.png)
+![appstore](./images/appstore.png)
 
 ## IPAbuyer购买流程
 
