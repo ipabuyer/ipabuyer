@@ -8,6 +8,8 @@
 
 ## AppStore购买流程
 
+> 以Google的Gmail、Chrome和Gemini为例
+
 1. 打开App Store
 2. 登录Apple ID
 3. 找到Gmail
@@ -26,6 +28,8 @@
 ![appstore](./images/appstore.png)
 
 ## IPAbuyer购买流程
+
+> 以Google的Gmail、Chrome和Gemini为例
 
 1. 打开IPAbuyer
 2. 登录Apple ID
