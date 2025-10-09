@@ -14,6 +14,14 @@
 4. 点击获取
 5. 等待弹窗
 6. 双击锁屏按钮
+7. 找到Chrome
+8. 点击获取
+9. 等待弹窗
+10. 双击锁屏按钮
+11. 找到Gemini
+12. 点击获取
+13. 等待弹窗
+14. 双击锁屏按钮
 
 ![appstore](./images/appstore.png)
 
@@ -22,7 +30,7 @@
 1. 打开IPAbuyer
 2. 登录Apple ID
 3. 搜索Google
-4. 批量选择要购买的App
+4. 批量选择Gmail、Chrome和Gemini
 5. 点击购买
 6. 完成
 
