@@ -42,6 +42,10 @@
 
 ## 如何下载IPAbuyer？
 
+<a href="https://apps.microsoft.com/detail/9MSXMXD5520X">
+  <img src="https://get.microsoft.com/images/zh-cn%20dark.svg" alt="从 Microsoft 获取" />
+</a>
+
 ## 常见问题
 
 无法获取双重验证码？
