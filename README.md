@@ -6,6 +6,16 @@
 - 还是担心小众优质App被下架？
 - 使用IPAbuyer，将App统统收入囊中！
 
+## 获取途径
+
+<a href="https://apps.microsoft.com/detail/9MSXMXD5520X" target="_blank">
+  <img src="https://get.microsoft.com/images/zh-cn%20dark.svg" alt="从 Microsoft 获取" />
+</a>
+
+## 开发者信息
+
+<https://github.com/ipabuyer/>
+
 ## AppStore购买流程
 
 > 以Google的Gmail、Chrome和Gemini为例
@@ -40,12 +50,6 @@
 
 ![ipabuyer](./images/ipabuyer.png)
 
-## 如何下载IPAbuyer？
-
-<a href="https://apps.microsoft.com/detail/9MSXMXD5520X">
-  <img src="https://get.microsoft.com/images/zh-cn%20dark.svg" alt="从 Microsoft 获取" />
-</a>
-
 ## 常见问题
 
 无法获取双重验证码？
@@ -75,3 +79,9 @@
 为什么不能进行付费购买？
 
 > 为了保证账户安全性，本软件将进行App购买检查，只允许购买价格为0的App。
+
+## 版权信息
+
+Copyright © 2025 IPAbuyer. 保留所有权利。
+
+以GNU Affero General Public License v3.0的条款发布。
