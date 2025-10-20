@@ -80,6 +80,10 @@
 
 > 为了保证账户安全性，本软件将进行App购买检查，只允许购买价格为0的App。
 
+## 致谢
+
+- [ipatool](https://github.com/majd/ipatool) —— 上游软件
+
 ## 版权信息
 
 Copyright © 2025 IPAbuyer. 保留所有权利。
