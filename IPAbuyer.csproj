@@ -137,5 +137,6 @@
         <PublishSingleFile>False</PublishSingleFile>
         <PlatformTarget>AnyCPU</PlatformTarget>
         <SignAssembly>False</SignAssembly>
+        <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
     </PropertyGroup>
 </Project>
