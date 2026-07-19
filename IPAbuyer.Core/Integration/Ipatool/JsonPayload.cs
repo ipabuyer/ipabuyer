@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace IPAbuyer.Core.Integration.Ipatool
 {
-    internal static class JsonPayload
+    public static class JsonPayload
     {
         public static IEnumerable<JsonElement> EnumerateTokens(string? payload)
         {
