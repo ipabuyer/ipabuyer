@@ -3,8 +3,14 @@
     <Platform Name="ARM64" />
     <Platform Name="x64" />
   </Configurations>
-  <Project Path="IPAbuyer.Core\IPAbuyer.Core.csproj" />
-  <Project Path="IPAbuyer.Pages\IPAbuyer.Pages.csproj" />
+  <Project Path="IPAbuyer.Core\IPAbuyer.Core.csproj">
+    <Platform Solution="*|x64" Project="AnyCPU" />
+    <Platform Solution="*|ARM64" Project="AnyCPU" />
+  </Project>
+  <Project Path="IPAbuyer.Pages\IPAbuyer.Pages.csproj">
+    <Platform Solution="*|x64" Project="AnyCPU" />
+    <Platform Solution="*|ARM64" Project="AnyCPU" />
+  </Project>
   <Project Path="IPAbuyer.csproj">
     <Platform Solution="*|x64" Project="x64" />
     <Platform Solution="*|ARM64" Project="ARM64" />
