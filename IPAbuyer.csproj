@@ -138,5 +138,13 @@
         <PlatformTarget>AnyCPU</PlatformTarget>
         <SignAssembly>False</SignAssembly>
         <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
+        <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+        <AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
+        <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+        <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+        <GenerateTestArtifacts>False</GenerateTestArtifacts>
+        <AppxBundle>Always</AppxBundle>
+        <AppxBundlePlatforms>x64|arm64</AppxBundlePlatforms>
+        <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     </PropertyGroup>
 </Project>
