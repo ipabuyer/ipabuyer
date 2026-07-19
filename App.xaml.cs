@@ -1,6 +1,8 @@
-using IPAbuyer.Common;
-using IPAbuyer.Data;
-using IPAbuyer.Views;
+using IPAbuyer.Core.Configuration;
+using IPAbuyer.Core.Data.PurchasedApps;
+using IPAbuyer.Core.Integration.Ipatool;
+using IPAbuyer.Core.State;
+using IPAbuyer.Pages;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Diagnostics;
