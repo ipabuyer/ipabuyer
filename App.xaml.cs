@@ -31,6 +31,8 @@ namespace IPAbuyer
                     // Language preference must never prevent the app from starting.
                 }
 
+                WindowContext.RegisterRestartHandler(RestartApplication);
+
                 try
                 {
                     // 初始化数据库
@@ -75,6 +77,11 @@ namespace IPAbuyer
                 Debug.WriteLine(LF("App/Debug/StartupError", ex.Message));
                 throw;
             }
+        }
+
+        private static string? RestartApplication()
+        {
+            return Microsoft.Windows.AppLifecycle.AppInstance.Restart(string.Empty).ToString();
         }
 
         private static async Task WarmupAuthInfoAsync()

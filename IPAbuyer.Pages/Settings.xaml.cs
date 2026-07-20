@@ -147,10 +147,13 @@ namespace IPAbuyer.Pages
                 }
 
                 LanguageSettings.SavePreference(selectedPreference);
-                var failureReason = Microsoft.Windows.AppLifecycle.AppInstance.Restart(string.Empty);
-                await ShowDialogAsync(
-                    L("Settings/Language/RestartFailedTitle"),
-                    LF("Settings/Language/RestartFailedMessage", failureReason));
+                string? failureReason = WindowContext.RequestRestart();
+                if (!string.IsNullOrWhiteSpace(failureReason))
+                {
+                    await ShowDialogAsync(
+                        L("Settings/Language/RestartFailedTitle"),
+                        LF("Settings/Language/RestartFailedMessage", failureReason));
+                }
             }
             catch (Exception ex)
             {
