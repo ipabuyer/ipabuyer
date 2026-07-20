@@ -102,6 +102,23 @@ namespace IPAbuyer.Pages
             }
         }
 
+        private void UseBundledIpatoolButton_Click(object sender, RoutedEventArgs e)
+        {
+            KeychainConfig.SaveIpatoolFlavor(KeychainConfig.IpatoolFlavorMain);
+            UpdateCustomIpatoolPath();
+        }
+
+        private void UseCustomIpatoolButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!KeychainConfig.HasUsableCustomIpatoolPath())
+            {
+                return;
+            }
+
+            KeychainConfig.SaveIpatoolFlavor(KeychainConfig.IpatoolFlavorCustom);
+            UpdateCustomIpatoolPath();
+        }
+
         private async void PickCustomIpatoolButton_Click(object sender, RoutedEventArgs e)
         {
             await PickCustomIpatoolAsync();
@@ -200,6 +217,8 @@ namespace IPAbuyer.Pages
         {
             string customPath = KeychainConfig.GetCustomIpatoolPath();
             bool hasCustomPath = !string.IsNullOrWhiteSpace(customPath) && File.Exists(customPath);
+            bool isCustomSelected = hasCustomPath
+                && string.Equals(KeychainConfig.GetIpatoolFlavor(), KeychainConfig.IpatoolFlavorCustom, StringComparison.OrdinalIgnoreCase);
             CustomIpatoolPathTextBlock.Text = hasCustomPath
                 ? customPath
                 : L("IpatoolPage/Custom/EmptyPath");
@@ -210,9 +229,13 @@ namespace IPAbuyer.Pages
 
             string currentText = L("IpatoolPage/Badge/Current");
             ReleaseCurrentBadgeTextBlock.Text = currentText;
-            ReleaseCurrentBadge.Visibility = hasCustomPath ? Visibility.Collapsed : Visibility.Visible;
+            ReleaseCurrentBadge.Visibility = isCustomSelected ? Visibility.Collapsed : Visibility.Visible;
+            ReleaseSelectButton.Content = L("IpatoolPage/Button/Use");
+            ReleaseSelectButton.Visibility = isCustomSelected ? Visibility.Visible : Visibility.Collapsed;
             CustomCurrentBadgeTextBlock.Text = currentText;
-            CustomCurrentBadge.Visibility = hasCustomPath ? Visibility.Visible : Visibility.Collapsed;
+            CustomCurrentBadge.Visibility = isCustomSelected ? Visibility.Visible : Visibility.Collapsed;
+            CustomUseButton.Content = L("IpatoolPage/Button/Use");
+            CustomUseButton.Visibility = hasCustomPath && !isCustomSelected ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private async Task PickCustomIpatoolAsync()

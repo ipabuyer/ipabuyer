@@ -33,22 +33,27 @@
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap" />
-                    <Border
-                        x:Name="ReleaseCurrentBadge"
-                        Grid.Column="1"
-                        MinWidth="72"
-                        Padding="10,4"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Background="#107C10"
-                        CornerRadius="4"
-                        Visibility="Collapsed">
-                        <TextBlock
-                            x:Name="ReleaseCurrentBadgeTextBlock"
+                    <Grid Grid.Column="1">
+                        <Button
+                            x:Name="ReleaseSelectButton"
+                            Click="UseBundledIpatoolButton_Click"
+                            Visibility="Collapsed" />
+                        <Border
+                            x:Name="ReleaseCurrentBadge"
+                            MinWidth="72"
+                            Padding="10,4"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Foreground="White" />
-                    </Border>
+                            Background="#107C10"
+                            CornerRadius="4"
+                            Visibility="Collapsed">
+                            <TextBlock
+                                x:Name="ReleaseCurrentBadgeTextBlock"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Foreground="White" />
+                        </Border>
+                    </Grid>
                     <Button
                         x:Uid="IpatoolPage/Release/MenuButton"
                         Grid.Column="2">
@@ -87,22 +92,27 @@
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap" />
-                    <Border
-                        x:Name="CustomCurrentBadge"
-                        Grid.Column="1"
-                        MinWidth="72"
-                        Padding="10,4"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Background="#107C10"
-                        CornerRadius="4"
-                        Visibility="Collapsed">
-                        <TextBlock
-                            x:Name="CustomCurrentBadgeTextBlock"
+                    <Grid Grid.Column="1">
+                        <Button
+                            x:Name="CustomUseButton"
+                            Click="UseCustomIpatoolButton_Click"
+                            Visibility="Collapsed" />
+                        <Border
+                            x:Name="CustomCurrentBadge"
+                            MinWidth="72"
+                            Padding="10,4"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Foreground="White" />
-                    </Border>
+                            Background="#107C10"
+                            CornerRadius="4"
+                            Visibility="Collapsed">
+                            <TextBlock
+                                x:Name="CustomCurrentBadgeTextBlock"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Foreground="White" />
+                        </Border>
+                    </Grid>
                     <Button
                         x:Name="CustomSelectButton"
                         Grid.Column="2"

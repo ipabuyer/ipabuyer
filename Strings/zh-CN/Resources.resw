@@ -313,7 +313,7 @@
     <value>设置</value>
   </data>
   <data name="IpatoolPage/DescriptionTextBlock.Text" xml:space="preserve">
-    <value>内置正式版 ipatool。可选用自定义 ipatool.exe 覆盖内置版本。</value>
+    <value>可在内置正式版 ipatool 与自定义 ipatool.exe 之间切换。</value>
   </data>
   <data name="IpatoolPage/Card/Release.Header" xml:space="preserve">
     <value>内置 ipatool</value>
@@ -329,6 +329,9 @@
   </data>
   <data name="IpatoolPage/Release/Menu/Export.Text" xml:space="preserve">
     <value>导出</value>
+  </data>
+  <data name="IpatoolPage/Badge/Current" xml:space="preserve">
+    <value>当前使用</value>
   </data>
   <data name="IpatoolPage/Card/Custom.Header" xml:space="preserve">
     <value>自定义 ipatool.exe</value>
@@ -347,6 +350,9 @@
   </data>
   <data name="IpatoolPage/Button/Replace" xml:space="preserve">
     <value>更换</value>
+  </data>
+  <data name="IpatoolPage/Button/Use" xml:space="preserve">
+    <value>使用</value>
   </data>
   <data name="IpatoolPage/Custom/DeleteConfirmTitle" xml:space="preserve">
     <value>删除自定义插槽</value>

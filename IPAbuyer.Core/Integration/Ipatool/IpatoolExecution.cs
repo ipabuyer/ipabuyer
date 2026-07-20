@@ -9,6 +9,12 @@ namespace IPAbuyer.Core.Integration.Ipatool
 {
     public static class IpatoolExecution
     {
+        private enum IpatoolFlavor
+        {
+            Main,
+            Custom
+        }
+
         private static readonly ResourceLoader Loader = new();
         private const int MaxPreviewLength = 200;
         private static readonly TimeSpan DefaultTimeout = TimeSpan.FromMinutes(2);
@@ -439,10 +445,13 @@ namespace IPAbuyer.Core.Integration.Ipatool
 
         private static string ResolveIpatoolPath()
         {
-            string customPath = KeychainConfig.GetCustomIpatoolPath();
-            if (!string.IsNullOrWhiteSpace(customPath) && File.Exists(customPath))
+            if (GetConfiguredIpatoolFlavor() == IpatoolFlavor.Custom)
             {
-                return customPath;
+                string customPath = KeychainConfig.GetCustomIpatoolPath();
+                if (!string.IsNullOrWhiteSpace(customPath) && File.Exists(customPath))
+                {
+                    return customPath;
+                }
             }
 
             string baseDirectory = AppContext.BaseDirectory;
@@ -474,6 +483,14 @@ namespace IPAbuyer.Core.Integration.Ipatool
 
             Debug.WriteLine(L("Ipatool/Debug/FallbackToPath"));
             return "ipatool.exe";
+        }
+
+        private static IpatoolFlavor GetConfiguredIpatoolFlavor()
+        {
+            return string.Equals(KeychainConfig.GetIpatoolFlavor(), KeychainConfig.IpatoolFlavorCustom, StringComparison.OrdinalIgnoreCase)
+                && KeychainConfig.HasUsableCustomIpatoolPath()
+                ? IpatoolFlavor.Custom
+                : IpatoolFlavor.Main;
         }
 
         private static string EnsurePassphrase(string? passphrase)

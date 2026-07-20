@@ -23,7 +23,7 @@
 1. 内置 `ipatool.exe` 位于 `Include` 目录，注意区分 `amd64` 和 `arm64`。
 2. 当前内置版本为上游正式版 `2.3.1`，文件名为 `ipatool-2.3.1-windows-*.exe`，打包后映射为 `ipatool.exe`，用于所有内置 `ipatool` 命令。
 3. `Include/get-ipatool-release.ps1` 可获取并校验上游最新正式版；更新内置版本时需要同步更新项目引用、设置页展示与本文件。
-4. 用户可通过设置页配置自定义 `ipatool.exe`，存在时优先于内置版本使用。
+4. 用户可通过设置页配置并选择自定义 `ipatool.exe`；未选择或路径失效时使用内置版本。
 5. 针对 `ipatool` 输出的内容，需要在命令中加入 `--format json`；详细日志开启时记录命令和输出。
 
 ## 数据库
@@ -90,10 +90,11 @@
 
 1. 使用 CommunityToolkit `SettingsCard` 展示内置 `ipatool` 与可选的自定义 `ipatool.exe`。
 2. 内置版本展示为 `release@2.3.1`。
-3. 自定义 `ipatool.exe` 路径写入 LocalSettings 名称：`CustomIpatoolPath`；自定义文件只要求扩展名为 `.exe`。
-4. 自定义路径存在时，认证登录、查询登录状态、退出登录、购买、下载等所有 `ipatool` 命令优先使用自定义版本；不存在时使用内置正式版。
-5. 内置版本卡片右端使用三点菜单提供导出功能，导出内置版本到下载目录，目标文件名为 `ipatool.exe`。
-6. 自定义 `ipatool.exe` 卡片通过主按钮选择或更换文件，右端三点菜单只提供删除插槽功能；删除插槽只移除 LocalSettings 路径，不删除原文件。
+3. 内置与自定义来源选择写入 LocalSettings 名称：`IpatoolFlavor`，内部值为 `Main`（内置正式版）和 `Custom`；默认值为 `Main`。
+4. 自定义 `ipatool.exe` 路径写入 LocalSettings 名称：`CustomIpatoolPath`；自定义文件只要求扩展名为 `.exe`。
+5. 认证登录、查询登录状态、退出登录、购买、下载等所有 `ipatool` 命令使用当前选择的来源；自定义路径失效时回退到内置正式版。
+6. 内置版本卡片右端使用三点菜单提供导出功能，导出内置版本到下载目录，目标文件名为 `ipatool.exe`。
+7. 自定义 `ipatool.exe` 卡片通过主按钮选择或更换文件，提供“使用”按钮切换来源，右端三点菜单只提供删除插槽功能；删除插槽只移除 LocalSettings 路径，不删除原文件。
 7. 显示详细日志开关写入 LocalSettings 名称：`DetailedIpatoolLogEnabled`，勾选后所有 `ipatool` 的命令和输出都显示在日志区。
 8. 页面底部显示清空 `ipatool` 数据卡片，`ipatool` 数据目录：`%USERNAME%/.ipatool/`。
 9. 页面底部显示 `majd/ipatool` 仓库卡片，Description 写完整网址 <https://github.com/majd/ipatool>，按钮打开该网址。
