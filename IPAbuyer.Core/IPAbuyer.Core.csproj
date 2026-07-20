@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <DefaultLanguage>zh-CN</DefaultLanguage>
+        <DefaultLanguage>zh-Hans</DefaultLanguage>
         <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
         <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
         <UseWinUI>true</UseWinUI>
@@ -13,7 +13,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PRIResource Include="..\Strings\zh-CN\Resources.resw" Link="Strings\zh-CN\Resources.resw" />
+        <PRIResource Include="..\Strings\zh-Hans\Resources.resw" Link="Strings\zh-Hans\Resources.resw" />
     </ItemGroup>
 
     <ItemGroup>
