@@ -131,12 +131,15 @@ namespace IPAbuyer.Pages
 
             try
             {
+                string targetLanguage = LanguageSettings.Resolve(
+                    selectedPreference,
+                    GlobalizationPreferences.Languages.FirstOrDefault());
                 var dialog = new ContentDialog
                 {
-                    Title = L("Settings/Language/RestartTitle"),
-                    Content = L("Settings/Language/RestartMessage"),
-                    PrimaryButtonText = L("Settings/Language/RestartNow"),
-                    CloseButtonText = L("Settings/Language/RestartLater"),
+                    Title = LForLanguage("Settings/Language/RestartTitle", targetLanguage),
+                    Content = LForLanguage("Settings/Language/RestartMessage", targetLanguage),
+                    PrimaryButtonText = LForLanguage("Settings/Language/RestartNow", targetLanguage),
+                    CloseButtonText = LForLanguage("Settings/Language/RestartLater", targetLanguage),
                     XamlRoot = XamlRoot
                 };
 
@@ -521,6 +524,25 @@ namespace IPAbuyer.Pages
 
         private TextBlock? CountryCodeValueTextBlockControl => FindName("CountryCodeValueTextBlock") as TextBlock;
         private TextBlock? DownloadDirectoryValueTextBlockControl => FindName("DownloadDirectoryValueTextBlock") as TextBlock;
+
+        private static string LForLanguage(string key, string language)
+        {
+            try
+            {
+                var resourceManager = new ResourceManager();
+                var resourceMap = resourceManager.MainResourceMap
+                    .GetSubtree("IPAbuyer.Pages")
+                    .GetSubtree("Resources");
+                var context = resourceManager.CreateResourceContext();
+                context.QualifierValues["Language"] = language;
+
+                return resourceMap.GetValue(key, context)?.ValueAsString ?? key;
+            }
+            catch
+            {
+                return key;
+            }
+        }
 
         private static string L(string key)
         {
