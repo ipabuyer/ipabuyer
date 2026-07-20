@@ -11,8 +11,8 @@ using Microsoft.Windows.ApplicationModel.Resources;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Globalization;
 using Windows.Storage.Pickers;
+using Windows.System.UserProfile;
 using WinRT.Interop;
 
 namespace IPAbuyer.Pages
@@ -145,7 +145,7 @@ namespace IPAbuyer.Pages
 
                 if (await dialog.ShowAsync() != ContentDialogResult.Primary)
                 {
-                    SelectDisplayLanguage(previousPreference);
+                    LanguageSettings.SavePreference(selectedPreference);
                     return;
                 }
 
