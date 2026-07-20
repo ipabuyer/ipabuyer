@@ -1,5 +1,5 @@
-using Windows.Globalization;
 using Windows.Storage;
+using Windows.System.UserProfile;
 
 namespace IPAbuyer.Core.Configuration
 {

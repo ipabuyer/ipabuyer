@@ -35,6 +35,7 @@ namespace IPAbuyer.Pages
 
         public Settings()
         {
+            _isInitializingLanguageOption = true;
             InitializeComponent();
             InitializeDisplayLanguage();
             InitializeCountryCode();
@@ -114,7 +115,9 @@ namespace IPAbuyer.Pages
 
         private async void DisplayLanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_isInitializingLanguageOption || DisplayLanguageComboBox.SelectedItem is not ComboBoxItem item)
+            if (_isInitializingLanguageOption
+                || XamlRoot == null
+                || DisplayLanguageComboBox.SelectedItem is not ComboBoxItem item)
             {
                 return;
             }
@@ -126,23 +129,23 @@ namespace IPAbuyer.Pages
                 return;
             }
 
-            var dialog = new ContentDialog
-            {
-                Title = L("Settings/Language/RestartTitle"),
-                Content = L("Settings/Language/RestartMessage"),
-                PrimaryButtonText = L("Settings/Language/RestartNow"),
-                CloseButtonText = L("Settings/Language/RestartLater"),
-                XamlRoot = XamlRoot
-            };
-
-            if (await dialog.ShowAsync() != ContentDialogResult.Primary)
-            {
-                SelectDisplayLanguage(previousPreference);
-                return;
-            }
-
             try
             {
+                var dialog = new ContentDialog
+                {
+                    Title = L("Settings/Language/RestartTitle"),
+                    Content = L("Settings/Language/RestartMessage"),
+                    PrimaryButtonText = L("Settings/Language/RestartNow"),
+                    CloseButtonText = L("Settings/Language/RestartLater"),
+                    XamlRoot = XamlRoot
+                };
+
+                if (await dialog.ShowAsync() != ContentDialogResult.Primary)
+                {
+                    SelectDisplayLanguage(previousPreference);
+                    return;
+                }
+
                 LanguageSettings.SavePreference(selectedPreference);
                 var failureReason = Microsoft.Windows.AppLifecycle.AppInstance.Restart(string.Empty);
                 await ShowDialogAsync(
@@ -153,9 +156,13 @@ namespace IPAbuyer.Pages
             {
                 LanguageSettings.SavePreference(previousPreference);
                 SelectDisplayLanguage(previousPreference);
-                await ShowDialogAsync(
-                    L("Settings/Language/RestartFailedTitle"),
-                    LF("Settings/Language/RestartFailedMessage", ex.Message));
+
+                if (XamlRoot != null)
+                {
+                    await ShowDialogAsync(
+                        L("Settings/Language/RestartFailedTitle"),
+                        LF("Settings/Language/RestartFailedMessage", ex.Message));
+                }
             }
         }
 
