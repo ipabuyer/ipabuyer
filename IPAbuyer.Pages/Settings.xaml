@@ -13,8 +13,8 @@
                     HorizontalAlignment="Right"
                     SelectionChanged="DisplayLanguageComboBox_SelectionChanged">
                     <ComboBoxItem x:Uid="Settings/Language/Auto" Tag="auto" />
-                    <ComboBoxItem x:Uid="Settings/Language/Chinese" Tag="zh-Hans" />
-                    <ComboBoxItem x:Uid="Settings/Language/English" Tag="en-US" />
+                    <ComboBoxItem Content="简体中文" Tag="zh-Hans" />
+                    <ComboBoxItem Content="English" Tag="en-US" />
                 </ComboBox>
             </controls:SettingsCard>
 

@@ -1716,12 +1716,6 @@
   <data name="Settings/Language/Auto.Content" xml:space="preserve">
     <value>自动</value>
   </data>
-  <data name="Settings/Language/Chinese.Content" xml:space="preserve">
-    <value>简体中文</value>
-  </data>
-  <data name="Settings/Language/English.Content" xml:space="preserve">
-    <value>English</value>
-  </data>
   <data name="Settings/Language/RestartTitle" xml:space="preserve">
     <value>重启应用</value>
   </data>
