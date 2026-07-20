@@ -1714,7 +1714,7 @@
     <value>Select the language used by the app interface.</value>
   </data>
   <data name="Settings/Language/Auto.Content" xml:space="preserve">
-    <value>Automatic (system default)</value>
+    <value>Automatic</value>
   </data>
   <data name="Settings/Language/Chinese.Content" xml:space="preserve">
     <value>Simplified Chinese</value>
