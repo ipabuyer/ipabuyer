@@ -7,7 +7,7 @@ namespace IPAbuyer.Core.Configuration
 
     public static class AppleStorefrontCatalog
     {
-        private static readonly AppleStorefront[] Storefronts = Parse(@"""
+        private static readonly AppleStorefront[] Storefronts = Parse("""
 AE|United Arab Emirates
 AF|Afghanistan
 AG|Antigua and Barbuda
