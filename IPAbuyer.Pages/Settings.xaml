@@ -3,6 +3,21 @@
     <Page.Background>Transparent</Page.Background>
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
         <StackPanel Padding="{StaticResource AppPagePadding}" Spacing="12" HorizontalAlignment="Stretch">
+            <controls:SettingsCard x:Uid="Settings/Card/DisplayLanguage" HorizontalAlignment="Stretch">
+                <controls:SettingsCard.HeaderIcon>
+                    <FontIcon FontSize="20" Glyph="&#xE774;" />
+                </controls:SettingsCard.HeaderIcon>
+                <ComboBox
+                    x:Name="DisplayLanguageComboBox"
+                    MinWidth="180"
+                    HorizontalAlignment="Right"
+                    SelectionChanged="DisplayLanguageComboBox_SelectionChanged">
+                    <ComboBoxItem x:Uid="Settings/Language/Auto" Tag="auto" />
+                    <ComboBoxItem x:Uid="Settings/Language/Chinese" Tag="zh-Hans" />
+                    <ComboBoxItem x:Uid="Settings/Language/English" Tag="en-US" />
+                </ComboBox>
+            </controls:SettingsCard>
+
             <controls:SettingsCard x:Uid="Settings/Card/CountryCode" HorizontalAlignment="Stretch">
                 <controls:SettingsCard.HeaderIcon>
                     <FontIcon FontSize="20" Glyph="&#xE909;" />

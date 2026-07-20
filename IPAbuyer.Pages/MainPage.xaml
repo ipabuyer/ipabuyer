@@ -63,7 +63,7 @@
                             x:Name="OpenLogButton"
                             Height="36"
                             Click="ShowHomeLogDialog_Click"
-                            Content="日志" />
+                            x:Uid="MainPage/Action/OpenLogButton" />
                         <Button x:Uid="MainPage/Action/CancelAllDownloadsButton" x:Name="CancelAllDownloadsButton" Click="CancelAllDownloadsButton_Click" Visibility="Collapsed" />
                     </StackPanel>
                 </Grid>

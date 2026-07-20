@@ -11,6 +11,7 @@ using Microsoft.Windows.ApplicationModel.Resources;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Globalization;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
 
@@ -28,12 +29,14 @@ namespace IPAbuyer.Pages
             public string SearchText => $"{Storefront.SearchText} {DisplayName}";
         }
 
+        private bool _isInitializingLanguageOption;
         private bool _isInitializingOwnedCheckOption;
         private bool _isInitializingPassphraseRotationOption;
 
         public Settings()
         {
             InitializeComponent();
+            InitializeDisplayLanguage();
             InitializeCountryCode();
             InitializeDownloadDirectory();
             InitializeOwnedCheckOption();
@@ -87,6 +90,90 @@ namespace IPAbuyer.Pages
                 await ShowDialogAsync(
                     L("Settings/Dialog/ErrorTitle"),
                     LF("Settings/Database/Clear/FailMessage", ex.Message));
+            }
+        }
+
+        private void InitializeDisplayLanguage()
+        {
+            _isInitializingLanguageOption = true;
+            try
+            {
+                string preference = LanguageSettings.GetPreference();
+                DisplayLanguageComboBox.SelectedIndex = preference switch
+                {
+                    LanguageSettings.ChineseLanguage => 1,
+                    LanguageSettings.EnglishLanguage => 2,
+                    _ => 0
+                };
+            }
+            finally
+            {
+                _isInitializingLanguageOption = false;
+            }
+        }
+
+        private async void DisplayLanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_isInitializingLanguageOption || DisplayLanguageComboBox.SelectedItem is not ComboBoxItem item)
+            {
+                return;
+            }
+
+            string previousPreference = LanguageSettings.GetPreference();
+            string selectedPreference = LanguageSettings.Normalize(item.Tag as string);
+            if (string.Equals(previousPreference, selectedPreference, StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            var dialog = new ContentDialog
+            {
+                Title = L("Settings/Language/RestartTitle"),
+                Content = L("Settings/Language/RestartMessage"),
+                PrimaryButtonText = L("Settings/Language/RestartNow"),
+                CloseButtonText = L("Settings/Language/RestartLater"),
+                XamlRoot = XamlRoot
+            };
+
+            if (await dialog.ShowAsync() != ContentDialogResult.Primary)
+            {
+                SelectDisplayLanguage(previousPreference);
+                return;
+            }
+
+            try
+            {
+                LanguageSettings.SavePreference(selectedPreference);
+                var failureReason = Microsoft.Windows.AppLifecycle.AppInstance.Restart(string.Empty);
+                await ShowDialogAsync(
+                    L("Settings/Language/RestartFailedTitle"),
+                    LF("Settings/Language/RestartFailedMessage", failureReason));
+            }
+            catch (Exception ex)
+            {
+                LanguageSettings.SavePreference(previousPreference);
+                SelectDisplayLanguage(previousPreference);
+                await ShowDialogAsync(
+                    L("Settings/Language/RestartFailedTitle"),
+                    LF("Settings/Language/RestartFailedMessage", ex.Message));
+            }
+        }
+
+        private void SelectDisplayLanguage(string preference)
+        {
+            _isInitializingLanguageOption = true;
+            try
+            {
+                DisplayLanguageComboBox.SelectedIndex = LanguageSettings.Normalize(preference) switch
+                {
+                    LanguageSettings.ChineseLanguage => 1,
+                    LanguageSettings.EnglishLanguage => 2,
+                    _ => 0
+                };
+            }
+            finally
+            {
+                _isInitializingLanguageOption = false;
             }
         }
 

@@ -1340,10 +1340,10 @@ namespace IPAbuyer.Pages
 
             if (IsStatus(status, PurchasedText) || IsStatus(status, OwnedText))
             {
-                return Loader.GetString("MainPage/Context/AddToQueueItem/Text");
+                return Loader.GetString("MainPage/Context/AddToQueueItem.Text");
             }
 
-            return Loader.GetString("MainPage/Context/PurchaseItem/Text");
+            return Loader.GetString("MainPage/Context/PurchaseItem.Text");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

@@ -6,6 +6,7 @@ using IPAbuyer.Pages;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Diagnostics;
+using Windows.Globalization;
 using Windows.Storage;
 
 namespace IPAbuyer
@@ -21,6 +22,15 @@ namespace IPAbuyer
         {
             try
             {
+                try
+                {
+                    ApplicationLanguages.PrimaryLanguageOverride = LanguageSettings.LoadResolvedLanguage();
+                }
+                catch
+                {
+                    // Language preference must never prevent the app from starting.
+                }
+
                 try
                 {
                     // 初始化数据库
