@@ -1,12 +1,9 @@
 name: Version
 
 on:
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: 'Release tag'
-        required: true
-        default: 'v2026.3.19.0'
+  push:
+    tags:
+    - 'v*'
 
 permissions:
   contents: write
@@ -15,18 +12,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v7
-      with:
-        lfs: true
-
-    - name: Run ReleaseZip
-      uses: BlazeSnow/ReleaseZip@v1
-      with:
-        artifact_name: ${{ github.event.repository.name }}-${{ inputs.tag }}
-        retention_days: 7
-
     - name: Create Release
       uses: ncipollo/release-action@v1
       with:
-        tag: ${{ inputs.tag }}
+        tag: ${{ github.ref_name }}
