@@ -134,5 +134,6 @@
         <AppxBundle>Always</AppxBundle>
         <AppxBundlePlatforms>x64|arm64</AppxBundlePlatforms>
         <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+        <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
     </PropertyGroup>
 </Project>
