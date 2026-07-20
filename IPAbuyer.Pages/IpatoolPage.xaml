@@ -23,6 +23,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <TextBlock
                         x:Uid="IpatoolPage/Release/VersionTextBlock"
@@ -32,9 +33,25 @@
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap" />
+                    <Border
+                        x:Name="ReleaseCurrentBadge"
+                        Grid.Column="1"
+                        MinWidth="72"
+                        Padding="10,4"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Background="#107C10"
+                        CornerRadius="4"
+                        Visibility="Collapsed">
+                        <TextBlock
+                            x:Name="ReleaseCurrentBadgeTextBlock"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Foreground="White" />
+                    </Border>
                     <Button
                         x:Uid="IpatoolPage/Release/MenuButton"
-                        Grid.Column="1">
+                        Grid.Column="2">
                         <FontIcon Glyph="&#xE712;" />
                         <Button.Flyout>
                             <MenuFlyout>
@@ -60,6 +77,7 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <TextBlock
                         x:Name="CustomIpatoolPathTextBlock"
@@ -69,13 +87,29 @@
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap" />
+                    <Border
+                        x:Name="CustomCurrentBadge"
+                        Grid.Column="1"
+                        MinWidth="72"
+                        Padding="10,4"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Background="#107C10"
+                        CornerRadius="4"
+                        Visibility="Collapsed">
+                        <TextBlock
+                            x:Name="CustomCurrentBadgeTextBlock"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Foreground="White" />
+                    </Border>
                     <Button
                         x:Name="CustomSelectButton"
-                        Grid.Column="1"
+                        Grid.Column="2"
                         Click="PickCustomIpatoolButton_Click" />
                     <Button
                         x:Uid="IpatoolPage/Custom/MenuButton"
-                        Grid.Column="2">
+                        Grid.Column="3">
                         <FontIcon Glyph="&#xE712;" />
                         <Button.Flyout>
                             <MenuFlyout>

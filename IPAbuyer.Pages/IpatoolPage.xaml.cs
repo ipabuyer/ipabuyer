@@ -207,6 +207,12 @@ namespace IPAbuyer.Pages
             CustomSelectButton.Content = hasCustomPath
                 ? L("IpatoolPage/Button/Replace")
                 : L("IpatoolPage/Button/Pick");
+
+            string currentText = L("IpatoolPage/Badge/Current");
+            ReleaseCurrentBadgeTextBlock.Text = currentText;
+            ReleaseCurrentBadge.Visibility = hasCustomPath ? Visibility.Collapsed : Visibility.Visible;
+            CustomCurrentBadgeTextBlock.Text = currentText;
+            CustomCurrentBadge.Visibility = hasCustomPath ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private async Task PickCustomIpatoolAsync()
