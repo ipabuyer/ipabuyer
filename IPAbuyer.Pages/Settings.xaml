@@ -28,10 +28,7 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <TextBlock x:Name="CountryCodeValueTextBlock" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextTrimming="CharacterEllipsis" />
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
-                        <Button x:Uid="Settings/Button/EditCountryCode" Click="CountryCodeButton" />
-                        <Button x:Uid="Settings/Button/ResetCountryCode" Click="ResetCountryCodeButton_Click" />
-                    </StackPanel>
+                    <Button x:Uid="Settings/Button/EditCountryCode" Grid.Column="1" Click="CountryCodeButton" />
                 </Grid>
             </controls:SettingsCard>
             <controls:SettingsCard x:Uid="Settings/Card/DownloadDirectory" HorizontalAlignment="Stretch">

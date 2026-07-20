@@ -165,12 +165,6 @@
   <data name="Settings/CountryCode/NoResults" xml:space="preserve">
     <value>未找到匹配的国家或地区</value>
   </data>
-  <data name="Settings/CountryCode/ResetFailMessage" xml:space="preserve">
-    <value>恢复默认失败：{0}</value>
-  </data>
-  <data name="Settings/CountryCode/ResetSuccessMessage" xml:space="preserve">
-    <value>国家/地区代码已恢复默认值 cn</value>
-  </data>
   <data name="Settings/CountryCode/SaveButton" xml:space="preserve">
     <value>保存</value>
   </data>
@@ -235,7 +229,7 @@
     <value>清空本地购买记录</value>
   </data>
   <data name="Settings/Card/CountryCode.Description" xml:space="preserve">
-    <value>用于查询与购买，可从 App Store 支持的国家/地区中选择，默认值为 cn。</value>
+    <value>用于查询与购买，可从 App Store 支持的国家/地区中选择。</value>
   </data>
   <data name="Settings/Card/CountryCode.Header" xml:space="preserve">
     <value>国家/地区代码</value>
@@ -272,9 +266,6 @@
   </data>
   <data name="Settings/Card/KeychainPassphraseRotation.Header" xml:space="preserve">
     <value>加密密钥轮换</value>
-  </data>
-  <data name="Settings/Button/ResetCountryCode.Content" xml:space="preserve">
-    <value>恢复默认</value>
   </data>
   <data name="MainWindow/TitleBar/TitleText.Text" xml:space="preserve">
     <value>IPAbuyer</value>

@@ -165,12 +165,6 @@
   <data name="Settings/CountryCode/NoResults" xml:space="preserve">
     <value>No matching country or region found</value>
   </data>
-  <data name="Settings/CountryCode/ResetFailMessage" xml:space="preserve">
-    <value>Failed to restore the default: {0}</value>
-  </data>
-  <data name="Settings/CountryCode/ResetSuccessMessage" xml:space="preserve">
-    <value>The country/region code has been restored to the default, cn</value>
-  </data>
   <data name="Settings/CountryCode/SaveButton" xml:space="preserve">
     <value>save</value>
   </data>
@@ -235,7 +229,7 @@
     <value>Clear local purchase history</value>
   </data>
   <data name="Settings/Card/CountryCode.Description" xml:space="preserve">
-    <value>For query and purchase, you can select from the countries/regions supported by the App Store. The default value is cn.</value>
+    <value>For query and purchase, select from countries or regions supported by the App Store.</value>
   </data>
   <data name="Settings/Card/CountryCode.Header" xml:space="preserve">
     <value>Country code</value>
@@ -272,9 +266,6 @@
   </data>
   <data name="Settings/Card/KeychainPassphraseRotation.Header" xml:space="preserve">
     <value>Encryption key rotation</value>
-  </data>
-  <data name="Settings/Button/ResetCountryCode.Content" xml:space="preserve">
-    <value>Restore default</value>
   </data>
   <data name="MainWindow/TitleBar/TitleText.Text" xml:space="preserve">
     <value>IPAbuyer</value>
