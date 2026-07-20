@@ -81,7 +81,14 @@ namespace IPAbuyer
 
         private static string? RestartApplication()
         {
-            return Microsoft.Windows.AppLifecycle.AppInstance.Restart(string.Empty).ToString();
+            try
+            {
+                return Microsoft.Windows.AppLifecycle.AppInstance.Restart(string.Empty).ToString();
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
 
         private static async Task WarmupAuthInfoAsync()
