@@ -2,23 +2,7 @@ namespace IPAbuyer.Core.Configuration
 {
     public sealed record AppleStorefront(string Code, string EnglishName)
     {
-        public string FlagEmoji => ToFlagEmoji(Code);
-
         public string SearchText => $"{Code} {EnglishName}";
-
-        private static string ToFlagEmoji(string code)
-        {
-            if (code is not [var first, var second]
-                || first is < 'a' or > 'z'
-                || second is < 'a' or > 'z')
-            {
-                return string.Empty;
-            }
-
-            return string.Concat(
-                char.ConvertFromUtf32(0x1F1E6 + first - 'a'),
-                char.ConvertFromUtf32(0x1F1E6 + second - 'a'));
-        }
     }
 
     public static class AppleStorefrontCatalog

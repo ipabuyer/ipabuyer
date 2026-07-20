@@ -7,7 +7,6 @@ using IPAbuyer.Core.State;
 using IPAbuyer.Core.Data.PurchasedApps;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Markup;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -24,8 +23,6 @@ namespace IPAbuyer.Pages
         private sealed record StorefrontPickerItem(AppleStorefront Storefront, string DisplayName)
         {
             public string Code => Storefront.Code;
-
-            public string FlagEmoji => Storefront.FlagEmoji;
 
             public string DisplayText => $"{DisplayName} ({Code.ToUpperInvariant()})";
 
@@ -235,26 +232,8 @@ namespace IPAbuyer.Pages
                 .Select(storefront => new StorefrontPickerItem(
                     storefront,
                     L($"Storefront/{storefront.Code.ToUpperInvariant()}")))
-                .OrderBy(storefront => storefront.DisplayName, StringComparer.CurrentCulture)
+                .OrderBy(storefront => storefront.Code, StringComparer.Ordinal)
                 .ToArray();
-        }
-
-        private static DataTemplate CreateStorefrontItemTemplate()
-        {
-            return (DataTemplate)XamlReader.Load("""
-<DataTemplate xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-    <Grid Padding="4,2" ColumnSpacing="10">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="32" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <TextBlock Grid.Column="0" Text="{Binding FlagEmoji}" FontFamily="Segoe UI Emoji" FontSize="20" VerticalAlignment="Center" IsTextScaleFactorEnabled="False" />
-        <TextBlock Grid.Column="1" Text="{Binding DisplayName}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
-        <TextBlock Grid.Column="2" Text="{Binding Code}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" VerticalAlignment="Center" />
-    </Grid>
-</DataTemplate>
-""");
         }
 
         private async Task HandleCountryCodeSubmissionAsync()
@@ -270,7 +249,7 @@ namespace IPAbuyer.Pages
             {
                 ItemsSource = filteredStorefronts,
                 SelectionMode = ListViewSelectionMode.Single,
-                ItemTemplate = CreateStorefrontItemTemplate(),
+                DisplayMemberPath = nameof(StorefrontPickerItem.DisplayText),
                 MaxHeight = 440,
                 MinWidth = 360
             };
