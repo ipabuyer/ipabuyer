@@ -15,65 +15,6 @@
                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                 TextWrapping="Wrap" />
 
-            <controls:SettingsCard x:Uid="IpatoolPage/Card/Main" HorizontalAlignment="Stretch">
-                <controls:SettingsCard.HeaderIcon>
-                    <FontIcon FontSize="20" Glyph="&#xE756;" />
-                </controls:SettingsCard.HeaderIcon>
-                <Grid ColumnSpacing="12" VerticalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock
-                        x:Name="MainGitRevisionTextBlock"
-                        Grid.Column="0"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        TextTrimming="CharacterEllipsis"
-                        TextWrapping="NoWrap" />
-                    <Grid Grid.Column="1">
-                        <Button
-                            x:Name="MainSelectButton"
-                            Click="IpatoolFlavorButton_Click"
-                            Tag="Main" />
-                        <Border
-                            x:Name="MainCurrentBadge"
-                            MinWidth="72"
-                            Padding="10,4"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Background="#107C10"
-                            CornerRadius="4"
-                            Visibility="Collapsed">
-                            <TextBlock
-                                x:Name="MainCurrentBadgeTextBlock"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Foreground="White" />
-                        </Border>
-                    </Grid>
-                    <Button
-                        x:Uid="IpatoolPage/Main/MenuButton"
-                        Grid.Column="2">
-                        <FontIcon Glyph="&#xE712;" />
-                        <Button.Flyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem
-                                    x:Uid="IpatoolPage/Main/Menu/Export"
-                                    Click="ExportIpatoolMenuItem_Click"
-                                    Tag="Main">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xEDE1;" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                            </MenuFlyout>
-                        </Button.Flyout>
-                    </Button>
-                </Grid>
-            </controls:SettingsCard>
-
             <controls:SettingsCard x:Uid="IpatoolPage/Card/Release" HorizontalAlignment="Stretch">
                 <controls:SettingsCard.HeaderIcon>
                     <FontIcon FontSize="20" Glyph="&#xE7C3;" />
@@ -81,7 +22,6 @@
                 <Grid ColumnSpacing="12" VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <TextBlock
@@ -92,37 +32,15 @@
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap" />
-                    <Grid Grid.Column="1">
-                        <Button
-                            x:Name="ReleaseSelectButton"
-                            Click="IpatoolFlavorButton_Click"
-                            Tag="Legacy" />
-                        <Border
-                            x:Name="ReleaseCurrentBadge"
-                            MinWidth="72"
-                            Padding="10,4"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Background="#107C10"
-                            CornerRadius="4"
-                            Visibility="Collapsed">
-                            <TextBlock
-                                x:Name="ReleaseCurrentBadgeTextBlock"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Foreground="White" />
-                        </Border>
-                    </Grid>
                     <Button
                         x:Uid="IpatoolPage/Release/MenuButton"
-                        Grid.Column="2">
+                        Grid.Column="1">
                         <FontIcon Glyph="&#xE712;" />
                         <Button.Flyout>
                             <MenuFlyout>
                                 <MenuFlyoutItem
                                     x:Uid="IpatoolPage/Release/Menu/Export"
-                                    Click="ExportIpatoolMenuItem_Click"
-                                    Tag="Legacy">
+                                    Click="ExportIpatoolMenuItem_Click">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xEDE1;" />
                                     </MenuFlyoutItem.Icon>
@@ -151,27 +69,10 @@
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap" />
-                    <Grid Grid.Column="1">
-                        <Button
-                            x:Name="CustomSelectButton"
-                            Click="IpatoolFlavorButton_Click"
-                            Tag="Custom" />
-                        <Border
-                            x:Name="CustomCurrentBadge"
-                            MinWidth="72"
-                            Padding="10,4"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Background="#107C10"
-                            CornerRadius="4"
-                            Visibility="Collapsed">
-                            <TextBlock
-                                x:Name="CustomCurrentBadgeTextBlock"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Foreground="White" />
-                        </Border>
-                    </Grid>
+                    <Button
+                        x:Name="CustomSelectButton"
+                        Grid.Column="1"
+                        Click="PickCustomIpatoolButton_Click" />
                     <Button
                         x:Uid="IpatoolPage/Custom/MenuButton"
                         Grid.Column="2">

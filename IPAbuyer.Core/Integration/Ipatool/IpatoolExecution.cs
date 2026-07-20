@@ -9,13 +9,6 @@ namespace IPAbuyer.Core.Integration.Ipatool
 {
     public static class IpatoolExecution
     {
-        private enum IpatoolFlavor
-        {
-            Main,
-            Legacy,
-            Custom
-        }
-
         private static readonly ResourceLoader Loader = new();
         private const int MaxPreviewLength = 200;
         private static readonly TimeSpan DefaultTimeout = TimeSpan.FromMinutes(2);
@@ -69,12 +62,12 @@ namespace IPAbuyer.Core.Integration.Ipatool
                 arguments.Add(authCode);
             }
 
-            return ExecuteIpatoolAsync(arguments, account, passphrase, cancellationToken, flavor: GetConfiguredIpatoolFlavor());
+            return ExecuteIpatoolAsync(arguments, account, passphrase, cancellationToken);
         }
 
         public static Task<IpatoolResult> AuthLogoutAsync(CancellationToken cancellationToken = default)
         {
-            return ExecuteIpatoolAsync(new[] { "auth", "revoke" }, account: string.Empty, passphrase: null, cancellationToken, flavor: GetConfiguredIpatoolFlavor());
+            return ExecuteIpatoolAsync(new[] { "auth", "revoke" }, account: string.Empty, passphrase: null, cancellationToken);
         }
 
         public static async Task<IpatoolResult> SearchAppAsync(string name, int limit, string account, string countryCode, CancellationToken cancellationToken = default)
@@ -132,8 +125,7 @@ namespace IPAbuyer.Core.Integration.Ipatool
                 account: string.Empty,
                 passphrase: passphrase,
                 cancellationToken,
-                suppressLogEvents: silent,
-                flavor: GetConfiguredIpatoolFlavor());
+                suppressLogEvents: silent);
         }
 
         public static string ExtractEmailFromPayload(string? payload)
@@ -210,8 +202,7 @@ namespace IPAbuyer.Core.Integration.Ipatool
                 new[] { "purchase", "--bundle-identifier", bundleId },
                 account,
                 null,
-                cancellationToken,
-                flavor: GetConfiguredIpatoolFlavor());
+                cancellationToken);
         }
 
         public static Task<IpatoolResult> DownloadAppAsync(string bundleId, string outputDirectory, string account, CancellationToken cancellationToken = default)
@@ -243,7 +234,7 @@ namespace IPAbuyer.Core.Integration.Ipatool
 
             Directory.CreateDirectory(outputDirectory);
 
-            string ipatoolPath = ResolveIpatoolPath(GetConfiguredIpatoolFlavor());
+            string ipatoolPath = ResolveIpatoolPath();
             string workingDirectory = Path.GetDirectoryName(ipatoolPath) ?? AppContext.BaseDirectory;
             string effectivePassphrase = EnsurePassphrase(null);
             var finalArguments = new List<string>
@@ -348,14 +339,13 @@ namespace IPAbuyer.Core.Integration.Ipatool
             string account,
             string? passphrase,
             CancellationToken cancellationToken,
-            bool suppressLogEvents = false,
-            IpatoolFlavor flavor = IpatoolFlavor.Main)
+            bool suppressLogEvents = false)
         {
             bool isLogout = arguments.Count >= 2
                 && string.Equals(arguments[0], "auth", StringComparison.OrdinalIgnoreCase)
                 && string.Equals(arguments[1], "revoke", StringComparison.OrdinalIgnoreCase);
 
-            string ipatoolPath = ResolveIpatoolPath(flavor);
+            string ipatoolPath = ResolveIpatoolPath();
             string workingDirectory = Path.GetDirectoryName(ipatoolPath) ?? AppContext.BaseDirectory;
 
             string effectivePassphrase = EnsurePassphrase(passphrase);
@@ -447,22 +437,16 @@ namespace IPAbuyer.Core.Integration.Ipatool
             }
         }
 
-        private static string ResolveIpatoolPath(IpatoolFlavor flavor)
+        private static string ResolveIpatoolPath()
         {
-            string baseDirectory = AppContext.BaseDirectory;
-            if (flavor == IpatoolFlavor.Custom)
+            string customPath = KeychainConfig.GetCustomIpatoolPath();
+            if (!string.IsNullOrWhiteSpace(customPath) && File.Exists(customPath))
             {
-                string customPath = KeychainConfig.GetCustomIpatoolPath();
-                if (!string.IsNullOrWhiteSpace(customPath) && File.Exists(customPath))
-                {
-                    return customPath;
-                }
-
-                flavor = IpatoolFlavor.Main;
+                return customPath;
             }
 
-            string defaultExecutableName = flavor == IpatoolFlavor.Legacy ? "ipatool-legacy.exe" : "ipatool.exe";
-            string defaultPath = Path.Combine(baseDirectory, defaultExecutableName);
+            string baseDirectory = AppContext.BaseDirectory;
+            string defaultPath = Path.Combine(baseDirectory, "ipatool.exe");
             if (File.Exists(defaultPath))
             {
                 return defaultPath;
@@ -480,14 +464,8 @@ namespace IPAbuyer.Core.Integration.Ipatool
 
                 if (!string.IsNullOrEmpty(architectureSuffix))
                 {
-                    string pattern = flavor == IpatoolFlavor.Legacy
-                        ? $"ipatool-2.3.0-windows-{architectureSuffix}.exe"
-                        : $"ipatool-main-windows-{architectureSuffix}.exe";
-                    string? candidate = Directory.GetFiles(includeDirectory, pattern, SearchOption.TopDirectoryOnly)
-                        .OrderByDescending(path => path, StringComparer.OrdinalIgnoreCase)
-                        .FirstOrDefault();
-
-                    if (!string.IsNullOrWhiteSpace(candidate))
+                    string candidate = Path.Combine(includeDirectory, $"ipatool-2.3.1-windows-{architectureSuffix}.exe");
+                    if (File.Exists(candidate))
                     {
                         return candidate;
                     }
@@ -496,20 +474,6 @@ namespace IPAbuyer.Core.Integration.Ipatool
 
             Debug.WriteLine(L("Ipatool/Debug/FallbackToPath"));
             return "ipatool.exe";
-        }
-
-        private static IpatoolFlavor GetConfiguredIpatoolFlavor()
-        {
-            string flavor = KeychainConfig.GetIpatoolFlavor();
-            if (string.Equals(flavor, KeychainConfig.IpatoolFlavorCustom, StringComparison.OrdinalIgnoreCase)
-                && KeychainConfig.HasUsableCustomIpatoolPath())
-            {
-                return IpatoolFlavor.Custom;
-            }
-
-            return string.Equals(flavor, KeychainConfig.IpatoolFlavorLegacy, StringComparison.OrdinalIgnoreCase)
-                ? IpatoolFlavor.Legacy
-                : IpatoolFlavor.Main;
         }
 
         private static string EnsurePassphrase(string? passphrase)

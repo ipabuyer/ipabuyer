@@ -1,9 +1,4 @@
 using IPAbuyer.Core.Configuration;
-using IPAbuyer.Core.Integration.Ipatool;
-using IPAbuyer.Core.Logging;
-using IPAbuyer.Core.Services.Authentication;
-using IPAbuyer.Core.Services.Downloads;
-using IPAbuyer.Core.State;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.ApplicationModel.Resources;
@@ -18,48 +13,13 @@ namespace IPAbuyer.Pages
     public sealed partial class IpatoolPage : Page
     {
         private static readonly ResourceLoader Loader = new();
-        private const string IpatoolGitRevision = "dcddce4650d49d64aaff1b0785d76de01f5227af";
-        private bool _isInitializing;
         private bool _isInitializingDetailedLogOption;
 
         public IpatoolPage()
         {
             InitializeComponent();
-            InitializeMainGitRevision();
-            InitializeSelection();
+            UpdateCustomIpatoolPath();
             InitializeDetailedIpatoolLogOption();
-        }
-
-        private void InitializeMainGitRevision()
-        {
-            string shortRevision = IpatoolGitRevision[..7];
-            MainGitRevisionTextBlock.Text = LF("IpatoolPage/Main/GitRevisionShortFormat", shortRevision);
-            ToolTipService.SetToolTip(
-                MainGitRevisionTextBlock,
-                LF("IpatoolPage/Main/GitRevisionTooltipFormat", IpatoolGitRevision));
-        }
-
-        private void InitializeSelection()
-        {
-            UpdateSelectionButtons(KeychainConfig.GetIpatoolFlavor());
-        }
-
-        private async void IpatoolFlavorButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (_isInitializing || sender is not Button button || button.Tag is not string flavor)
-            {
-                return;
-            }
-
-            if (string.Equals(flavor, KeychainConfig.IpatoolFlavorCustom, StringComparison.OrdinalIgnoreCase)
-                && !KeychainConfig.HasUsableCustomIpatoolPath())
-            {
-                await PickCustomIpatoolAsync(selectAfterPick: true);
-                return;
-            }
-
-            KeychainConfig.SaveIpatoolFlavor(flavor);
-            UpdateSelectionButtons(flavor);
         }
 
         private void OpenRepositoryButton_Click(object sender, RoutedEventArgs e)
@@ -73,15 +33,10 @@ namespace IPAbuyer.Pages
 
         private async void ExportIpatoolMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is not MenuFlyoutItem menuItem || menuItem.Tag is not string flavor)
-            {
-                return;
-            }
-
             try
             {
                 string outputDirectory = KeychainConfig.GetDownloadDirectory();
-                string displayName = GetFlavorDisplayName(flavor);
+                string displayName = L("IpatoolPage/Release/DisplayName");
                 var confirmDialog = new ContentDialog
                 {
                     Title = L("IpatoolPage/Export/ConfirmTitle"),
@@ -96,7 +51,7 @@ namespace IPAbuyer.Pages
                     return;
                 }
 
-                string? sourcePath = ResolveBundledIpatoolPath(flavor);
+                string? sourcePath = ResolveBundledIpatoolPath();
                 if (string.IsNullOrWhiteSpace(sourcePath))
                 {
                     await ShowDialogAsync(
@@ -147,6 +102,11 @@ namespace IPAbuyer.Pages
             }
         }
 
+        private async void PickCustomIpatoolButton_Click(object sender, RoutedEventArgs e)
+        {
+            await PickCustomIpatoolAsync();
+        }
+
         private async void DeleteCustomIpatoolMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(KeychainConfig.GetCustomIpatoolPath()))
@@ -169,7 +129,7 @@ namespace IPAbuyer.Pages
             }
 
             KeychainConfig.DeleteCustomIpatoolPath();
-            UpdateSelectionButtons(KeychainConfig.GetIpatoolFlavor());
+            UpdateCustomIpatoolPath();
         }
 
         private async void ClearIpatoolDataButton_Click(object sender, RoutedEventArgs e)
@@ -217,11 +177,6 @@ namespace IPAbuyer.Pages
 
         private void InitializeDetailedIpatoolLogOption()
         {
-            if (DetailedIpatoolLogCheckBox == null)
-            {
-                return;
-            }
-
             _isInitializingDetailedLogOption = true;
             try
             {
@@ -235,54 +190,26 @@ namespace IPAbuyer.Pages
 
         private void DetailedIpatoolLogCheckBox_Toggled(object sender, RoutedEventArgs e)
         {
-            if (_isInitializingDetailedLogOption)
+            if (!_isInitializingDetailedLogOption)
             {
-                return;
+                KeychainConfig.SaveDetailedIpatoolLogEnabled(DetailedIpatoolLogCheckBox.IsOn);
             }
-
-            KeychainConfig.SaveDetailedIpatoolLogEnabled(DetailedIpatoolLogCheckBox.IsOn);
         }
 
-        private void UpdateSelectionButtons(string flavor)
+        private void UpdateCustomIpatoolPath()
         {
-            _isInitializing = true;
-            try
-            {
-                bool isMainSelected = string.Equals(flavor, KeychainConfig.IpatoolFlavorMain, StringComparison.OrdinalIgnoreCase);
-                bool isReleaseSelected = string.Equals(flavor, KeychainConfig.IpatoolFlavorLegacy, StringComparison.OrdinalIgnoreCase);
-                bool isCustomSelected = string.Equals(flavor, KeychainConfig.IpatoolFlavorCustom, StringComparison.OrdinalIgnoreCase);
-                string customPath = KeychainConfig.GetCustomIpatoolPath();
-                bool hasCustomPath = !string.IsNullOrWhiteSpace(customPath) && File.Exists(customPath);
-                string currentText = L("IpatoolPage/Badge/Current");
-
-                MainCurrentBadgeTextBlock.Text = currentText;
-                MainCurrentBadge.Visibility = isMainSelected ? Visibility.Visible : Visibility.Collapsed;
-                MainSelectButton.Visibility = isMainSelected ? Visibility.Collapsed : Visibility.Visible;
-                MainSelectButton.Content = L("IpatoolPage/Button/Switch");
-
-                ReleaseCurrentBadgeTextBlock.Text = currentText;
-                ReleaseCurrentBadge.Visibility = isReleaseSelected ? Visibility.Visible : Visibility.Collapsed;
-                ReleaseSelectButton.Visibility = isReleaseSelected ? Visibility.Collapsed : Visibility.Visible;
-                ReleaseSelectButton.Content = L("IpatoolPage/Button/Switch");
-
-                CustomIpatoolPathTextBlock.Text = hasCustomPath
-                    ? customPath
-                    : L("IpatoolPage/Custom/EmptyPath");
-                ToolTipService.SetToolTip(CustomIpatoolPathTextBlock, hasCustomPath ? customPath : null);
-                CustomCurrentBadgeTextBlock.Text = currentText;
-                CustomCurrentBadge.Visibility = hasCustomPath && isCustomSelected ? Visibility.Visible : Visibility.Collapsed;
-                CustomSelectButton.Visibility = hasCustomPath && isCustomSelected ? Visibility.Collapsed : Visibility.Visible;
-                CustomSelectButton.Content = hasCustomPath
-                    ? L("IpatoolPage/Button/Switch")
-                    : L("IpatoolPage/Button/Pick");
-            }
-            finally
-            {
-                _isInitializing = false;
-            }
+            string customPath = KeychainConfig.GetCustomIpatoolPath();
+            bool hasCustomPath = !string.IsNullOrWhiteSpace(customPath) && File.Exists(customPath);
+            CustomIpatoolPathTextBlock.Text = hasCustomPath
+                ? customPath
+                : L("IpatoolPage/Custom/EmptyPath");
+            ToolTipService.SetToolTip(CustomIpatoolPathTextBlock, hasCustomPath ? customPath : null);
+            CustomSelectButton.Content = hasCustomPath
+                ? L("IpatoolPage/Button/Replace")
+                : L("IpatoolPage/Button/Pick");
         }
 
-        private async Task PickCustomIpatoolAsync(bool selectAfterPick)
+        private async Task PickCustomIpatoolAsync()
         {
             var picker = new FileOpenPicker
             {
@@ -305,12 +232,7 @@ namespace IPAbuyer.Pages
             try
             {
                 KeychainConfig.SaveCustomIpatoolPath(file.Path);
-                if (selectAfterPick)
-                {
-                    KeychainConfig.SaveIpatoolFlavor(KeychainConfig.IpatoolFlavorCustom);
-                }
-
-                UpdateSelectionButtons(KeychainConfig.GetIpatoolFlavor());
+                UpdateCustomIpatoolPath();
             }
             catch (Exception ex)
             {
@@ -320,20 +242,13 @@ namespace IPAbuyer.Pages
             }
         }
 
-        private static string? ResolveBundledIpatoolPath(string flavor)
+        private static string? ResolveBundledIpatoolPath()
         {
-            bool isRelease = string.Equals(flavor, KeychainConfig.IpatoolFlavorLegacy, StringComparison.OrdinalIgnoreCase);
             string baseDirectory = AppContext.BaseDirectory;
-            string defaultPath = Path.Combine(baseDirectory, isRelease ? "ipatool-legacy.exe" : "ipatool.exe");
+            string defaultPath = Path.Combine(baseDirectory, "ipatool.exe");
             if (File.Exists(defaultPath))
             {
                 return defaultPath;
-            }
-
-            string includeDirectory = Path.Combine(baseDirectory, "Include");
-            if (!Directory.Exists(includeDirectory))
-            {
-                return null;
             }
 
             string architectureSuffix = RuntimeInformation.ProcessArchitecture switch
@@ -342,31 +257,25 @@ namespace IPAbuyer.Pages
                 Architecture.X64 => "amd64",
                 _ => string.Empty
             };
-
             if (string.IsNullOrWhiteSpace(architectureSuffix))
             {
                 return null;
             }
 
-            string pattern = isRelease
-                ? $"ipatool-2.3.0-windows-{architectureSuffix}.exe"
-                : $"ipatool-main-windows-{architectureSuffix}.exe";
-            return Directory.GetFiles(includeDirectory, pattern, SearchOption.TopDirectoryOnly)
-                .OrderByDescending(path => path, StringComparer.OrdinalIgnoreCase)
-                .FirstOrDefault();
+            string includePath = Path.Combine(baseDirectory, "Include", $"ipatool-2.3.1-windows-{architectureSuffix}.exe");
+            return File.Exists(includePath) ? includePath : null;
         }
 
         private static void RevealExportedFile(string path)
         {
             try
             {
-                var startInfo = new ProcessStartInfo
+                Process.Start(new ProcessStartInfo
                 {
                     FileName = "explorer.exe",
                     Arguments = $"/select,\"{path}\"",
                     UseShellExecute = true
-                };
-                Process.Start(startInfo);
+                });
             }
             catch
             {
@@ -385,13 +294,6 @@ namespace IPAbuyer.Pages
             };
 
             await dialog.ShowAsync();
-        }
-
-        private static string GetFlavorDisplayName(string flavor)
-        {
-            return string.Equals(flavor, KeychainConfig.IpatoolFlavorLegacy, StringComparison.OrdinalIgnoreCase)
-                ? L("IpatoolPage/Release/DisplayName")
-                : L("IpatoolPage/Main/DisplayName");
         }
 
         private static string L(string key)

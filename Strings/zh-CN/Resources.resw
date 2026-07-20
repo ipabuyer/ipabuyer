@@ -312,41 +312,17 @@
   <data name="MainWindow/Nav/Settings.Content" xml:space="preserve">
     <value>设置</value>
   </data>
-  <data name="IpatoolPage/Card/Main.Header" xml:space="preserve">
-    <value>main 构建</value>
-  </data>
   <data name="IpatoolPage/DescriptionTextBlock.Text" xml:space="preserve">
-    <value>选择所有 ipatool 命令使用的版本。默认使用 main 构建。</value>
-  </data>
-  <data name="IpatoolPage/Main/GitRevisionShortFormat" xml:space="preserve">
-    <value>main@{0}</value>
-  </data>
-  <data name="IpatoolPage/Main/GitRevisionTooltipFormat" xml:space="preserve">
-    <value>ipatool main 分支构建提交：{0}</value>
-  </data>
-  <data name="IpatoolPage/Main/DisplayName" xml:space="preserve">
-    <value>main 构建</value>
+    <value>内置正式版 ipatool。可选用自定义 ipatool.exe 覆盖内置版本。</value>
   </data>
   <data name="IpatoolPage/Card/Release.Header" xml:space="preserve">
-    <value>正式版 ipatool</value>
+    <value>内置 ipatool</value>
   </data>
   <data name="IpatoolPage/Release/VersionTextBlock.Text" xml:space="preserve">
-    <value>release@2.3.0</value>
+    <value>release@2.3.1</value>
   </data>
   <data name="IpatoolPage/Release/DisplayName" xml:space="preserve">
-    <value>正式版 ipatool</value>
-  </data>
-  <data name="IpatoolPage/Button/Switch" xml:space="preserve">
-    <value>切换</value>
-  </data>
-  <data name="IpatoolPage/Badge/Current" xml:space="preserve">
-    <value>当前使用</value>
-  </data>
-  <data name="IpatoolPage/Main/MenuButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>更多操作</value>
-  </data>
-  <data name="IpatoolPage/Main/Menu/Export.Text" xml:space="preserve">
-    <value>导出</value>
+    <value>内置正式版 ipatool</value>
   </data>
   <data name="IpatoolPage/Release/MenuButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>更多操作</value>
@@ -368,6 +344,9 @@
   </data>
   <data name="IpatoolPage/Button/Pick" xml:space="preserve">
     <value>选择</value>
+  </data>
+  <data name="IpatoolPage/Button/Replace" xml:space="preserve">
+    <value>更换</value>
   </data>
   <data name="IpatoolPage/Custom/DeleteConfirmTitle" xml:space="preserve">
     <value>删除自定义插槽</value>
