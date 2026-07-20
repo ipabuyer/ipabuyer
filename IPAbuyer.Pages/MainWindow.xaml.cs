@@ -194,12 +194,13 @@ namespace IPAbuyer.Pages
         private void UpdateLoginStatusPicture()
         {
             bool isLoggedIn = SessionState.IsLoggedIn;
+            string account = SessionState.CurrentAccount;
             LoginStatusPicture.Background = new SolidColorBrush(isLoggedIn
                 ? Windows.UI.Color.FromArgb(0xFF, 0x2E, 0xA0, 0x43)
                 : Windows.UI.Color.FromArgb(0xFF, 0xC4, 0x2B, 0x1C));
-            LoginStatusPicture.DisplayName = string.Empty;
+            LoginStatusPicture.DisplayName = isLoggedIn ? account : string.Empty;
             ToolTipService.SetToolTip(LoginStatusPicture, isLoggedIn
-                ? LF("MainWindow/LoginStatus/LoggedIn", SessionState.CurrentAccount)
+                ? LF("MainWindow/LoginStatus/LoggedIn", account)
                 : L("MainWindow/LoginStatus/LoggedOut"));
         }
 
