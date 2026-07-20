@@ -1,8 +1,3 @@
-using IPAbuyer.Core.Configuration;
-using IPAbuyer.Core.Integration.Ipatool;
-using IPAbuyer.Core.Logging;
-using IPAbuyer.Core.Services.Authentication;
-using IPAbuyer.Core.Services.Downloads;
 using IPAbuyer.Core.State;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;

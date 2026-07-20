@@ -1,7 +1,7 @@
-using IPAbuyer.Core.Models;
 using IPAbuyer.Core.Configuration;
 using IPAbuyer.Core.Integration.Ipatool;
 using IPAbuyer.Core.Logging;
+using IPAbuyer.Core.Models;
 using IPAbuyer.Core.State;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Collections.ObjectModel;

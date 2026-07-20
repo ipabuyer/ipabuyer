@@ -1,4 +1,3 @@
-using IPAbuyer.Core.Models;
 using Microsoft.Data.Sqlite;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Diagnostics;

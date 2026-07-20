@@ -1,10 +1,6 @@
 ﻿using IPAbuyer.Core.Configuration;
-using IPAbuyer.Core.Integration.Ipatool;
-using IPAbuyer.Core.Logging;
-using IPAbuyer.Core.Services.Authentication;
-using IPAbuyer.Core.Services.Downloads;
-using IPAbuyer.Core.State;
 using IPAbuyer.Core.Data.PurchasedApps;
+using IPAbuyer.Core.State;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.ApplicationModel.Resources;

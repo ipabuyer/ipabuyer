@@ -1,11 +1,10 @@
 ﻿using IPAbuyer.Core.Configuration;
+using IPAbuyer.Core.Data.PurchasedApps;
 using IPAbuyer.Core.Integration.Ipatool;
 using IPAbuyer.Core.Logging;
-using IPAbuyer.Core.Services.Authentication;
+using IPAbuyer.Core.Models;
 using IPAbuyer.Core.Services.Downloads;
 using IPAbuyer.Core.State;
-using IPAbuyer.Core.Data.PurchasedApps;
-using IPAbuyer.Core.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
