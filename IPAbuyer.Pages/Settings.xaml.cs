@@ -8,6 +8,7 @@ using IPAbuyer.Core.Data.PurchasedApps;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.ApplicationModel.Resources;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage.Pickers;
@@ -18,6 +19,15 @@ namespace IPAbuyer.Pages
     public sealed partial class Settings : Page
     {
         private static readonly ResourceLoader Loader = new();
+        private sealed record StorefrontPickerItem(AppleStorefront Storefront, string DisplayName)
+        {
+            public string Code => Storefront.Code;
+
+            public string DisplayText => $"{DisplayName} ({Code.ToUpperInvariant()})";
+
+            public string SearchText => $"{Storefront.SearchText} {DisplayName}";
+        }
+
         private bool _isInitializingOwnedCheckOption;
         private bool _isInitializingPassphraseRotationOption;
 
@@ -116,61 +126,106 @@ namespace IPAbuyer.Pages
             await HandleCountryCodeSubmissionAsync();
         }
 
+        private static IReadOnlyList<StorefrontPickerItem> CreateStorefrontPickerItems()
+        {
+            return AppleStorefrontCatalog.All
+                .Select(storefront => new StorefrontPickerItem(
+                    storefront,
+                    L($"Storefront/{storefront.Code.ToUpperInvariant()}")))
+                .OrderBy(storefront => storefront.DisplayName, StringComparer.CurrentCulture)
+                .ToArray();
+        }
+
         private async Task HandleCountryCodeSubmissionAsync()
         {
             string currentCode = KeychainConfig.GetCountryCode();
-
-            var inputBox = new TextBox
+            IReadOnlyList<StorefrontPickerItem> allStorefronts = CreateStorefrontPickerItems();
+            var filteredStorefronts = new ObservableCollection<StorefrontPickerItem>(allStorefronts);
+            var searchBox = new TextBox
             {
-                Text = currentCode,
-                PlaceholderText = L("Settings/CountryCode/InputPlaceholder"),
-                MaxLength = 2,
-                Width = 220
+                PlaceholderText = L("Settings/CountryCode/SearchPlaceholder")
             };
+            var storefrontList = new ListView
+            {
+                ItemsSource = filteredStorefronts,
+                SelectionMode = ListViewSelectionMode.Single,
+                DisplayMemberPath = nameof(StorefrontPickerItem.DisplayText),
+                MaxHeight = 440,
+                MinWidth = 360
+            };
+            storefrontList.SelectedItem = filteredStorefronts.FirstOrDefault(storefront =>
+                string.Equals(storefront.Code, currentCode, StringComparison.OrdinalIgnoreCase));
+
+            var noResultsTextBlock = new TextBlock
+            {
+                Text = L("Settings/CountryCode/NoResults"),
+                Foreground = new Microsoft.UI.Xaml.Media.SolidColorBrush(Windows.UI.Color.FromArgb(0xFF, 0x60, 0x60, 0x60)),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Visibility = filteredStorefronts.Count == 0 ? Visibility.Visible : Visibility.Collapsed
+            };
+
+            var content = new StackPanel { Spacing = 12 };
+            content.Children.Add(searchBox);
+            content.Children.Add(noResultsTextBlock);
+            content.Children.Add(storefrontList);
 
             var dialog = new ContentDialog
             {
                 Title = L("Settings/CountryCode/DialogTitle"),
-                Content = inputBox,
+                Content = content,
                 PrimaryButtonText = L("Settings/CountryCode/SaveButton"),
                 CloseButtonText = L("Settings/CountryCode/CancelButton"),
+                IsPrimaryButtonEnabled = storefrontList.SelectedItem is StorefrontPickerItem,
                 XamlRoot = XamlRoot
             };
 
-            if (await dialog.ShowAsync() != ContentDialogResult.Primary)
+            void FilterStorefronts(string query)
+            {
+                string normalizedQuery = query.Trim();
+                StorefrontPickerItem? selectedStorefront = storefrontList.SelectedItem as StorefrontPickerItem;
+                filteredStorefronts.Clear();
+                foreach (StorefrontPickerItem storefront in allStorefronts)
+                {
+                    if (string.IsNullOrWhiteSpace(normalizedQuery)
+                        || storefront.SearchText.Contains(normalizedQuery, StringComparison.OrdinalIgnoreCase))
+                    {
+                        filteredStorefronts.Add(storefront);
+                    }
+                }
+
+                storefrontList.SelectedItem = selectedStorefront != null && filteredStorefronts.Contains(selectedStorefront)
+                    ? selectedStorefront
+                    : null;
+                noResultsTextBlock.Visibility = filteredStorefronts.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+                dialog.IsPrimaryButtonEnabled = storefrontList.SelectedItem is StorefrontPickerItem;
+            }
+
+            searchBox.TextChanged += (_, _) => FilterStorefronts(searchBox.Text ?? string.Empty);
+            storefrontList.SelectionChanged += (_, _) => dialog.IsPrimaryButtonEnabled = storefrontList.SelectedItem is StorefrontPickerItem;
+
+            if (storefrontList.SelectedItem != null)
+            {
+                storefrontList.ScrollIntoView(storefrontList.SelectedItem);
+            }
+
+            if (await dialog.ShowAsync() != ContentDialogResult.Primary
+                || storefrontList.SelectedItem is not StorefrontPickerItem selectedStorefront)
             {
                 return;
             }
-
-            string rawInput = inputBox.Text?.Trim() ?? string.Empty;
-            bool inputWasEmpty = string.IsNullOrWhiteSpace(rawInput);
-            string normalizedInput = inputWasEmpty ? "cn" : rawInput;
-
-            if (!IsValidCountryCode(normalizedInput))
-            {
-                await ShowDialogAsync(
-                    L("Settings/Dialog/OperationFailedTitle"),
-                    L("Settings/CountryCode/InvalidMessage"));
-                return;
-            }
-
-            string normalized = normalizedInput.ToLowerInvariant();
 
             try
             {
-                KeychainConfig.SaveCountryCode(normalized);
+                KeychainConfig.SaveCountryCode(selectedStorefront.Code);
                 if (CountryCodeValueTextBlockControl != null)
                 {
-                    CountryCodeValueTextBlockControl.Text = LF("Settings/CountryCode/CurrentFormat", normalized);
+                    CountryCodeValueTextBlockControl.Text = LF("Settings/CountryCode/CurrentFormat", selectedStorefront.Code);
                 }
 
                 MainPageCacheState.InvalidateSearchCache();
-
-                string message = inputWasEmpty
-                    ? L("Settings/CountryCode/EmptyResetMessage")
-                    : LF("Settings/CountryCode/UpdatedMessage", normalized);
-
-                await ShowDialogAsync(L("Settings/Dialog/SuccessTitle"), message);
+                await ShowDialogAsync(
+                    L("Settings/Dialog/SuccessTitle"),
+                    LF("Settings/CountryCode/UpdatedMessage", selectedStorefront.Code));
             }
             catch (Exception ex)
             {
@@ -201,11 +256,6 @@ namespace IPAbuyer.Pages
                     L("Settings/Dialog/OperationFailedTitle"),
                     LF("Settings/CountryCode/ResetFailMessage", ex.Message));
             }
-        }
-
-        private static bool IsValidCountryCode(string code)
-        {
-            return KeychainConfig.IsValidCountryCode(code);
         }
 
         private async void PickDownloadDirectoryButton_Click(object sender, RoutedEventArgs e)
