@@ -24,6 +24,7 @@ namespace IPAbuyer.Pages
         private string[] _visibleResultSnapshots = Array.Empty<string>();
         private readonly DownloadQueueService _downloadQueueService = DownloadQueueService.Instance;
         private CancellationTokenSource _pageCts = new();
+        private bool _isInactive;
         private bool _hasCompletedSearch;
         private string _selectedFilter = "All";
         private static readonly string StatusPurchased = L("Common/Status/Purchased");
@@ -46,6 +47,7 @@ namespace IPAbuyer.Pages
         protected override void OnNavigatedTo(Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            _isInactive = false;
             IpatoolExecution.CommandExecuting -= OnIpatoolCommandExecuting;
             IpatoolExecution.CommandExecuting += OnIpatoolCommandExecuting;
             IpatoolExecution.CommandOutputReceived -= OnIpatoolCommandOutputReceived;
@@ -289,15 +291,12 @@ namespace IPAbuyer.Pages
 
         private void OnDownloadQueueChanged()
         {
-            DispatcherQueue.TryEnqueue(UpdateDownloadActionState);
+            QueueUi(UpdateDownloadActionState);
         }
 
         private void OnDownloadQueueLogReceived(UiLogMessage log)
         {
-            DispatcherQueue.TryEnqueue(() =>
-            {
-                AppendHomeLog(log.Message, log.Level, log.Source);
-            });
+            QueueUi(() => AppendHomeLog(log.Message, log.Level, log.Source));
         }
 
         private void UpdateDownloadActionState()
@@ -1139,6 +1138,7 @@ namespace IPAbuyer.Pages
 
         protected override void OnNavigatedFrom(Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)
         {
+            _isInactive = true;
             base.OnNavigatedFrom(e);
             IpatoolExecution.CommandExecuting -= OnIpatoolCommandExecuting;
             IpatoolExecution.CommandOutputReceived -= OnIpatoolCommandOutputReceived;
@@ -1175,17 +1175,27 @@ namespace IPAbuyer.Pages
 
         private void OnIpatoolCommandExecuting(string command)
         {
-            DispatcherQueue.TryEnqueue(() =>
-            {
-                AppendHomeLog(command, UiLogLevel.Ipatool, UiLogSource.Ipatool);
-            });
+            QueueUi(() => AppendHomeLog(command, UiLogLevel.Ipatool, UiLogSource.Ipatool));
         }
 
         private void OnIpatoolCommandOutputReceived(string line)
         {
+            QueueUi(() => AppendHomeLog(line, UiLogLevel.Ipatool, UiLogSource.Ipatool));
+        }
+
+        private void QueueUi(Action action)
+        {
+            if (_isInactive)
+            {
+                return;
+            }
+
             DispatcherQueue.TryEnqueue(() =>
             {
-                AppendHomeLog(line, UiLogLevel.Ipatool, UiLogSource.Ipatool);
+                if (!_isInactive)
+                {
+                    action();
+                }
             });
         }
 

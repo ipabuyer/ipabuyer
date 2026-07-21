@@ -28,6 +28,7 @@ namespace IPAbuyer.Core.Services.Downloads
         private const int ProgressUiNotifyIntervalMs = 120;
         private readonly ObservableCollection<DownloadQueueItem> _items = new();
         private readonly SemaphoreSlim _runLock = new(1, 1);
+        private readonly object _cancellationLock = new();
         private CancellationTokenSource? _queueCts;
         private CancellationTokenSource? _currentItemCts;
         private bool _isRunning;
@@ -131,6 +132,7 @@ namespace IPAbuyer.Core.Services.Downloads
         public async Task<int> StartQueueAsync()
         {
             await _runLock.WaitAsync();
+            CancellationTokenSource? queueCts = null;
             try
             {
                 if (_isRunning)
@@ -158,7 +160,11 @@ namespace IPAbuyer.Core.Services.Downloads
                 }
 
                 _isRunning = true;
-                _queueCts = new CancellationTokenSource();
+                queueCts = new CancellationTokenSource();
+                lock (_cancellationLock)
+                {
+                    _queueCts = queueCts;
+                }
                 NotifyQueueChanged();
 
                 string outputDirectory = KeychainConfig.GetDownloadDirectory();
@@ -174,7 +180,7 @@ namespace IPAbuyer.Core.Services.Downloads
                 var processedItems = new System.Collections.Generic.HashSet<DownloadQueueItem>();
                 while (TryGetNextRunnableItem(processedItems, out var item))
                 {
-                    _queueCts.Token.ThrowIfCancellationRequested();
+                    queueCts!.Token.ThrowIfCancellationRequested();
                     processed++;
                     processedItems.Add(item);
 
@@ -182,7 +188,11 @@ namespace IPAbuyer.Core.Services.Downloads
                     item.LastMessage = L("DownloadQueue/Status/Downloading");
                     NotifyQueueChanged();
 
-                    _currentItemCts = CancellationTokenSource.CreateLinkedTokenSource(_queueCts.Token);
+                    var itemCts = CancellationTokenSource.CreateLinkedTokenSource(queueCts!.Token);
+                    lock (_cancellationLock)
+                    {
+                        _currentItemCts = itemCts;
+                    }
                     try
                     {
                         if (useMockFlow)
@@ -204,16 +214,27 @@ namespace IPAbuyer.Core.Services.Downloads
                                 account,
                                 chunk =>
                                 {
+                                    if (itemCts.IsCancellationRequested)
+                                    {
+                                        return;
+                                    }
+
                                     lock (chunkLogSync)
                                     {
-                                        EmitChunkLogLines(ref chunkLogBuffer, chunk, item.Name, ref lastLoggedPercent, ref lastChunkLog);
+                                        if (!itemCts.IsCancellationRequested)
+                                        {
+                                            EmitChunkLogLines(ref chunkLogBuffer, chunk, item.Name, ref lastLoggedPercent, ref lastChunkLog);
+                                        }
                                     }
                                 },
-                                _currentItemCts.Token);
+                                itemCts.Token);
 
-                            lock (chunkLogSync)
+                            if (!itemCts.IsCancellationRequested)
                             {
-                                EmitChunkLogLines(ref chunkLogBuffer, "\n", item.Name, ref lastLoggedPercent, ref lastChunkLog);
+                                lock (chunkLogSync)
+                                {
+                                    EmitChunkLogLines(ref chunkLogBuffer, "\n", item.Name, ref lastLoggedPercent, ref lastChunkLog);
+                                }
                             }
 
                             if (IsDownloadSuccess(result))
@@ -246,8 +267,14 @@ namespace IPAbuyer.Core.Services.Downloads
                     }
                     finally
                     {
-                        _currentItemCts?.Dispose();
-                        _currentItemCts = null;
+                        lock (_cancellationLock)
+                        {
+                            if (ReferenceEquals(_currentItemCts, itemCts))
+                            {
+                                _currentItemCts = null;
+                            }
+                        }
+                        itemCts.Dispose();
                         NotifyQueueChanged();
                     }
                 }
@@ -263,10 +290,15 @@ namespace IPAbuyer.Core.Services.Downloads
             finally
             {
                 _isRunning = false;
-                _queueCts?.Dispose();
-                _queueCts = null;
-                _currentItemCts?.Dispose();
-                _currentItemCts = null;
+                lock (_cancellationLock)
+                {
+                    if (ReferenceEquals(_queueCts, queueCts))
+                    {
+                        _queueCts = null;
+                    }
+                    _currentItemCts = null;
+                }
+                queueCts?.Dispose();
                 NotifyQueueChanged();
                 _runLock.Release();
             }
@@ -274,14 +306,13 @@ namespace IPAbuyer.Core.Services.Downloads
 
         public void CancelCurrent()
         {
-            _currentItemCts?.Cancel();
+            CancelCurrentItem();
             EmitLog(L("DownloadQueue/Log/CancelCurrentRequested"), UiLogLevel.Tip);
         }
 
         public void CancelAll()
         {
-            _queueCts?.Cancel();
-            _currentItemCts?.Cancel();
+            CancelQueueAndCurrentItem();
 
             foreach (var item in _items.Where(i => i.Status == DownloadQueueStatus.Pending))
             {
@@ -291,6 +322,35 @@ namespace IPAbuyer.Core.Services.Downloads
 
             EmitLog(L("DownloadQueue/Log/CancelAllRequested"), UiLogLevel.Tip);
             NotifyQueueChanged();
+        }
+
+        private void CancelCurrentItem()
+        {
+            lock (_cancellationLock)
+            {
+                CancelToken(_currentItemCts);
+            }
+        }
+
+        private void CancelQueueAndCurrentItem()
+        {
+            lock (_cancellationLock)
+            {
+                CancelToken(_queueCts);
+                CancelToken(_currentItemCts);
+            }
+        }
+
+        private static void CancelToken(CancellationTokenSource? cancellation)
+        {
+            try
+            {
+                cancellation?.Cancel();
+            }
+            catch (ObjectDisposedException)
+            {
+                // A completed queue may dispose its CTS while shutdown is being requested.
+            }
         }
 
         private int CountRunnableItems()

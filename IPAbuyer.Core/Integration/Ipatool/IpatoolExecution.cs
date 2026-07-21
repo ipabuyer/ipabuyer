@@ -16,6 +16,10 @@ namespace IPAbuyer.Core.Integration.Ipatool
         }
 
         private static readonly ResourceLoader Loader = new();
+        private static readonly object ActiveProcessesLock = new();
+        private static readonly HashSet<Process> ActiveProcesses = new();
+        private static readonly CancellationTokenSource ShutdownCts = new();
+        private static bool IsShuttingDown;
         private const int MaxPreviewLength = 200;
         private static readonly TimeSpan DefaultTimeout = TimeSpan.FromMinutes(2);
         private static readonly HttpClient HttpClient = new();
@@ -40,6 +44,27 @@ namespace IPAbuyer.Core.Integration.Ipatool
 
         public static event Action<string>? CommandExecuting;
         public static event Action<string>? CommandOutputReceived;
+
+        public static void BeginShutdown()
+        {
+            Process[] processes;
+            lock (ActiveProcessesLock)
+            {
+                if (IsShuttingDown)
+                {
+                    return;
+                }
+
+                IsShuttingDown = true;
+                ShutdownCts.Cancel();
+                processes = ActiveProcesses.ToArray();
+            }
+
+            foreach (Process process in processes)
+            {
+                TryTerminateProcess(process);
+            }
+        }
 
         public static Task<IpatoolResult> AuthLoginAsync(string account, string password, string authCode, string passphrase, CancellationToken cancellationToken = default)
         {
@@ -245,22 +270,14 @@ namespace IPAbuyer.Core.Integration.Ipatool
             string effectivePassphrase = EnsurePassphrase(null);
             var finalArguments = new List<string>
             {
-                "download",
-                "--output",
-                outputDirectory,
-                "--bundle-identifier",
-                bundleId,
-                "--keychain-passphrase",
-                effectivePassphrase,
-                "--format",
-                "json",
-                "--non-interactive",
-                "--verbose"
+                "download", "--output", outputDirectory, "--bundle-identifier", bundleId,
+                "--keychain-passphrase", effectivePassphrase, "--format", "json", "--non-interactive", "--verbose"
             };
 
             var psi = CreateIpatoolProcessStartInfo(ipatoolPath, workingDirectory, finalArguments);
-
             Process? process = null;
+            Task? readStdoutTask = null;
+            Task? readStderrTask = null;
 
             try
             {
@@ -271,14 +288,19 @@ namespace IPAbuyer.Core.Integration.Ipatool
                     return new IpatoolResult(null, L("Ipatool/Error/ProcessStartFailed"), ExitCode: -1, TimedOut: false);
                 }
 
-                using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                if (!RegisterProcess(process))
+                {
+                    await WaitForProcessCleanupAsync(process, null, null).ConfigureAwait(false);
+                    return new IpatoolResult(null, LF("Ipatool/Error/ExecutionTimeout", $"download --bundle-identifier {bundleId}"), ExitCode: -1, TimedOut: true);
+                }
+
+                using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, ShutdownCts.Token);
                 linkedCts.CancelAfter(DefaultTimeout);
 
                 var outputBuilder = new StringBuilder();
                 var errorBuilder = new StringBuilder();
-
-                Task readStdoutTask = ReadProcessStreamAsync(process.StandardOutput, outputBuilder, outputChunkCallback, linkedCts.Token);
-                Task readStderrTask = ReadProcessStreamAsync(process.StandardError, errorBuilder, outputChunkCallback, linkedCts.Token);
+                readStdoutTask = ReadProcessStreamAsync(process.StandardOutput, outputBuilder, outputChunkCallback, linkedCts.Token);
+                readStderrTask = ReadProcessStreamAsync(process.StandardError, errorBuilder, outputChunkCallback, linkedCts.Token);
 
                 try
                 {
@@ -288,6 +310,7 @@ namespace IPAbuyer.Core.Integration.Ipatool
                 catch (OperationCanceledException)
                 {
                     TryTerminateProcess(process);
+                    await WaitForProcessCleanupAsync(process, readStdoutTask, readStderrTask).ConfigureAwait(false);
                     return new IpatoolResult(null, LF("Ipatool/Error/ExecutionTimeout", $"download --bundle-identifier {bundleId}"), ExitCode: -1, TimedOut: true);
                 }
 
@@ -300,7 +323,6 @@ namespace IPAbuyer.Core.Integration.Ipatool
 
                 Debug.WriteLine($"ipatool output: {Preview(output)}");
                 Debug.WriteLine($"ipatool stderr: {Preview(error)}");
-
                 (string normalizedOutput, string normalizedError) = NormalizeIpatoolStreams(output, error, process.ExitCode);
                 return new IpatoolResult(normalizedOutput, normalizedError, process.ExitCode, TimedOut: false);
             }
@@ -309,13 +331,18 @@ namespace IPAbuyer.Core.Integration.Ipatool
                 if (process != null)
                 {
                     TryTerminateProcess(process);
+                    await WaitForProcessCleanupAsync(process, readStdoutTask, readStderrTask).ConfigureAwait(false);
                 }
 
                 return new IpatoolResult(null, ex.Message, ExitCode: -1, TimedOut: false);
             }
             finally
             {
-                process?.Dispose();
+                if (process != null)
+                {
+                    UnregisterProcess(process);
+                    process.Dispose();
+                }
             }
         }
 
@@ -376,6 +403,8 @@ namespace IPAbuyer.Core.Integration.Ipatool
             var psi = CreateIpatoolProcessStartInfo(ipatoolPath, workingDirectory, finalArguments);
 
             Process? process = null;
+            Task<string>? outputTask = null;
+            Task<string>? errorTask = null;
 
             try
             {
@@ -395,11 +424,17 @@ namespace IPAbuyer.Core.Integration.Ipatool
                     return new IpatoolResult(null, L("Ipatool/Error/ProcessStartFailed"), ExitCode: -1, TimedOut: false);
                 }
 
-                using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                if (!RegisterProcess(process))
+                {
+                    await WaitForProcessCleanupAsync(process, null, null).ConfigureAwait(false);
+                    return new IpatoolResult(null, LF("Ipatool/Error/ExecutionTimeout", GetSafeCommandLabel(arguments)), ExitCode: -1, TimedOut: true);
+                }
+
+                using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, ShutdownCts.Token);
                 linkedCts.CancelAfter(DefaultTimeout);
 
-                Task<string> outputTask = process.StandardOutput.ReadToEndAsync();
-                Task<string> errorTask = process.StandardError.ReadToEndAsync();
+                outputTask = process.StandardOutput.ReadToEndAsync();
+                errorTask = process.StandardError.ReadToEndAsync();
 
                 try
                 {
@@ -408,6 +443,7 @@ namespace IPAbuyer.Core.Integration.Ipatool
                 catch (OperationCanceledException)
                 {
                     TryTerminateProcess(process);
+                    await WaitForProcessCleanupAsync(process, outputTask, errorTask).ConfigureAwait(false);
                     return new IpatoolResult(null, LF("Ipatool/Error/ExecutionTimeout", GetSafeCommandLabel(arguments)), ExitCode: -1, TimedOut: true);
                 }
 
@@ -429,12 +465,17 @@ namespace IPAbuyer.Core.Integration.Ipatool
                 if (process != null)
                 {
                     TryTerminateProcess(process);
+                    await WaitForProcessCleanupAsync(process, outputTask, errorTask).ConfigureAwait(false);
                 }
                 return new IpatoolResult(null, ex.Message, -1, TimedOut: false);
             }
             finally
             {
-                process?.Dispose();
+                if (process != null)
+                {
+                    UnregisterProcess(process);
+                    process.Dispose();
+                }
 
                 if (isLogout)
                 {
@@ -509,6 +550,64 @@ namespace IPAbuyer.Core.Integration.Ipatool
             throw new InvalidOperationException(L("Ipatool/Error/MissingPassphrase"));
         }
 
+        private static bool RegisterProcess(Process process)
+        {
+            lock (ActiveProcessesLock)
+            {
+                if (IsShuttingDown)
+                {
+                    TryTerminateProcess(process);
+                    return false;
+                }
+
+                ActiveProcesses.Add(process);
+                return true;
+            }
+        }
+
+        private static void UnregisterProcess(Process process)
+        {
+            lock (ActiveProcessesLock)
+            {
+                ActiveProcesses.Remove(process);
+            }
+        }
+
+        private static async Task WaitForProcessCleanupAsync(Process process, Task? stdoutTask, Task? stderrTask)
+        {
+            try
+            {
+                if (!process.HasExited)
+                {
+                    await process.WaitForExitAsync().ConfigureAwait(false);
+                }
+            }
+            catch
+            {
+                // The process may already be exiting or its handle may be closing.
+            }
+
+            if (stdoutTask != null || stderrTask != null)
+            {
+                try
+                {
+                    await Task.WhenAll(stdoutTask ?? Task.CompletedTask, stderrTask ?? Task.CompletedTask).ConfigureAwait(false);
+                }
+                catch (OperationCanceledException)
+                {
+                    // Expected when shutdown closes the redirected streams.
+                }
+                catch (ObjectDisposedException)
+                {
+                    // Expected only after the process was terminated during shutdown.
+                }
+                catch (IOException)
+                {
+                    // A killed process can close a redirected pipe while it is being read.
+                }
+            }
+        }
+
         private static void TryTerminateProcess(Process process)
         {
             try
@@ -520,7 +619,7 @@ namespace IPAbuyer.Core.Integration.Ipatool
             }
             catch
             {
-                // 忽略终止过程中可能发生的任何异常
+                // Ignore termination races with natural process exit.
             }
         }
 

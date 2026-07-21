@@ -1,3 +1,5 @@
+using IPAbuyer.Core.Integration.Ipatool;
+using IPAbuyer.Core.Services.Downloads;
 using IPAbuyer.Core.State;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
@@ -14,6 +16,7 @@ namespace IPAbuyer.Pages
         private static readonly ResourceLoader Loader = new();
         private MainPage? _currentMainPage;
         private AppWindow? _appWindow;
+        private bool _isClosing;
 
         public MainWindow()
         {
@@ -183,7 +186,18 @@ namespace IPAbuyer.Pages
 
         private void OnLoginStateChanged()
         {
-            DispatcherQueue.TryEnqueue(UpdateLoginStatusPicture);
+            if (_isClosing)
+            {
+                return;
+            }
+
+            DispatcherQueue.TryEnqueue(() =>
+            {
+                if (!_isClosing)
+                {
+                    UpdateLoginStatusPicture();
+                }
+            });
         }
 
         private void UpdateLoginStatusPicture()
@@ -201,6 +215,9 @@ namespace IPAbuyer.Pages
 
         private void MainWindow_Closed(object sender, WindowEventArgs args)
         {
+            _isClosing = true;
+            DownloadQueueService.Instance.CancelAll();
+            IpatoolExecution.BeginShutdown();
             WindowContext.ClearMainWindow(this);
             SessionState.LoginStateChanged -= OnLoginStateChanged;
         }
