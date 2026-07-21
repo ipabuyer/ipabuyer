@@ -1,0 +1,1749 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppDisplayName" xml:space="preserve">
+    <value>IPAbuyer</value>
+  </data>
+  <data name="AppDescription" xml:space="preserve">
+    <value>快速购买和下载 App Store 中的应用</value>
+  </data>
+  <data name="Settings/Button/EditCountryCode.Content" xml:space="preserve">
+    <value>修改</value>
+    <comment>设置页面的子标题：软件相关，的内容：国家地区代码，的按钮</comment>
+  </data>
+  <data name="Settings/Button/OpenDeveloperSite.Content" xml:space="preserve">
+    <value>打开网站</value>
+    <comment>设置页面的子标题：软件相关，的内容：开发者信息，的按钮</comment>
+  </data>
+  <data name="Settings/Button/PickDownloadDirectory.Content" xml:space="preserve">
+    <value>修改路径</value>
+    <comment>设置页面下载目录的保存按钮</comment>
+  </data>
+  <data name="Settings/Button/ResetDownloadDirectory.Content" xml:space="preserve">
+    <value>恢复默认</value>
+    <comment>设置页面下载目录的恢复默认按钮</comment>
+  </data>
+  <data name="Settings/Button/CopyFeedbackEmail.Content" xml:space="preserve">
+    <value>复制</value>
+    <comment>设置页面复制反馈邮箱按钮</comment>
+  </data>
+  <data name="Settings/Button/ClearLocalDatabase.Content" xml:space="preserve">
+    <value>清空记录</value>
+    <comment>设置页面的子标题：软件相关，的内容：清除本地数据库，的按钮</comment>
+  </data>
+  <data name="Common/AppleAccount/OpenButton.Content" xml:space="preserve">
+    <value>打开苹果账户官网</value>
+  </data>
+  <data name="Settings/CountryCode/CancelButton" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Settings/CountryCode/CurrentFormat" xml:space="preserve">
+    <value>当前: {0}</value>
+  </data>
+  <data name="Settings/CountryCode/DialogTitle" xml:space="preserve">
+    <value>选择国家/地区</value>
+  </data>
+  <data name="Settings/CountryCode/SearchPlaceholder" xml:space="preserve">
+    <value>搜索国家、地区或代码</value>
+  </data>
+  <data name="Settings/CountryCode/NoResults" xml:space="preserve">
+    <value>未找到匹配的国家或地区</value>
+  </data>
+  <data name="Settings/CountryCode/SaveButton" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="Settings/CountryCode/SaveFailMessage" xml:space="preserve">
+    <value>保存失败：{0}</value>
+  </data>
+  <data name="Settings/CountryCode/UpdatedMessage" xml:space="preserve">
+    <value>国家/地区代码已更新为 {0}</value>
+  </data>
+  <data name="Settings/Database/Clear/ConfirmMessage" xml:space="preserve">
+    <value>确定要清空本地数据库中的已购买记录吗？{0}当前记录数：{1} 条。{0}此操作不可恢复。</value>
+  </data>
+  <data name="Settings/Database/Clear/FailMessage" xml:space="preserve">
+    <value>清空失败：{0}</value>
+  </data>
+  <data name="Settings/Database/Clear/SuccessMessage" xml:space="preserve">
+    <value>本地记录已清空。{0}清空前：{1} 条，清空后：{2} 条。</value>
+  </data>
+  <data name="Settings/Dialog/CloseButton" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="Settings/Dialog/ConfirmAction/Close" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Settings/Dialog/ConfirmAction/Primary" xml:space="preserve">
+    <value>确认清空</value>
+  </data>
+  <data name="Settings/Dialog/ConfirmAction/Title" xml:space="preserve">
+    <value>确认操作</value>
+  </data>
+  <data name="Settings/Dialog/ErrorTitle" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="Settings/Dialog/OperationFailedTitle" xml:space="preserve">
+    <value>操作失败</value>
+  </data>
+  <data name="Settings/Dialog/SuccessTitle" xml:space="preserve">
+    <value>操作成功</value>
+  </data>
+  <data name="Settings/DownloadDirectory/ResetFailMessage" xml:space="preserve">
+    <value>恢复默认目录失败：{0}</value>
+  </data>
+  <data name="Settings/DownloadDirectory/ResetSuccessMessage" xml:space="preserve">
+    <value>已恢复默认下载目录：{0}</value>
+  </data>
+  <data name="Settings/DownloadDirectory/SaveFailMessage" xml:space="preserve">
+    <value>保存失败：{0}</value>
+  </data>
+  <data name="Settings/DownloadDirectory/UpdatedMessage" xml:space="preserve">
+    <value>下载目录已更新</value>
+  </data>
+  <data name="Settings/Feedback/CopiedMessage" xml:space="preserve">
+    <value>反馈邮箱已复制：{0}</value>
+  </data>
+  <data name="Settings/Feedback/CopyFailMessage" xml:space="preserve">
+    <value>复制邮箱失败：{0}</value>
+  </data>
+  <data name="Settings/Card/ClearLocalDatabase.Description" xml:space="preserve">
+    <value>仅清除本地记录，不影响 Apple 购买历史。</value>
+  </data>
+  <data name="Settings/Card/ClearLocalDatabase.Header" xml:space="preserve">
+    <value>清空本地购买记录</value>
+  </data>
+  <data name="Settings/Card/CountryCode.Description" xml:space="preserve">
+    <value>用于查询与购买，可从 App Store 支持的国家/地区中选择。</value>
+  </data>
+  <data name="Settings/Card/CountryCode.Header" xml:space="preserve">
+    <value>国家/地区代码</value>
+  </data>
+  <data name="Settings/Card/DeveloperSite.Description" xml:space="preserve">
+    <value>查看项目说明与常见问题。</value>
+  </data>
+  <data name="Settings/Card/DeveloperSite.Header" xml:space="preserve">
+    <value>开发者网站</value>
+  </data>
+  <data name="Settings/Card/DownloadDirectory.Description" xml:space="preserve">
+    <value>下载文件保存位置。</value>
+  </data>
+  <data name="Settings/Card/DownloadDirectory.Header" xml:space="preserve">
+    <value>下载目录</value>
+  </data>
+  <data name="Settings/Card/AppVersion.Header" xml:space="preserve">
+    <value>软件版本</value>
+  </data>
+  <data name="Settings/Card/FeedbackEmail.Description" xml:space="preserve">
+    <value>使用本软件时遇到问题，欢迎反馈</value>
+  </data>
+  <data name="Settings/Card/FeedbackEmail.Header" xml:space="preserve">
+    <value>反馈邮箱</value>
+  </data>
+  <data name="Settings/Card/OwnedPrompt.Description" xml:space="preserve">
+    <value>关闭后，标记“已拥有”时不再确认。</value>
+  </data>
+  <data name="Settings/Card/OwnedPrompt.Header" xml:space="preserve">
+    <value>标记“已拥有”前提示</value>
+  </data>
+  <data name="Settings/Card/KeychainPassphraseRotation.Description" xml:space="preserve">
+    <value>关闭后，退出登录时不再自动生成新的加密密钥。</value>
+  </data>
+  <data name="Settings/Card/KeychainPassphraseRotation.Header" xml:space="preserve">
+    <value>加密密钥轮换</value>
+  </data>
+  <data name="MainWindow/TitleBar/TitleText.Text" xml:space="preserve">
+    <value>IPAbuyer</value>
+  </data>
+  <data name="MainWindow/TitleBarTitle" xml:space="preserve">
+    <value>IPAbuyer</value>
+  </data>
+  <data name="MainWindow/TitleBarSubtitle" xml:space="preserve">
+    <value>快速购买AppStore中的应用</value>
+  </data>
+  <data name="MainWindow/SearchBox.PlaceholderText" xml:space="preserve">
+    <value>搜索 App 名称</value>
+  </data>
+  <data name="MainWindow/LoginStatus/LoggedIn" xml:space="preserve">
+    <value>已登录：{0}</value>
+  </data>
+  <data name="MainWindow/LoginStatus/LoggedOut" xml:space="preserve">
+    <value>未登录</value>
+  </data>
+  <data name="MainWindow/Nav/Main.Content" xml:space="preserve">
+    <value>主页</value>
+  </data>
+  <data name="MainWindow/Nav/Account.Content" xml:space="preserve">
+    <value>账户</value>
+  </data>
+  <data name="MainWindow/Nav/Ipatool.Content" xml:space="preserve">
+    <value>ipatool</value>
+  </data>
+  <data name="MainWindow/Nav/Downloads.Content" xml:space="preserve">
+    <value>下载</value>
+  </data>
+  <data name="MainWindow/Nav/Settings.Content" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="IpatoolPage/DescriptionTextBlock.Text" xml:space="preserve">
+    <value>可在内置正式版 ipatool 与自定义 ipatool.exe 之间切换。</value>
+  </data>
+  <data name="IpatoolPage/Card/Release.Header" xml:space="preserve">
+    <value>内置 ipatool</value>
+  </data>
+  <data name="IpatoolPage/Release/VersionTextBlock.Text" xml:space="preserve">
+    <value>release@2.3.1</value>
+  </data>
+  <data name="IpatoolPage/Release/DisplayName" xml:space="preserve">
+    <value>内置正式版 ipatool</value>
+  </data>
+  <data name="IpatoolPage/Release/MenuButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>更多操作</value>
+  </data>
+  <data name="IpatoolPage/Release/Menu/Export.Text" xml:space="preserve">
+    <value>导出</value>
+  </data>
+  <data name="IpatoolPage/Badge/Current" xml:space="preserve">
+    <value>当前使用</value>
+  </data>
+  <data name="IpatoolPage/Card/Custom.Header" xml:space="preserve">
+    <value>自定义 ipatool.exe</value>
+  </data>
+  <data name="IpatoolPage/Custom/EmptyPath" xml:space="preserve">
+    <value>未设置</value>
+  </data>
+  <data name="IpatoolPage/Custom/MenuButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>更多操作</value>
+  </data>
+  <data name="IpatoolPage/Custom/Menu/Delete.Text" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="IpatoolPage/Button/Pick" xml:space="preserve">
+    <value>选择</value>
+  </data>
+  <data name="IpatoolPage/Button/Replace" xml:space="preserve">
+    <value>更换</value>
+  </data>
+  <data name="IpatoolPage/Button/Use" xml:space="preserve">
+    <value>使用</value>
+  </data>
+  <data name="IpatoolPage/Custom/DeleteConfirmTitle" xml:space="preserve">
+    <value>删除自定义插槽</value>
+  </data>
+  <data name="IpatoolPage/Custom/DeleteConfirmMessage" xml:space="preserve">
+    <value>将移除当前自定义 ipatool.exe 路径，文件本身不会被删除。</value>
+  </data>
+  <data name="IpatoolPage/Custom/DeleteConfirmPrimary" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="IpatoolPage/Custom/SaveFailMessage" xml:space="preserve">
+    <value>保存自定义 ipatool.exe 失败：{0}</value>
+  </data>
+  <data name="IpatoolPage/Export/AlreadyInTargetMessage" xml:space="preserve">
+    <value>ipatool.exe 已位于目标目录：{0}</value>
+  </data>
+  <data name="IpatoolPage/Export/ConfirmMessage" xml:space="preserve">
+    <value>将导出 {0} 到以下目录：{1}</value>
+  </data>
+  <data name="IpatoolPage/Export/ConfirmPrimary" xml:space="preserve">
+    <value>导出</value>
+  </data>
+  <data name="IpatoolPage/Export/ConfirmTitle" xml:space="preserve">
+    <value>确认导出</value>
+  </data>
+  <data name="IpatoolPage/Export/FailMessage" xml:space="preserve">
+    <value>导出 ipatool.exe 失败：{0}</value>
+  </data>
+  <data name="IpatoolPage/Export/NotFoundMessage" xml:space="preserve">
+    <value>未在应用目录中找到可导出的 {0}。</value>
+  </data>
+  <data name="IpatoolPage/Export/OverwriteMessage" xml:space="preserve">
+    <value>目标文件已存在，继续导出会覆盖：{0}</value>
+  </data>
+  <data name="IpatoolPage/Export/OverwritePrimary" xml:space="preserve">
+    <value>覆盖</value>
+  </data>
+  <data name="IpatoolPage/Export/OverwriteTitle" xml:space="preserve">
+    <value>确认覆盖</value>
+  </data>
+  <data name="IpatoolPage/Export/SuccessMessage" xml:space="preserve">
+    <value>{0} 已导出到：{1}</value>
+  </data>
+  <data name="IpatoolPage/Card/DetailedIpatoolLog.Header" xml:space="preserve">
+    <value>显示详细日志</value>
+  </data>
+  <data name="IpatoolPage/Card/DetailedIpatoolLog.Description" xml:space="preserve">
+    <value>显示完整的 ipatool 命令与输出。</value>
+  </data>
+  <data name="IpatoolPage/Card/ClearIpatoolData.Header" xml:space="preserve">
+    <value>清空 ipatool 数据</value>
+  </data>
+  <data name="IpatoolPage/Card/ClearIpatoolData.Description" xml:space="preserve">
+    <value>清除本机缓存与认证数据。</value>
+  </data>
+  <data name="IpatoolPage/ClearIpatoolDataButton.Content" xml:space="preserve">
+    <value>清空数据</value>
+  </data>
+  <data name="IpatoolPage/Data/ClearConfirmMessage" xml:space="preserve">
+    <value>确定要清空以下目录吗？{0}{1}{0}此操作不可恢复。</value>
+  </data>
+  <data name="IpatoolPage/Data/ClearFailMessage" xml:space="preserve">
+    <value>清空 ipatool 数据失败：{0}</value>
+  </data>
+  <data name="IpatoolPage/Data/ClearSuccessMessage" xml:space="preserve">
+    <value>ipatool 数据目录已清空。</value>
+  </data>
+  <data name="IpatoolPage/Card/Repository.Header" xml:space="preserve">
+    <value>ipatool 仓库</value>
+  </data>
+  <data name="IpatoolPage/Card/Repository.Description" xml:space="preserve">
+    <value>https://github.com/majd/ipatool</value>
+  </data>
+  <data name="IpatoolPage/Repository/OpenButton.Content" xml:space="preserve">
+    <value>打开</value>
+  </data>
+  <data name="MainPage/Action/BatchPurchaseButton.Content" xml:space="preserve">
+    <value>购买</value>
+  </data>
+  <data name="MainPage/Action/AddToQueueButton.Content" xml:space="preserve">
+    <value>下载</value>
+  </data>
+  <data name="MainPage/Action/CancelAllDownloadsButton.Content" xml:space="preserve">
+    <value>终止下载</value>
+  </data>
+  <data name="MainPage/DownloadQueue/ActivityRing.AutomationProperties.Name" xml:space="preserve">
+    <value>下载进行中</value>
+  </data>
+  <data name="MainPage/DownloadQueue/ActivityRing.ToolTipService.ToolTip" xml:space="preserve">
+    <value>下载进行中</value>
+  </data>
+  <data name="MainPage/Action/OpenLogButton.Content" xml:space="preserve">
+    <value>日志</value>
+  </data>
+  <data name="MainPage/Filter/AllItem.Content" xml:space="preserve">
+    <value>全部</value>
+  </data>
+  <data name="MainPage/Filter/OnlyNotPurchasedItem.Content" xml:space="preserve">
+    <value>未购买</value>
+  </data>
+  <data name="MainPage/Filter/OnlyPurchasedItem.Content" xml:space="preserve">
+    <value>已购买</value>
+  </data>
+  <data name="MainPage/Filter/OnlyOwnedItem.Content" xml:space="preserve">
+    <value>已拥有</value>
+  </data>
+  <data name="MainPage/Header/NameButton.Content" xml:space="preserve">
+    <value>App名称</value>
+  </data>
+  <data name="MainPage/Header/IdButton.Content" xml:space="preserve">
+    <value>AppID</value>
+  </data>
+  <data name="MainPage/Header/DeveloperButton.Content" xml:space="preserve">
+    <value>开发者</value>
+  </data>
+  <data name="MainPage/Header/VersionButton.Content" xml:space="preserve">
+    <value>版本号</value>
+  </data>
+  <data name="MainPage/Header/PriceButton.Content" xml:space="preserve">
+    <value>价格</value>
+  </data>
+  <data name="MainPage/Header/PurchasedButton.Content" xml:space="preserve">
+    <value>购买状态</value>
+  </data>
+  <data name="MainPage/Context/PurchaseItem.Text" xml:space="preserve">
+    <value>购买</value>
+  </data>
+  <data name="MainPage/Context/AddToQueueItem.Text" xml:space="preserve">
+    <value>下载</value>
+  </data>
+  <data name="MainPage/Context/MarkNotPurchasedItem.Text" xml:space="preserve">
+    <value>标记为未购买</value>
+  </data>
+  <data name="MainPage/Context/MarkPurchasedItem.Text" xml:space="preserve">
+    <value>标记为已购买</value>
+  </data>
+  <data name="MainPage/Context/MarkOwnedItem.Text" xml:space="preserve">
+    <value>标记为已拥有</value>
+  </data>
+  <data name="MainPage/Context/CopyNameItem.Text" xml:space="preserve">
+    <value>复制 App 名称</value>
+  </data>
+  <data name="MainPage/Context/CopyIdItem.Text" xml:space="preserve">
+    <value>复制 App ID</value>
+  </data>
+  <data name="MainPage/Context/OpenAppStoreItem.Text" xml:space="preserve">
+    <value>在 App Store 中查看</value>
+  </data>
+  <data name="MainPage/Context/CopyVersionItem.Text" xml:space="preserve">
+    <value>复制版本号</value>
+  </data>
+  <data name="MainPage/Log/TitleText.Text" xml:space="preserve">
+    <value>日志</value>
+  </data>
+  <data name="MainPage/Log/CopyButton.Content" xml:space="preserve">
+    <value>复制</value>
+  </data>
+  <data name="MainPage/Log/ClearButton.Content" xml:space="preserve">
+    <value>清空</value>
+  </data>
+  <data name="MainPage/DownloadQueue/AddSelectedIgnored" xml:space="preserve">
+    <value>所选应用无法加入下载队列。</value>
+  </data>
+  <data name="MainPage/DownloadQueue/AddSelectedEmpty" xml:space="preserve">
+    <value>未选择应用，无法开始下载。</value>
+  </data>
+  <data name="MainPage/DownloadQueue/AddContextIgnored" xml:space="preserve">
+    <value>右键目标无法加入下载队列。</value>
+  </data>
+  <data name="MainPage/DownloadQueue/AddContextEmpty" xml:space="preserve">
+    <value>右键目标为空，无法加入下载队列。</value>
+  </data>
+  <data name="MainPage/DownloadQueue/ContextAddSummaryPrefix" xml:space="preserve">
+    <value>右键{0}</value>
+  </data>
+  <data name="MainPage/DownloadQueue/AlreadyRunningContinue" xml:space="preserve">
+    <value>下载队列已在运行，新任务会在当前任务后继续处理。</value>
+  </data>
+  <data name="MainPage/DownloadQueue/AddSummaryAddedAndUpdated" xml:space="preserve">
+    <value>已加入下载队列: {0} 项，更新: {1} 项。</value>
+  </data>
+  <data name="MainPage/DownloadQueue/AddSummaryAdded" xml:space="preserve">
+    <value>已加入下载队列: {0} 项。</value>
+  </data>
+  <data name="MainPage/DownloadQueue/AddSummaryUpdated" xml:space="preserve">
+    <value>已更新下载队列: {0} 项。</value>
+  </data>
+  <data name="MainPage/DownloadQueue/StartFailed" xml:space="preserve">
+    <value>开始下载失败: {0}</value>
+  </data>
+  <data name="MainPage/Log/SearchEmptyIgnored" xml:space="preserve">
+    <value>搜索词为空，已忽略。</value>
+  </data>
+  <data name="MainPage/Log/SearchStarted" xml:space="preserve">
+    <value>开始搜索: {0}</value>
+  </data>
+  <data name="MainPage/Log/SearchException" xml:space="preserve">
+    <value>搜索异常: {0}</value>
+  </data>
+  <data name="MainPage/Log/SearchTimeoutOrEmpty" xml:space="preserve">
+    <value>搜索超时或无返回结果。</value>
+  </data>
+  <data name="MainPage/Log/SearchCompleted" xml:space="preserve">
+    <value>搜索完成，共 {0} 条结果。</value>
+  </data>
+  <data name="MainPage/Log/SearchParseFailed" xml:space="preserve">
+    <value>搜索结果解析失败。</value>
+  </data>
+  <data name="MainPage/Log/BatchPurchaseEmpty" xml:space="preserve">
+    <value>未选择应用，无法批量购买。</value>
+  </data>
+  <data name="MainPage/Log/BatchPurchaseStarted" xml:space="preserve">
+    <value>开始批量购买，共 {0} 项。</value>
+  </data>
+  <data name="MainPage/Log/BatchPurchaseCompleted" xml:space="preserve">
+    <value>批量购买执行完成。</value>
+  </data>
+  <data name="MainPage/Log/BatchPurchaseCanceled" xml:space="preserve">
+    <value>批量购买已取消。</value>
+  </data>
+  <data name="MainPage/Log/BatchPurchaseException" xml:space="preserve">
+    <value>批量购买异常: {0}</value>
+  </data>
+  <data name="MainPage/Log/ContextPurchaseStarted" xml:space="preserve">
+    <value>右键购买，共 {0} 项。</value>
+  </data>
+  <data name="MainPage/Log/ContextPurchaseCanceled" xml:space="preserve">
+    <value>右键购买已取消。</value>
+  </data>
+  <data name="MainPage/Log/ContextPurchaseException" xml:space="preserve">
+    <value>右键购买异常: {0}</value>
+  </data>
+  <data name="MainPage/Log/MarkedStatus" xml:space="preserve">
+    <value>已标记 {0} 项为 {1}。</value>
+  </data>
+  <data name="MainPage/Log/CopyFieldEmpty" xml:space="preserve">
+    <value>复制失败：{0}为空。</value>
+  </data>
+  <data name="MainPage/Log/CopyFieldSuccess" xml:space="preserve">
+    <value>已复制{0}，共 {1} 项。</value>
+  </data>
+  <data name="MainPage/Log/AppStoreMissingId" xml:space="preserve">
+    <value>无法打开 App Store：缺少 App Store ID。</value>
+  </data>
+  <data name="MainPage/Log/AppStoreOpened" xml:space="preserve">
+    <value>已打开 App Store：{0}。</value>
+  </data>
+  <data name="MainPage/Log/AppStoreOpenFailed" xml:space="preserve">
+    <value>打开 App Store 失败：{0}</value>
+  </data>
+  <data name="MainPage/Log/FilterChanged" xml:space="preserve">
+    <value>切换筛选: {0}</value>
+  </data>
+  <data name="MainPage/Log/CopyEmptyLog" xml:space="preserve">
+    <value>日志为空，无可复制内容。</value>
+  </data>
+  <data name="MainPage/Log/CopiedToClipboard" xml:space="preserve">
+    <value>日志已复制到剪贴板。</value>
+  </data>
+  <data name="MainPage/Log/Cleared" xml:space="preserve">
+    <value>日志已清空。</value>
+  </data>
+  <data name="MainPage/Field/Name" xml:space="preserve">
+    <value>App 名称</value>
+  </data>
+  <data name="MainPage/Field/Id" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="MainPage/Field/Version" xml:space="preserve">
+    <value>版本号</value>
+  </data>
+  <data name="MainPage/Purchase/MissingSessionEmail" xml:space="preserve">
+    <value>当前登录状态未获取到邮箱，请先在账户页面退出并重新登录。</value>
+  </data>
+  <data name="MainPage/Purchase/LoginRequired" xml:space="preserve">
+    <value>请先在账户页面登录后再购买。</value>
+  </data>
+  <data name="MainPage/Purchase/SkipNonFree" xml:space="preserve">
+    <value>非免费应用，已跳过购买: {0}</value>
+  </data>
+  <data name="MainPage/PurchaseBlockedHelpGlyph.Text" xml:space="preserve">
+    <value>?</value>
+  </data>
+  <data name="MainPage/PurchaseBlockedReason/NonFree" xml:space="preserve">
+    <value>当前价格为 {0}，本软件仅支持购买免费 App。</value>
+  </data>
+  <data name="MainPage/PurchaseBlockedReason/Unknown" xml:space="preserve">
+    <value>该 App 当前不可购买，可能不是免费 App 或 App Store 暂不允许购买。</value>
+  </data>
+  <data name="MainPage/Purchase/MockSuccess" xml:space="preserve">
+    <value>测试账户购买成功: {0}</value>
+  </data>
+  <data name="MainPage/Purchase/Success" xml:space="preserve">
+    <value>购买成功: {0}</value>
+  </data>
+  <data name="MainPage/Purchase/OwnedDetected" xml:space="preserve">
+    <value>已拥有: {0}</value>
+  </data>
+  <data name="MainPage/Purchase/OwnedMarked" xml:space="preserve">
+    <value>疑似已拥有，已标记: {0}</value>
+  </data>
+  <data name="MainPage/Purchase/OwnedNotMarked" xml:space="preserve">
+    <value>疑似已拥有，未标记: {0}</value>
+  </data>
+  <data name="MainPage/Purchase/UnknownError" xml:space="preserve">
+    <value>未知错误</value>
+  </data>
+  <data name="MainPage/Purchase/Failed" xml:space="preserve">
+    <value>购买失败: {0} - {1}</value>
+  </data>
+  <data name="MainPage/OwnedPrompt/DisablePrompt" xml:space="preserve">
+    <value>不再提示，后续直接标记为已拥有</value>
+  </data>
+  <data name="MainPage/OwnedPrompt/Message" xml:space="preserve">
+    <value>ipatool 返回 STDQ：{0} 可能已拥有，是否标记为“已拥有”？</value>
+  </data>
+  <data name="MainPage/OwnedPrompt/Title" xml:space="preserve">
+    <value>疑似已拥有</value>
+  </data>
+  <data name="MainPage/OwnedPrompt/PrimaryButton" xml:space="preserve">
+    <value>标记为已拥有</value>
+  </data>
+  <data name="Common/Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Common/Status/Purchased" xml:space="preserve">
+    <value>已购买</value>
+  </data>
+  <data name="Common/Status/Owned" xml:space="preserve">
+    <value>已拥有</value>
+  </data>
+  <data name="Common/Status/NotPurchased" xml:space="preserve">
+    <value>未购买</value>
+  </data>
+  <data name="Common/Status/CanPurchase" xml:space="preserve">
+    <value>可购买</value>
+  </data>
+  <data name="Common/Status/PurchaseBlocked" xml:space="preserve">
+    <value>无法购买</value>
+  </data>
+  <data name="Common/Price/Free" xml:space="preserve">
+    <value>免费</value>
+  </data>
+  <data name="DownloadQueue/Status/Pending" xml:space="preserve">
+    <value>等待下载</value>
+  </data>
+  <data name="DownloadQueue/Status/Downloading" xml:space="preserve">
+    <value>下载中</value>
+  </data>
+  <data name="DownloadQueue/Status/RequestingLicense" xml:space="preserve">
+    <value>正在请求许可证</value>
+  </data>
+  <data name="DownloadQueue/Status/ProcessingResult" xml:space="preserve">
+    <value>正在处理下载结果</value>
+  </data>
+  <data name="DownloadQueue/Status/Success" xml:space="preserve">
+    <value>下载成功</value>
+  </data>
+  <data name="DownloadQueue/Status/Failed" xml:space="preserve">
+    <value>下载失败</value>
+  </data>
+  <data name="DownloadQueue/Status/Canceled" xml:space="preserve">
+    <value>下载已终止</value>
+  </data>
+  <data name="DownloadQueue/Status/CanceledShort" xml:space="preserve">
+    <value>已终止</value>
+  </data>
+  <data name="DownloadQueue/Status/QueueCanceled" xml:space="preserve">
+    <value>队列已终止</value>
+  </data>
+  <data name="DownloadQueue/Status/Requeued" xml:space="preserve">
+    <value>已重新加入下载队列</value>
+  </data>
+  <data name="DownloadQueue/Log/Updated" xml:space="preserve">
+    <value>队列更新: {0} ({1})</value>
+  </data>
+  <data name="DownloadQueue/Log/Added" xml:space="preserve">
+    <value>已加入下载队列: {0} ({1})</value>
+  </data>
+  <data name="DownloadQueue/Log/Requeued" xml:space="preserve">
+    <value>已重新加入下载队列: {0} ({1})</value>
+  </data>
+  <data name="DownloadQueue/Log/Removed" xml:space="preserve">
+    <value>已移出下载队列: {0} 项</value>
+  </data>
+  <data name="DownloadQueue/Log/AlreadyRunning" xml:space="preserve">
+    <value>下载队列已在运行</value>
+  </data>
+  <data name="DownloadQueue/Log/NoPendingItems" xml:space="preserve">
+    <value>没有待下载项目</value>
+  </data>
+  <data name="DownloadQueue/Log/StartQueue" xml:space="preserve">
+    <value>开始下载队列，共 {0} 项，输出目录: {1}</value>
+  </data>
+  <data name="DownloadQueue/Log/Downloading" xml:space="preserve">
+    <value>正在下载：{0}</value>
+  </data>
+  <data name="DownloadQueue/Log/RequestingLicense" xml:space="preserve">
+    <value>正在请求许可证：{0}</value>
+  </data>
+  <data name="DownloadQueue/Log/ProcessingResult" xml:space="preserve">
+    <value>正在处理下载结果：{0}</value>
+  </data>
+  <data name="DownloadQueue/Log/MockSuccess" xml:space="preserve">
+    <value>下载成功(测试账户): {0}</value>
+  </data>
+  <data name="DownloadQueue/Log/Success" xml:space="preserve">
+    <value>下载成功: {0}</value>
+  </data>
+  <data name="DownloadQueue/Log/Failed" xml:space="preserve">
+    <value>下载失败: {0} - {1}</value>
+  </data>
+  <data name="DownloadQueue/Log/Canceled" xml:space="preserve">
+    <value>下载已终止: {0}</value>
+  </data>
+  <data name="DownloadQueue/Log/Exception" xml:space="preserve">
+    <value>下载异常: {0} - {1}</value>
+  </data>
+  <data name="DownloadQueue/Log/Completed" xml:space="preserve">
+    <value>下载队列完成，成功 {0}/{1}</value>
+  </data>
+  <data name="DownloadQueue/Log/QueueCanceled" xml:space="preserve">
+    <value>下载队列已终止</value>
+  </data>
+  <data name="DownloadQueue/Log/CancelCurrentRequested" xml:space="preserve">
+    <value>已请求终止当前下载任务</value>
+  </data>
+  <data name="DownloadQueue/Log/CancelAllRequested" xml:space="preserve">
+    <value>已请求终止所有下载任务</value>
+  </data>
+  <data name="DownloadQueue/Error/Timeout" xml:space="preserve">
+    <value>下载超时</value>
+  </data>
+  <data name="DownloadQueue/Error/ExitCode" xml:space="preserve">
+    <value>退出码 {0}</value>
+  </data>
+  <data name="DownloadQueue/Error/MissingSessionEmail" xml:space="preserve">
+    <value>当前登录状态未获取到邮箱，请先在账户页面退出并重新登录</value>
+  </data>
+  <data name="DownloadQueue/Error/MissingAccount" xml:space="preserve">
+    <value>未找到可用账号，请先登录</value>
+  </data>
+  <data name="Ipatool/Error/RequiredArgument" xml:space="preserve">
+    <value>{0} 不能为空</value>
+  </data>
+  <data name="Ipatool/Error/AppNameRequired" xml:space="preserve">
+    <value>应用名称不能为空</value>
+  </data>
+  <data name="Ipatool/Error/HttpRequestFailed" xml:space="preserve">
+    <value>请求失败: {0} {1}</value>
+  </data>
+  <data name="Ipatool/Error/ExecutionTimeout" xml:space="preserve">
+    <value>执行超时: {0}</value>
+  </data>
+  <data name="Ipatool/Error/ProcessStartFailed" xml:space="preserve">
+    <value>无法启动 ipatool 进程</value>
+  </data>
+  <data name="Ipatool/Error/MissingPassphrase" xml:space="preserve">
+    <value>未找到可用的加密密钥，请先在账户页面重新登录后再试。</value>
+  </data>
+  <data name="Ipatool/Error/ReadableJsonError" xml:space="preserve">
+    <value>ipatool 错误: {0} (exit: {1})</value>
+  </data>
+  <data name="Ipatool/Error/ExecutionFailed" xml:space="preserve">
+    <value>ipatool 执行失败 (exit: {0})</value>
+  </data>
+  <data name="Ipatool/Debug/FallbackToPath" xml:space="preserve">
+    <value>未在应用目录中找到专用 ipatool，可执行文件将从 PATH 中解析。</value>
+  </data>
+  <data name="Ipatool/Debug/DeleteCookieLock" xml:space="preserve">
+    <value>删除 ipatool cookies.lock: {0}</value>
+  </data>
+  <data name="Ipatool/Debug/DeleteCookieLockFailed" xml:space="preserve">
+    <value>删除 ipatool cookies.lock 失败: {0}</value>
+  </data>
+  <data name="KeychainConfig/Error/CountryCodeRequired" xml:space="preserve">
+    <value>国家/地区代码不能为空</value>
+  </data>
+  <data name="KeychainConfig/Error/CountryCodeInvalid" xml:space="preserve">
+    <value>国家/地区代码格式无效</value>
+  </data>
+  <data name="KeychainConfig/Error/PassphraseRequired" xml:space="preserve">
+    <value>加密密钥不能为空</value>
+  </data>
+  <data name="KeychainConfig/Error/DownloadDirectoryRequired" xml:space="preserve">
+    <value>下载目录不能为空</value>
+  </data>
+  <data name="KeychainConfig/Error/CustomIpatoolPathRequired" xml:space="preserve">
+    <value>自定义 ipatool.exe 路径不能为空</value>
+  </data>
+  <data name="KeychainConfig/Error/CustomIpatoolPathNotFound" xml:space="preserve">
+    <value>自定义 ipatool.exe 文件不存在</value>
+  </data>
+  <data name="PurchasedAppDb/Error/DatabasePathNotInitialized" xml:space="preserve">
+    <value>App 数据库路径未初始化</value>
+  </data>
+  <data name="PurchasedAppDb/Debug/AppIdOrAccountRequired" xml:space="preserve">
+    <value>AppID 或 Account 不能为空</value>
+  </data>
+  <data name="Database/Debug/Error" xml:space="preserve">
+    <value>数据库错误: {0}</value>
+  </data>
+  <data name="Database/Debug/LocalStatePathMissing" xml:space="preserve">
+    <value>无法获取 packaged 应用 LocalState 路径。</value>
+  </data>
+  <data name="Settings/Debug/InitializeCountryCodeFailed" xml:space="preserve">
+    <value>初始化国家代码失败: {0}</value>
+  </data>
+  <data name="Settings/Debug/InitializeDownloadDirectoryFailed" xml:space="preserve">
+    <value>初始化下载目录失败: {0}</value>
+  </data>
+  <data name="App/Debug/StartupError" xml:space="preserve">
+    <value>启动错误: {0}</value>
+  </data>
+  <data name="App/Debug/WarmupAuthInfoFailed" xml:space="preserve">
+    <value>静默查询登录状态失败: {0}</value>
+  </data>
+  <data name="DownloadsPage/Action/StartQueueButton.Content" xml:space="preserve">
+    <value>开始下载队列</value>
+  </data>
+  <data name="DownloadsPage/Action/RemoveQueueButton.Content" xml:space="preserve">
+    <value>移出下载队列</value>
+  </data>
+  <data name="DownloadsPage/Action/RemoveSuccessItemsButton.Content" xml:space="preserve">
+    <value>移除下载成功项</value>
+  </data>
+  <data name="DownloadsPage/Action/OpenDirectoryButton.Content" xml:space="preserve">
+    <value>打开下载目录</value>
+  </data>
+  <data name="DownloadsPage/Action/CancelAllButton.Content" xml:space="preserve">
+    <value>终止所有下载</value>
+  </data>
+  <data name="DownloadsPage/Header/NameButton.Content" xml:space="preserve">
+    <value>App名称</value>
+  </data>
+  <data name="DownloadsPage/Header/IdButton.Content" xml:space="preserve">
+    <value>AppID</value>
+  </data>
+  <data name="DownloadsPage/Header/DeveloperButton.Content" xml:space="preserve">
+    <value>开发者</value>
+  </data>
+  <data name="DownloadsPage/Header/VersionButton.Content" xml:space="preserve">
+    <value>版本号</value>
+  </data>
+  <data name="DownloadsPage/Header/PriceButton.Content" xml:space="preserve">
+    <value>价格</value>
+  </data>
+  <data name="DownloadsPage/Header/StatusButton.Content" xml:space="preserve">
+    <value>下载状态</value>
+  </data>
+  <data name="DownloadsPage/Log/TitleText.Text" xml:space="preserve">
+    <value>日志</value>
+  </data>
+  <data name="DownloadsPage/Log/CopyButton.Content" xml:space="preserve">
+    <value>复制</value>
+  </data>
+  <data name="DownloadsPage/Log/ClearButton.Content" xml:space="preserve">
+    <value>清空</value>
+  </data>
+  <data name="DownloadsPage/Log/CancelCurrentButton.Content" xml:space="preserve">
+    <value>终止当前app下载</value>
+  </data>
+  <data name="DownloadsPage/Action/OpenLogDialogButton.Content" xml:space="preserve">
+    <value>日志</value>
+  </data>
+  <data name="LoginPage/TitleText.Text" xml:space="preserve">
+    <value>账户登录</value>
+  </data>
+  <data name="LoginService/Status/Canceled" xml:space="preserve">
+    <value>登录已取消。</value>
+  </data>
+  <data name="LoginService/Status/Success" xml:space="preserve">
+    <value>登录成功。</value>
+  </data>
+  <data name="LoginService/Status/Timeout" xml:space="preserve">
+    <value>登录请求超时，请稍后重试。</value>
+  </data>
+  <data name="LoginService/Status/EmptyResponse" xml:space="preserve">
+    <value>未收到登录响应，请稍后重试。</value>
+  </data>
+  <data name="LoginService/Status/Exception" xml:space="preserve">
+    <value>登录失败: {0}</value>
+  </data>
+  <data name="LoginService/Status/RequiresTwoFactor" xml:space="preserve">
+    <value>需要输入两步验证码。</value>
+  </data>
+  <data name="LoginService/Status/InvalidCredential" xml:space="preserve">
+    <value>用户名或密码不正确。</value>
+  </data>
+  <data name="LoginService/Status/AuthCodeInvalid" xml:space="preserve">
+    <value>验证码错误，请重新输入。</value>
+  </data>
+  <data name="LoginService/Status/NetworkError" xml:space="preserve">
+    <value>网络异常，请稍后重试。</value>
+  </data>
+  <data name="LoginService/Status/FailedRetry" xml:space="preserve">
+    <value>登录失败，请稍后重试。</value>
+  </data>
+  <data name="LoginPage/SubtitleText.Text" xml:space="preserve">
+    <value>输入 Apple ID、密码和加密密钥，完成登录后即可购买与下载。</value>
+  </data>
+  <data name="LoginPage/PassphraseChangeHintText.Text" xml:space="preserve">
+    <value>如需修改加密密钥，请先退出登录并重新登录。</value>
+  </data>
+  <data name="LoginPage/NewAccountHintText.Text" xml:space="preserve">
+    <value>新创建的 Apple 账号需先在苹果设备 App Store 完成一次购买后，才能正常使用下载与购买功能。</value>
+  </data>
+  <data name="LoginPage/EmailLabel.Text" xml:space="preserve">
+    <value>电子邮箱地址</value>
+  </data>
+  <data name="LoginPage/EmailInput.PlaceholderText" xml:space="preserve">
+    <value>example@icloud.com</value>
+  </data>
+  <data name="LoginPage/PasswordLabel.Text" xml:space="preserve">
+    <value>密码</value>
+  </data>
+  <data name="LoginPage/PasswordInput.PlaceholderText" xml:space="preserve">
+    <value>请输入密码</value>
+  </data>
+  <data name="LoginPage/TwoFactorCodeLabel.Text" xml:space="preserve">
+    <value>双重验证码</value>
+  </data>
+  <data name="LoginPage/TwoFactorCodeInput.PlaceholderText" xml:space="preserve">
+    <value>请输入双重验证码</value>
+  </data>
+  <data name="LoginPage/PassphraseLabel.Text" xml:space="preserve">
+    <value>加密密钥</value>
+  </data>
+  <data name="LoginPage/PassphraseInput.PlaceholderText" xml:space="preserve">
+    <value>用于 ipatool keychain-passphrase</value>
+  </data>
+  <data name="LoginPage/LoginButton.Content" xml:space="preserve">
+    <value>登录</value>
+  </data>
+  <data name="LoginPage/QueryAuthInfoButton.Content" xml:space="preserve">
+    <value>查询登录状态</value>
+  </data>
+  <data name="LoginPage/LogoutButton.Content" xml:space="preserve">
+    <value>退出登录</value>
+  </data>
+  <data name="LoginPage/Action/OpenLogDialogButton.Content" xml:space="preserve">
+    <value>日志</value>
+  </data>
+  <data name="LoginPage/TwoFactorHelpText.Text" xml:space="preserve">
+    <value>收不到验证码时，请点击“打开苹果账户官网”前往 account.apple.com 获取验证码。</value>
+  </data>
+  <data name="LoginPage/HelpGlyph.Text" xml:space="preserve">
+    <value>?</value>
+  </data>
+  <data name="LoginPage/Status/QueryingAuthInfo" xml:space="preserve">
+    <value>正在查询登录状态...</value>
+  </data>
+  <data name="LoginPage/Status/AuthInfoSuccess" xml:space="preserve">
+    <value>登录状态正常</value>
+  </data>
+  <data name="LoginPage/Status/AuthInfoEmailMissing" xml:space="preserve">
+    <value>已查询到登录状态，但未获取到邮箱。请先重新登录后再进行购买或下载。</value>
+  </data>
+  <data name="LoginPage/Status/AuthInfoFailed" xml:space="preserve">
+    <value>登录状态异常</value>
+  </data>
+  <data name="LoginPage/Status/AuthInfoException" xml:space="preserve">
+    <value>查询登录状态失败: {0}</value>
+  </data>
+  <data name="LoginPage/Status/LoggingOut" xml:space="preserve">
+    <value>正在退出登录...</value>
+  </data>
+  <data name="LoginPage/Status/LogoutSuccess" xml:space="preserve">
+    <value>已退出登录</value>
+  </data>
+  <data name="LoginPage/Status/LogoutFailed" xml:space="preserve">
+    <value>退出登录失败</value>
+  </data>
+  <data name="LoginPage/Status/LogoutException" xml:space="preserve">
+    <value>退出登录失败: {0}</value>
+  </data>
+  <data name="LoginPage/Status/EmailRequired" xml:space="preserve">
+    <value>邮箱不能为空</value>
+  </data>
+  <data name="LoginPage/Status/RequiredFieldsEmpty" xml:space="preserve">
+    <value>邮箱、密码和加密密钥不能为空</value>
+  </data>
+  <data name="LoginPage/Status/LoggingIn" xml:space="preserve">
+    <value>正在登录...</value>
+  </data>
+  <data name="LoginPage/Status/LoginFlowException" xml:space="preserve">
+    <value>登录流程异常: {0}</value>
+  </data>
+  <data name="LoginPage/Status/LoginException" xml:space="preserve">
+    <value>登录失败: {0}</value>
+  </data>
+  <data name="LoginPage/Status/Verifying" xml:space="preserve">
+    <value>正在验证...</value>
+  </data>
+  <data name="LoginPage/Status/VerifyException" xml:space="preserve">
+    <value>验证失败: {0}</value>
+  </data>
+  <data name="LoginPage/Status/AuthCodeInvalid" xml:space="preserve">
+    <value>验证码错误，请重新输入。</value>
+  </data>
+  <data name="LoginPage/Status/VerifyFailedRetry" xml:space="preserve">
+    <value>验证失败，请重试。</value>
+  </data>
+  <data name="LoginPage/Status/TwoFactorPromptFallback" xml:space="preserve">
+    <value>请输入两步验证码继续登录。如果未收到验证码，请打开 https://account.apple.com/ 获取后再输入。</value>
+  </data>
+  <data name="LoginPage/Status/TwoFactorPromptWithMessage" xml:space="preserve">
+    <value>{0} 如未收到验证码，请打开 https://account.apple.com/ 获取后再输入。</value>
+  </data>
+  <data name="LoginPage/Status/LoginSuccess" xml:space="preserve">
+    <value>登录成功</value>
+  </data>
+  <data name="LoginPage/Status/OpenAppleAccountSiteFailed" xml:space="preserve">
+    <value>打开苹果账户官网失败: {0}</value>
+  </data>
+  <data name="LoginPage/Status/OperationLocked" xml:space="preserve">
+    <value>当前为已登录状态，操作区已锁定</value>
+  </data>
+  <data name="LoginPage/Log/StartVerifyTwoFactor" xml:space="preserve">
+    <value>开始验证双重验证码。</value>
+  </data>
+  <data name="LoginPage/Log/StartLogin" xml:space="preserve">
+    <value>开始登录。</value>
+  </data>
+  <data name="LoginPage/Log/LoginFlowException" xml:space="preserve">
+    <value>登录流程异常: {0}</value>
+  </data>
+  <data name="LoginPage/Log/AuthInfoSuccess" xml:space="preserve">
+    <value>查询登录状态成功: {0}</value>
+  </data>
+  <data name="LoginPage/Log/AuthInfoEmailMissing" xml:space="preserve">
+    <value>查询登录状态成功，但未获取到邮箱。</value>
+  </data>
+  <data name="LoginPage/Log/AuthInfoFailed" xml:space="preserve">
+    <value>查询登录状态失败。</value>
+  </data>
+  <data name="LoginPage/Log/AuthInfoException" xml:space="preserve">
+    <value>查询登录状态异常: {0}</value>
+  </data>
+  <data name="LoginPage/Log/LogoutSuccess" xml:space="preserve">
+    <value>退出登录成功: {0}</value>
+  </data>
+  <data name="LoginPage/Log/PassphraseRotated" xml:space="preserve">
+    <value>加密密钥已轮换。</value>
+  </data>
+  <data name="LoginPage/Log/LogoutFailed" xml:space="preserve">
+    <value>退出登录失败: {0}</value>
+  </data>
+  <data name="LoginPage/Log/LogoutException" xml:space="preserve">
+    <value>退出登录异常: {0}</value>
+  </data>
+  <data name="LoginPage/Log/RequiredFieldsEmpty" xml:space="preserve">
+    <value>登录已阻止: 必填项为空。</value>
+  </data>
+  <data name="LoginPage/Log/LoginCanceled" xml:space="preserve">
+    <value>登录请求已取消。</value>
+  </data>
+  <data name="LoginPage/Log/LoginException" xml:space="preserve">
+    <value>登录异常: {0}</value>
+  </data>
+  <data name="LoginPage/Log/EmptyAuthCodeUsesDefault" xml:space="preserve">
+    <value>双重验证码为空，按 000000 处理。</value>
+  </data>
+  <data name="LoginPage/Log/CodeValidationCanceled" xml:space="preserve">
+    <value>验证码验证已取消。</value>
+  </data>
+  <data name="LoginPage/Log/CodeValidationException" xml:space="preserve">
+    <value>验证码验证异常: {0}</value>
+  </data>
+  <data name="LoginPage/Log/CodeValidationInvalid" xml:space="preserve">
+    <value>验证码验证失败: 验证码错误。</value>
+  </data>
+  <data name="LoginPage/Log/CodeValidationTimeout" xml:space="preserve">
+    <value>验证码验证失败: 请求超时。</value>
+  </data>
+  <data name="LoginPage/Log/CodeValidationFailed" xml:space="preserve">
+    <value>验证码验证失败。</value>
+  </data>
+  <data name="LoginPage/Log/CodeValidationSuccess" xml:space="preserve">
+    <value>双重验证码验证成功。</value>
+  </data>
+  <data name="LoginPage/Log/LoginSuccess" xml:space="preserve">
+    <value>登录成功。</value>
+  </data>
+  <data name="LoginPage/Log/TwoFactorRequired" xml:space="preserve">
+    <value>需要输入双重验证码。</value>
+  </data>
+  <data name="LoginPage/Log/LoginFailed" xml:space="preserve">
+    <value>登录失败: {0}</value>
+  </data>
+  <data name="LoginPage/Debug/SaveAccountInfoFailed" xml:space="preserve">
+    <value>保存账户信息失败: {0}</value>
+  </data>
+  <data name="LoginPage/Log/LoginAccount" xml:space="preserve">
+    <value>登录账户: {0}</value>
+  </data>
+  <data name="LoginPage/Log/AppleAccountSiteOpened" xml:space="preserve">
+    <value>已打开苹果账户官网。</value>
+  </data>
+  <data name="LoginPage/Log/CopyEmptyLog" xml:space="preserve">
+    <value>日志为空，无法复制。</value>
+  </data>
+  <data name="LoginPage/Log/CopiedToClipboard" xml:space="preserve">
+    <value>日志已复制到剪贴板。</value>
+  </data>
+  <data name="LoginPage/Log/Cleared" xml:space="preserve">
+    <value>日志已清空。</value>
+  </data>
+  <data name="LoginPage/Log/TitleText.Text" xml:space="preserve">
+    <value>日志</value>
+  </data>
+  <data name="LoginPage/Log/CopyButton.Content" xml:space="preserve">
+    <value>复制</value>
+  </data>
+  <data name="LoginPage/Log/ClearButton.Content" xml:space="preserve">
+    <value>清空</value>
+  </data>
+  <data name="Common/LogDialog/Title" xml:space="preserve">
+    <value>日志</value>
+  </data>
+  <data name="Common/LogDialog/Subtitle" xml:space="preserve">
+    <value>实时日志</value>
+  </data>
+  <data name="Common/LogDialog/CopyButton" xml:space="preserve">
+    <value>复制日志</value>
+  </data>
+  <data name="Common/LogDialog/ClearButton" xml:space="preserve">
+    <value>清空日志</value>
+  </data>
+  <data name="Common/LogDialog/CloseButton" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="Common/LogDialog/CopyEmptyLog" xml:space="preserve">
+    <value>日志为空，无可复制内容。</value>
+  </data>
+  <data name="Common/LogDialog/CopiedToClipboard" xml:space="preserve">
+    <value>日志已复制到剪贴板。</value>
+  </data>
+  <data name="Common/LogDialog/Cleared" xml:space="preserve">
+    <value>日志已清空。</value>
+  </data>
+  <data name="MainPage/EmptySearchHintTextBlock.Text" xml:space="preserve">
+    <value>请在搜索框搜索应用</value>
+  </data>
+  <data name="MainPage/EmptySearchHint/Initial" xml:space="preserve">
+    <value>请在搜索框搜索应用</value>
+  </data>
+  <data name="MainPage/EmptySearchHint/SearchEmpty" xml:space="preserve">
+    <value>未找到匹配的应用</value>
+  </data>
+  <data name="MainPage/EmptySearchHint/FilterEmpty" xml:space="preserve">
+    <value>当前筛选下没有应用</value>
+  </data>
+  <data name="Storefront/AE" xml:space="preserve">
+    <value>阿联酋</value>
+  </data>
+  <data name="Storefront/AG" xml:space="preserve">
+    <value>安提瓜和巴布达</value>
+  </data>
+  <data name="Storefront/AI" xml:space="preserve">
+    <value>安圭拉</value>
+  </data>
+  <data name="Storefront/AL" xml:space="preserve">
+    <value>阿尔巴尼亚</value>
+  </data>
+  <data name="Storefront/AM" xml:space="preserve">
+    <value>亚美尼亚</value>
+  </data>
+  <data name="Storefront/AO" xml:space="preserve">
+    <value>安哥拉</value>
+  </data>
+  <data name="Storefront/AR" xml:space="preserve">
+    <value>阿根廷</value>
+  </data>
+  <data name="Storefront/AT" xml:space="preserve">
+    <value>奥地利</value>
+  </data>
+  <data name="Storefront/AU" xml:space="preserve">
+    <value>澳大利亚</value>
+  </data>
+  <data name="Storefront/AZ" xml:space="preserve">
+    <value>阿塞拜疆</value>
+  </data>
+  <data name="Storefront/BB" xml:space="preserve">
+    <value>巴巴多斯</value>
+  </data>
+  <data name="Storefront/BE" xml:space="preserve">
+    <value>比利时</value>
+  </data>
+  <data name="Storefront/BF" xml:space="preserve">
+    <value>布基纳法索</value>
+  </data>
+  <data name="Storefront/BG" xml:space="preserve">
+    <value>保加利亚</value>
+  </data>
+  <data name="Storefront/BH" xml:space="preserve">
+    <value>巴林</value>
+  </data>
+  <data name="Storefront/BJ" xml:space="preserve">
+    <value>贝宁</value>
+  </data>
+  <data name="Storefront/BM" xml:space="preserve">
+    <value>百慕大</value>
+  </data>
+  <data name="Storefront/BN" xml:space="preserve">
+    <value>文莱</value>
+  </data>
+  <data name="Storefront/BO" xml:space="preserve">
+    <value>玻利维亚</value>
+  </data>
+  <data name="Storefront/BR" xml:space="preserve">
+    <value>巴西</value>
+  </data>
+  <data name="Storefront/BS" xml:space="preserve">
+    <value>巴哈马</value>
+  </data>
+  <data name="Storefront/BT" xml:space="preserve">
+    <value>不丹</value>
+  </data>
+  <data name="Storefront/BW" xml:space="preserve">
+    <value>博茨瓦纳</value>
+  </data>
+  <data name="Storefront/BY" xml:space="preserve">
+    <value>白俄罗斯</value>
+  </data>
+  <data name="Storefront/BZ" xml:space="preserve">
+    <value>伯利兹</value>
+  </data>
+  <data name="Storefront/CA" xml:space="preserve">
+    <value>加拿大</value>
+  </data>
+  <data name="Storefront/CD" xml:space="preserve">
+    <value>刚果民主共和国</value>
+  </data>
+  <data name="Storefront/CG" xml:space="preserve">
+    <value>刚果共和国</value>
+  </data>
+  <data name="Storefront/CH" xml:space="preserve">
+    <value>瑞士</value>
+  </data>
+  <data name="Storefront/CI" xml:space="preserve">
+    <value>科特迪瓦</value>
+  </data>
+  <data name="Storefront/CL" xml:space="preserve">
+    <value>智利</value>
+  </data>
+  <data name="Storefront/CM" xml:space="preserve">
+    <value>喀麦隆</value>
+  </data>
+  <data name="Storefront/CN" xml:space="preserve">
+    <value>中国大陆</value>
+  </data>
+  <data name="Storefront/CO" xml:space="preserve">
+    <value>哥伦比亚</value>
+  </data>
+  <data name="Storefront/CR" xml:space="preserve">
+    <value>哥斯达黎加</value>
+  </data>
+  <data name="Storefront/CV" xml:space="preserve">
+    <value>佛得角</value>
+  </data>
+  <data name="Storefront/CY" xml:space="preserve">
+    <value>塞浦路斯</value>
+  </data>
+  <data name="Storefront/CZ" xml:space="preserve">
+    <value>捷克</value>
+  </data>
+  <data name="Storefront/DE" xml:space="preserve">
+    <value>德国</value>
+  </data>
+  <data name="Storefront/DK" xml:space="preserve">
+    <value>丹麦</value>
+  </data>
+  <data name="Storefront/DM" xml:space="preserve">
+    <value>多米尼克</value>
+  </data>
+  <data name="Storefront/DO" xml:space="preserve">
+    <value>多米尼加共和国</value>
+  </data>
+  <data name="Storefront/DZ" xml:space="preserve">
+    <value>阿尔及利亚</value>
+  </data>
+  <data name="Storefront/EC" xml:space="preserve">
+    <value>厄瓜多尔</value>
+  </data>
+  <data name="Storefront/EE" xml:space="preserve">
+    <value>爱沙尼亚</value>
+  </data>
+  <data name="Storefront/EG" xml:space="preserve">
+    <value>埃及</value>
+  </data>
+  <data name="Storefront/ES" xml:space="preserve">
+    <value>西班牙</value>
+  </data>
+  <data name="Storefront/FI" xml:space="preserve">
+    <value>芬兰</value>
+  </data>
+  <data name="Storefront/FJ" xml:space="preserve">
+    <value>斐济</value>
+  </data>
+  <data name="Storefront/FM" xml:space="preserve">
+    <value>密克罗尼西亚</value>
+  </data>
+  <data name="Storefront/FR" xml:space="preserve">
+    <value>法国</value>
+  </data>
+  <data name="Storefront/GA" xml:space="preserve">
+    <value>加蓬</value>
+  </data>
+  <data name="Storefront/GB" xml:space="preserve">
+    <value>英国</value>
+  </data>
+  <data name="Storefront/GD" xml:space="preserve">
+    <value>格林纳达</value>
+  </data>
+  <data name="Storefront/GE" xml:space="preserve">
+    <value>格鲁吉亚</value>
+  </data>
+  <data name="Storefront/GH" xml:space="preserve">
+    <value>加纳</value>
+  </data>
+  <data name="Storefront/GM" xml:space="preserve">
+    <value>冈比亚</value>
+  </data>
+  <data name="Storefront/GR" xml:space="preserve">
+    <value>希腊</value>
+  </data>
+  <data name="Storefront/GT" xml:space="preserve">
+    <value>危地马拉</value>
+  </data>
+  <data name="Storefront/GW" xml:space="preserve">
+    <value>几内亚比绍</value>
+  </data>
+  <data name="Storefront/GY" xml:space="preserve">
+    <value>圭亚那</value>
+  </data>
+  <data name="Storefront/HK" xml:space="preserve">
+    <value>中国香港</value>
+  </data>
+  <data name="Storefront/HN" xml:space="preserve">
+    <value>洪都拉斯</value>
+  </data>
+  <data name="Storefront/HR" xml:space="preserve">
+    <value>克罗地亚</value>
+  </data>
+  <data name="Storefront/HU" xml:space="preserve">
+    <value>匈牙利</value>
+  </data>
+  <data name="Storefront/ID" xml:space="preserve">
+    <value>印度尼西亚</value>
+  </data>
+  <data name="Storefront/IE" xml:space="preserve">
+    <value>爱尔兰</value>
+  </data>
+  <data name="Storefront/IL" xml:space="preserve">
+    <value>以色列</value>
+  </data>
+  <data name="Storefront/IN" xml:space="preserve">
+    <value>印度</value>
+  </data>
+  <data name="Storefront/IS" xml:space="preserve">
+    <value>冰岛</value>
+  </data>
+  <data name="Storefront/IT" xml:space="preserve">
+    <value>意大利</value>
+  </data>
+  <data name="Storefront/JM" xml:space="preserve">
+    <value>牙买加</value>
+  </data>
+  <data name="Storefront/JO" xml:space="preserve">
+    <value>约旦</value>
+  </data>
+  <data name="Storefront/JP" xml:space="preserve">
+    <value>日本</value>
+  </data>
+  <data name="Storefront/KE" xml:space="preserve">
+    <value>肯尼亚</value>
+  </data>
+  <data name="Storefront/KG" xml:space="preserve">
+    <value>吉尔吉斯斯坦</value>
+  </data>
+  <data name="Storefront/KH" xml:space="preserve">
+    <value>柬埔寨</value>
+  </data>
+  <data name="Storefront/KN" xml:space="preserve">
+    <value>圣基茨和尼维斯</value>
+  </data>
+  <data name="Storefront/KR" xml:space="preserve">
+    <value>韩国</value>
+  </data>
+  <data name="Storefront/KW" xml:space="preserve">
+    <value>科威特</value>
+  </data>
+  <data name="Storefront/KY" xml:space="preserve">
+    <value>开曼群岛</value>
+  </data>
+  <data name="Storefront/KZ" xml:space="preserve">
+    <value>哈萨克斯坦</value>
+  </data>
+  <data name="Storefront/LA" xml:space="preserve">
+    <value>老挝</value>
+  </data>
+  <data name="Storefront/LB" xml:space="preserve">
+    <value>黎巴嫩</value>
+  </data>
+  <data name="Storefront/LC" xml:space="preserve">
+    <value>圣卢西亚</value>
+  </data>
+  <data name="Storefront/LK" xml:space="preserve">
+    <value>斯里兰卡</value>
+  </data>
+  <data name="Storefront/LR" xml:space="preserve">
+    <value>利比里亚</value>
+  </data>
+  <data name="Storefront/LT" xml:space="preserve">
+    <value>立陶宛</value>
+  </data>
+  <data name="Storefront/LU" xml:space="preserve">
+    <value>卢森堡</value>
+  </data>
+  <data name="Storefront/LV" xml:space="preserve">
+    <value>拉脱维亚</value>
+  </data>
+  <data name="Storefront/MD" xml:space="preserve">
+    <value>摩尔多瓦</value>
+  </data>
+  <data name="Storefront/MG" xml:space="preserve">
+    <value>马达加斯加</value>
+  </data>
+  <data name="Storefront/MK" xml:space="preserve">
+    <value>北马其顿</value>
+  </data>
+  <data name="Storefront/ML" xml:space="preserve">
+    <value>马里</value>
+  </data>
+  <data name="Storefront/MM" xml:space="preserve">
+    <value>缅甸</value>
+  </data>
+  <data name="Storefront/MN" xml:space="preserve">
+    <value>蒙古</value>
+  </data>
+  <data name="Storefront/MO" xml:space="preserve">
+    <value>中国澳门</value>
+  </data>
+  <data name="Storefront/MR" xml:space="preserve">
+    <value>毛里塔尼亚</value>
+  </data>
+  <data name="Storefront/MS" xml:space="preserve">
+    <value>蒙特塞拉特</value>
+  </data>
+  <data name="Storefront/MT" xml:space="preserve">
+    <value>马耳他</value>
+  </data>
+  <data name="Storefront/MU" xml:space="preserve">
+    <value>毛里求斯</value>
+  </data>
+  <data name="Storefront/MV" xml:space="preserve">
+    <value>马尔代夫</value>
+  </data>
+  <data name="Storefront/MW" xml:space="preserve">
+    <value>马拉维</value>
+  </data>
+  <data name="Storefront/MX" xml:space="preserve">
+    <value>墨西哥</value>
+  </data>
+  <data name="Storefront/MY" xml:space="preserve">
+    <value>马来西亚</value>
+  </data>
+  <data name="Storefront/MZ" xml:space="preserve">
+    <value>莫桑比克</value>
+  </data>
+  <data name="Storefront/NA" xml:space="preserve">
+    <value>纳米比亚</value>
+  </data>
+  <data name="Storefront/NE" xml:space="preserve">
+    <value>尼日尔</value>
+  </data>
+  <data name="Storefront/NG" xml:space="preserve">
+    <value>尼日利亚</value>
+  </data>
+  <data name="Storefront/NI" xml:space="preserve">
+    <value>尼加拉瓜</value>
+  </data>
+  <data name="Storefront/NL" xml:space="preserve">
+    <value>荷兰</value>
+  </data>
+  <data name="Storefront/NO" xml:space="preserve">
+    <value>挪威</value>
+  </data>
+  <data name="Storefront/NP" xml:space="preserve">
+    <value>尼泊尔</value>
+  </data>
+  <data name="Storefront/NZ" xml:space="preserve">
+    <value>新西兰</value>
+  </data>
+  <data name="Storefront/OM" xml:space="preserve">
+    <value>阿曼</value>
+  </data>
+  <data name="Storefront/PA" xml:space="preserve">
+    <value>巴拿马</value>
+  </data>
+  <data name="Storefront/PE" xml:space="preserve">
+    <value>秘鲁</value>
+  </data>
+  <data name="Storefront/PG" xml:space="preserve">
+    <value>巴布亚新几内亚</value>
+  </data>
+  <data name="Storefront/PH" xml:space="preserve">
+    <value>菲律宾</value>
+  </data>
+  <data name="Storefront/PK" xml:space="preserve">
+    <value>巴基斯坦</value>
+  </data>
+  <data name="Storefront/PL" xml:space="preserve">
+    <value>波兰</value>
+  </data>
+  <data name="Storefront/PT" xml:space="preserve">
+    <value>葡萄牙</value>
+  </data>
+  <data name="Storefront/PW" xml:space="preserve">
+    <value>帕劳</value>
+  </data>
+  <data name="Storefront/PY" xml:space="preserve">
+    <value>巴拉圭</value>
+  </data>
+  <data name="Storefront/QA" xml:space="preserve">
+    <value>卡塔尔</value>
+  </data>
+  <data name="Storefront/RO" xml:space="preserve">
+    <value>罗马尼亚</value>
+  </data>
+  <data name="Storefront/RS" xml:space="preserve">
+    <value>塞尔维亚</value>
+  </data>
+  <data name="Storefront/RU" xml:space="preserve">
+    <value>俄罗斯</value>
+  </data>
+  <data name="Storefront/SA" xml:space="preserve">
+    <value>沙特阿拉伯</value>
+  </data>
+  <data name="Storefront/SC" xml:space="preserve">
+    <value>塞舌尔</value>
+  </data>
+  <data name="Storefront/SE" xml:space="preserve">
+    <value>瑞典</value>
+  </data>
+  <data name="Storefront/SG" xml:space="preserve">
+    <value>新加坡</value>
+  </data>
+  <data name="Storefront/SI" xml:space="preserve">
+    <value>斯洛文尼亚</value>
+  </data>
+  <data name="Storefront/SK" xml:space="preserve">
+    <value>斯洛伐克</value>
+  </data>
+  <data name="Storefront/SL" xml:space="preserve">
+    <value>塞拉利昂</value>
+  </data>
+  <data name="Storefront/SN" xml:space="preserve">
+    <value>塞内加尔</value>
+  </data>
+  <data name="Storefront/SR" xml:space="preserve">
+    <value>苏里南</value>
+  </data>
+  <data name="Storefront/ST" xml:space="preserve">
+    <value>圣多美和普林西比</value>
+  </data>
+  <data name="Storefront/SV" xml:space="preserve">
+    <value>萨尔瓦多</value>
+  </data>
+  <data name="Storefront/SZ" xml:space="preserve">
+    <value>斯威士兰</value>
+  </data>
+  <data name="Storefront/TC" xml:space="preserve">
+    <value>特克斯和凯科斯群岛</value>
+  </data>
+  <data name="Storefront/TD" xml:space="preserve">
+    <value>乍得</value>
+  </data>
+  <data name="Storefront/TH" xml:space="preserve">
+    <value>泰国</value>
+  </data>
+  <data name="Storefront/TJ" xml:space="preserve">
+    <value>塔吉克斯坦</value>
+  </data>
+  <data name="Storefront/TM" xml:space="preserve">
+    <value>土库曼斯坦</value>
+  </data>
+  <data name="Storefront/TN" xml:space="preserve">
+    <value>突尼斯</value>
+  </data>
+  <data name="Storefront/TO" xml:space="preserve">
+    <value>汤加</value>
+  </data>
+  <data name="Storefront/TR" xml:space="preserve">
+    <value>土耳其</value>
+  </data>
+  <data name="Storefront/TT" xml:space="preserve">
+    <value>特立尼达和多巴哥</value>
+  </data>
+  <data name="Storefront/TW" xml:space="preserve">
+    <value>中国台湾</value>
+  </data>
+  <data name="Storefront/TZ" xml:space="preserve">
+    <value>坦桑尼亚</value>
+  </data>
+  <data name="Storefront/UA" xml:space="preserve">
+    <value>乌克兰</value>
+  </data>
+  <data name="Storefront/UG" xml:space="preserve">
+    <value>乌干达</value>
+  </data>
+  <data name="Storefront/US" xml:space="preserve">
+    <value>美国</value>
+  </data>
+  <data name="Storefront/UY" xml:space="preserve">
+    <value>乌拉圭</value>
+  </data>
+  <data name="Storefront/UZ" xml:space="preserve">
+    <value>乌兹别克斯坦</value>
+  </data>
+  <data name="Storefront/VC" xml:space="preserve">
+    <value>圣文森特和格林纳丁斯</value>
+  </data>
+  <data name="Storefront/VE" xml:space="preserve">
+    <value>委内瑞拉</value>
+  </data>
+  <data name="Storefront/VG" xml:space="preserve">
+    <value>英属维尔京群岛</value>
+  </data>
+  <data name="Storefront/VN" xml:space="preserve">
+    <value>越南</value>
+  </data>
+  <data name="Storefront/XK" xml:space="preserve">
+    <value>科索沃</value>
+  </data>
+  <data name="Storefront/YE" xml:space="preserve">
+    <value>也门</value>
+  </data>
+  <data name="Storefront/ZA" xml:space="preserve">
+    <value>南非</value>
+  </data>
+  <data name="Storefront/ZM" xml:space="preserve">
+    <value>赞比亚</value>
+  </data>
+  <data name="Storefront/ZW" xml:space="preserve">
+    <value>津巴布韦</value>
+  </data>
+  <data name="Storefront/AF" xml:space="preserve">
+    <value>阿富汗</value>
+  </data>
+  <data name="Storefront/BA" xml:space="preserve">
+    <value>波斯尼亚和黑塞哥维那</value>
+  </data>
+  <data name="Storefront/IQ" xml:space="preserve">
+    <value>伊拉克</value>
+  </data>
+  <data name="Storefront/LY" xml:space="preserve">
+    <value>利比亚</value>
+  </data>
+  <data name="Storefront/MA" xml:space="preserve">
+    <value>摩洛哥</value>
+  </data>
+  <data name="Storefront/ME" xml:space="preserve">
+    <value>黑山</value>
+  </data>
+  <data name="Storefront/NR" xml:space="preserve">
+    <value>瑙鲁</value>
+  </data>
+  <data name="Storefront/RW" xml:space="preserve">
+    <value>卢旺达</value>
+  </data>
+  <data name="Storefront/SB" xml:space="preserve">
+    <value>所罗门群岛</value>
+  </data>
+  <data name="Storefront/VU" xml:space="preserve">
+    <value>瓦努阿图</value>
+  </data>
+  <data name="Settings/Card/DisplayLanguage.Header" xml:space="preserve">
+    <value>显示语言</value>
+  </data>
+  <data name="Settings/Card/DisplayLanguage.Description" xml:space="preserve">
+    <value>选择应用界面显示的语言。</value>
+  </data>
+  <data name="Settings/Language/Auto.Content" xml:space="preserve">
+    <value>自动</value>
+  </data>
+  <data name="Settings/Language/RestartTitle" xml:space="preserve">
+    <value>重启应用</value>
+  </data>
+  <data name="Settings/Language/RestartMessage" xml:space="preserve">
+    <value>语言设置将在应用重启后生效。是否立即重启？</value>
+  </data>
+  <data name="Settings/Language/RestartNow" xml:space="preserve">
+    <value>立即重启</value>
+  </data>
+  <data name="Settings/Language/RestartLater" xml:space="preserve">
+    <value>稍后重启</value>
+  </data>
+  <data name="Settings/Language/RestartFailedTitle" xml:space="preserve">
+    <value>重启失败</value>
+  </data>
+  <data name="Settings/Language/RestartFailedMessage" xml:space="preserve">
+    <value>无法重启应用：{0}</value>
+  </data>
+</root>

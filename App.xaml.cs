@@ -1,9 +1,12 @@
-using IPAbuyer.Common;
-using IPAbuyer.Data;
-using IPAbuyer.Views;
+using IPAbuyer.Core.Configuration;
+using IPAbuyer.Core.Data.PurchasedApps;
+using IPAbuyer.Core.Integration.Ipatool;
+using IPAbuyer.Core.State;
+using IPAbuyer.Pages;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Diagnostics;
+using Windows.Globalization;
 using Windows.Storage;
 
 namespace IPAbuyer
@@ -19,6 +22,17 @@ namespace IPAbuyer
         {
             try
             {
+                try
+                {
+                    ApplicationLanguages.PrimaryLanguageOverride = LanguageSettings.LoadResolvedLanguage();
+                }
+                catch
+                {
+                    // Language preference must never prevent the app from starting.
+                }
+
+                WindowContext.RegisterRestartHandler(RestartApplication);
+
                 try
                 {
                     // 初始化数据库
@@ -62,6 +76,18 @@ namespace IPAbuyer
             {
                 Debug.WriteLine(LF("App/Debug/StartupError", ex.Message));
                 throw;
+            }
+        }
+
+        private static string? RestartApplication()
+        {
+            try
+            {
+                return Microsoft.Windows.AppLifecycle.AppInstance.Restart(string.Empty).ToString();
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
             }
         }
 

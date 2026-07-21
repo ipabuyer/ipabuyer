@@ -1,0 +1,1749 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppDisplayName" xml:space="preserve">
+    <value>IPAbuyer</value>
+  </data>
+  <data name="AppDescription" xml:space="preserve">
+    <value>Quickly purchase and download apps from the App Store</value>
+  </data>
+  <data name="Settings/Button/EditCountryCode.Content" xml:space="preserve">
+    <value>Edit</value>
+    <comment>设置页面的子标题：软件相关，的内容：国家地区代码，的按钮</comment>
+  </data>
+  <data name="Settings/Button/OpenDeveloperSite.Content" xml:space="preserve">
+    <value>Open website</value>
+    <comment>设置页面的子标题：软件相关，的内容：开发者信息，的按钮</comment>
+  </data>
+  <data name="Settings/Button/PickDownloadDirectory.Content" xml:space="preserve">
+    <value>Change location</value>
+    <comment>设置页面下载目录的保存按钮</comment>
+  </data>
+  <data name="Settings/Button/ResetDownloadDirectory.Content" xml:space="preserve">
+    <value>Restore default</value>
+    <comment>设置页面下载目录的恢复默认按钮</comment>
+  </data>
+  <data name="Settings/Button/CopyFeedbackEmail.Content" xml:space="preserve">
+    <value>Copy</value>
+    <comment>设置页面复制反馈邮箱按钮</comment>
+  </data>
+  <data name="Settings/Button/ClearLocalDatabase.Content" xml:space="preserve">
+    <value>Clear records</value>
+    <comment>设置页面的子标题：软件相关，的内容：清除本地数据库，的按钮</comment>
+  </data>
+  <data name="Common/AppleAccount/OpenButton.Content" xml:space="preserve">
+    <value>Open the official Apple account website</value>
+  </data>
+  <data name="Settings/CountryCode/CancelButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Settings/CountryCode/CurrentFormat" xml:space="preserve">
+    <value>Current: {0}</value>
+  </data>
+  <data name="Settings/CountryCode/DialogTitle" xml:space="preserve">
+    <value>Choose a country or region</value>
+  </data>
+  <data name="Settings/CountryCode/SearchPlaceholder" xml:space="preserve">
+    <value>Search for a country, region or code</value>
+  </data>
+  <data name="Settings/CountryCode/NoResults" xml:space="preserve">
+    <value>No matching country or region found</value>
+  </data>
+  <data name="Settings/CountryCode/SaveButton" xml:space="preserve">
+    <value>save</value>
+  </data>
+  <data name="Settings/CountryCode/SaveFailMessage" xml:space="preserve">
+    <value>Failed to save: {0}</value>
+  </data>
+  <data name="Settings/CountryCode/UpdatedMessage" xml:space="preserve">
+    <value>Country code updated to {0}</value>
+  </data>
+  <data name="Settings/Database/Clear/ConfirmMessage" xml:space="preserve">
+    <value>Are you sure you want to clear the purchased records in the local database? {0}Current number of records: {1}. {0}This operation is irreversible.</value>
+  </data>
+  <data name="Settings/Database/Clear/FailMessage" xml:space="preserve">
+    <value>Clear failed: {0}</value>
+  </data>
+  <data name="Settings/Database/Clear/SuccessMessage" xml:space="preserve">
+    <value>Local records have been cleared. {0} Before clearing: {1} items, after clearing: {2} items.</value>
+  </data>
+  <data name="Settings/Dialog/CloseButton" xml:space="preserve">
+    <value>Sure</value>
+  </data>
+  <data name="Settings/Dialog/ConfirmAction/Close" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Settings/Dialog/ConfirmAction/Primary" xml:space="preserve">
+    <value>Confirm clearing</value>
+  </data>
+  <data name="Settings/Dialog/ConfirmAction/Title" xml:space="preserve">
+    <value>Confirm action</value>
+  </data>
+  <data name="Settings/Dialog/ErrorTitle" xml:space="preserve">
+    <value>mistake</value>
+  </data>
+  <data name="Settings/Dialog/OperationFailedTitle" xml:space="preserve">
+    <value>Operation failed</value>
+  </data>
+  <data name="Settings/Dialog/SuccessTitle" xml:space="preserve">
+    <value>Operation successful</value>
+  </data>
+  <data name="Settings/DownloadDirectory/ResetFailMessage" xml:space="preserve">
+    <value>Failed to restore default directory: {0}</value>
+  </data>
+  <data name="Settings/DownloadDirectory/ResetSuccessMessage" xml:space="preserve">
+    <value>Default download directory restored: {0}</value>
+  </data>
+  <data name="Settings/DownloadDirectory/SaveFailMessage" xml:space="preserve">
+    <value>Failed to save: {0}</value>
+  </data>
+  <data name="Settings/DownloadDirectory/UpdatedMessage" xml:space="preserve">
+    <value>Download directory has been updated</value>
+  </data>
+  <data name="Settings/Feedback/CopiedMessage" xml:space="preserve">
+    <value>Feedback email has been copied: {0}</value>
+  </data>
+  <data name="Settings/Feedback/CopyFailMessage" xml:space="preserve">
+    <value>Failed to copy mailbox: {0}</value>
+  </data>
+  <data name="Settings/Card/ClearLocalDatabase.Description" xml:space="preserve">
+    <value>Only clears local records and does not affect Apple purchase history.</value>
+  </data>
+  <data name="Settings/Card/ClearLocalDatabase.Header" xml:space="preserve">
+    <value>Clear local purchase history</value>
+  </data>
+  <data name="Settings/Card/CountryCode.Description" xml:space="preserve">
+    <value>For query and purchase, select from countries or regions supported by the App Store.</value>
+  </data>
+  <data name="Settings/Card/CountryCode.Header" xml:space="preserve">
+    <value>Country code</value>
+  </data>
+  <data name="Settings/Card/DeveloperSite.Description" xml:space="preserve">
+    <value>View program descriptions and FAQs.</value>
+  </data>
+  <data name="Settings/Card/DeveloperSite.Header" xml:space="preserve">
+    <value>Developer website</value>
+  </data>
+  <data name="Settings/Card/DownloadDirectory.Description" xml:space="preserve">
+    <value>The location where downloaded files are saved.</value>
+  </data>
+  <data name="Settings/Card/DownloadDirectory.Header" xml:space="preserve">
+    <value>Download catalog</value>
+  </data>
+  <data name="Settings/Card/AppVersion.Header" xml:space="preserve">
+    <value>Software version</value>
+  </data>
+  <data name="Settings/Card/FeedbackEmail.Description" xml:space="preserve">
+    <value>If you encounter problems when using this software, feedback is welcome</value>
+  </data>
+  <data name="Settings/Card/FeedbackEmail.Header" xml:space="preserve">
+    <value>Feedback email</value>
+  </data>
+  <data name="Settings/Card/OwnedPrompt.Description" xml:space="preserve">
+    <value>After closing, there is no confirmation when marking "Owned".</value>
+  </data>
+  <data name="Settings/Card/OwnedPrompt.Header" xml:space="preserve">
+    <value>Tips before marking "Owned"</value>
+  </data>
+  <data name="Settings/Card/KeychainPassphraseRotation.Description" xml:space="preserve">
+    <value>When turned off, new encryption keys will no longer be automatically generated when logging out.</value>
+  </data>
+  <data name="Settings/Card/KeychainPassphraseRotation.Header" xml:space="preserve">
+    <value>Encryption key rotation</value>
+  </data>
+  <data name="MainWindow/TitleBar/TitleText.Text" xml:space="preserve">
+    <value>IPAbuyer</value>
+  </data>
+  <data name="MainWindow/TitleBarTitle" xml:space="preserve">
+    <value>IPAbuyer</value>
+  </data>
+  <data name="MainWindow/TitleBarSubtitle" xml:space="preserve">
+    <value>Quickly purchase apps from the AppStore</value>
+  </data>
+  <data name="MainWindow/SearchBox.PlaceholderText" xml:space="preserve">
+    <value>Search app name</value>
+  </data>
+  <data name="MainWindow/LoginStatus/LoggedIn" xml:space="preserve">
+    <value>Logged in: {0}</value>
+  </data>
+  <data name="MainWindow/LoginStatus/LoggedOut" xml:space="preserve">
+    <value>Not logged in</value>
+  </data>
+  <data name="MainWindow/Nav/Main.Content" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="MainWindow/Nav/Account.Content" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="MainWindow/Nav/Ipatool.Content" xml:space="preserve">
+    <value>ipatool</value>
+  </data>
+  <data name="MainWindow/Nav/Downloads.Content" xml:space="preserve">
+    <value>download</value>
+  </data>
+  <data name="MainWindow/Nav/Settings.Content" xml:space="preserve">
+    <value>set up</value>
+  </data>
+  <data name="IpatoolPage/DescriptionTextBlock.Text" xml:space="preserve">
+    <value>You can switch between the built-in official version of ipatool and customized ipatool.exe.</value>
+  </data>
+  <data name="IpatoolPage/Card/Release.Header" xml:space="preserve">
+    <value>Built-in ipatool</value>
+  </data>
+  <data name="IpatoolPage/Release/VersionTextBlock.Text" xml:space="preserve">
+    <value>release@2.3.1</value>
+  </data>
+  <data name="IpatoolPage/Release/DisplayName" xml:space="preserve">
+    <value>Built-in official version of ipatool</value>
+  </data>
+  <data name="IpatoolPage/Release/MenuButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>More actions</value>
+  </data>
+  <data name="IpatoolPage/Release/Menu/Export.Text" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="IpatoolPage/Badge/Current" xml:space="preserve">
+    <value>currently in use</value>
+  </data>
+  <data name="IpatoolPage/Card/Custom.Header" xml:space="preserve">
+    <value>Customize ipatool.exe</value>
+  </data>
+  <data name="IpatoolPage/Custom/EmptyPath" xml:space="preserve">
+    <value>not set</value>
+  </data>
+  <data name="IpatoolPage/Custom/MenuButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>More actions</value>
+  </data>
+  <data name="IpatoolPage/Custom/Menu/Delete.Text" xml:space="preserve">
+    <value>delete</value>
+  </data>
+  <data name="IpatoolPage/Button/Pick" xml:space="preserve">
+    <value>choose</value>
+  </data>
+  <data name="IpatoolPage/Button/Replace" xml:space="preserve">
+    <value>replace</value>
+  </data>
+  <data name="IpatoolPage/Button/Use" xml:space="preserve">
+    <value>use</value>
+  </data>
+  <data name="IpatoolPage/Custom/DeleteConfirmTitle" xml:space="preserve">
+    <value>Delete custom slot</value>
+  </data>
+  <data name="IpatoolPage/Custom/DeleteConfirmMessage" xml:space="preserve">
+    <value>The current custom ipatool.exe path will be removed, the file itself will not be deleted.</value>
+  </data>
+  <data name="IpatoolPage/Custom/DeleteConfirmPrimary" xml:space="preserve">
+    <value>delete</value>
+  </data>
+  <data name="IpatoolPage/Custom/SaveFailMessage" xml:space="preserve">
+    <value>Failed to save custom ipatool.exe: {0}</value>
+  </data>
+  <data name="IpatoolPage/Export/AlreadyInTargetMessage" xml:space="preserve">
+    <value>ipatool.exe is already located in the target directory: {0}</value>
+  </data>
+  <data name="IpatoolPage/Export/ConfirmMessage" xml:space="preserve">
+    <value>Will export {0} to the following directory: {1}</value>
+  </data>
+  <data name="IpatoolPage/Export/ConfirmPrimary" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="IpatoolPage/Export/ConfirmTitle" xml:space="preserve">
+    <value>Confirm export</value>
+  </data>
+  <data name="IpatoolPage/Export/FailMessage" xml:space="preserve">
+    <value>Export of ipatool.exe failed: {0}</value>
+  </data>
+  <data name="IpatoolPage/Export/NotFoundMessage" xml:space="preserve">
+    <value>Exportable {0} not found in application directory.</value>
+  </data>
+  <data name="IpatoolPage/Export/OverwriteMessage" xml:space="preserve">
+    <value>The target file already exists, continuing to export will overwrite: {0}</value>
+  </data>
+  <data name="IpatoolPage/Export/OverwritePrimary" xml:space="preserve">
+    <value>cover</value>
+  </data>
+  <data name="IpatoolPage/Export/OverwriteTitle" xml:space="preserve">
+    <value>Confirm coverage</value>
+  </data>
+  <data name="IpatoolPage/Export/SuccessMessage" xml:space="preserve">
+    <value>{0} has been exported to: {1}</value>
+  </data>
+  <data name="IpatoolPage/Card/DetailedIpatoolLog.Header" xml:space="preserve">
+    <value>Show detailed log</value>
+  </data>
+  <data name="IpatoolPage/Card/DetailedIpatoolLog.Description" xml:space="preserve">
+    <value>Display the complete ipatool command and output.</value>
+  </data>
+  <data name="IpatoolPage/Card/ClearIpatoolData.Header" xml:space="preserve">
+    <value>Clear ipatool data</value>
+  </data>
+  <data name="IpatoolPage/Card/ClearIpatoolData.Description" xml:space="preserve">
+    <value>Clear local cache and authentication data.</value>
+  </data>
+  <data name="IpatoolPage/ClearIpatoolDataButton.Content" xml:space="preserve">
+    <value>Clear data</value>
+  </data>
+  <data name="IpatoolPage/Data/ClearConfirmMessage" xml:space="preserve">
+    <value>Are you sure you want to clear the following directories? {0}{1}{0}This operation is irreversible.</value>
+  </data>
+  <data name="IpatoolPage/Data/ClearFailMessage" xml:space="preserve">
+    <value>Failed to clear ipatool data: {0}</value>
+  </data>
+  <data name="IpatoolPage/Data/ClearSuccessMessage" xml:space="preserve">
+    <value>The ipatool data directory has been cleared.</value>
+  </data>
+  <data name="IpatoolPage/Card/Repository.Header" xml:space="preserve">
+    <value>ipatool repository</value>
+  </data>
+  <data name="IpatoolPage/Card/Repository.Description" xml:space="preserve">
+    <value>https://github.com/majd/ipatool</value>
+  </data>
+  <data name="IpatoolPage/Repository/OpenButton.Content" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="MainPage/Action/BatchPurchaseButton.Content" xml:space="preserve">
+    <value>Buy</value>
+  </data>
+  <data name="MainPage/Action/AddToQueueButton.Content" xml:space="preserve">
+    <value>download</value>
+  </data>
+  <data name="MainPage/Action/CancelAllDownloadsButton.Content" xml:space="preserve">
+    <value>Terminate download</value>
+  </data>
+  <data name="MainPage/DownloadQueue/ActivityRing.AutomationProperties.Name" xml:space="preserve">
+    <value>Download in progress</value>
+  </data>
+  <data name="MainPage/DownloadQueue/ActivityRing.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Download in progress</value>
+  </data>
+  <data name="MainPage/Action/OpenLogButton.Content" xml:space="preserve">
+    <value>log</value>
+  </data>
+  <data name="MainPage/Filter/AllItem.Content" xml:space="preserve">
+    <value>all</value>
+  </data>
+  <data name="MainPage/Filter/OnlyNotPurchasedItem.Content" xml:space="preserve">
+    <value>Not purchased</value>
+  </data>
+  <data name="MainPage/Filter/OnlyPurchasedItem.Content" xml:space="preserve">
+    <value>Purchased</value>
+  </data>
+  <data name="MainPage/Filter/OnlyOwnedItem.Content" xml:space="preserve">
+    <value>Already owned</value>
+  </data>
+  <data name="MainPage/Header/NameButton.Content" xml:space="preserve">
+    <value>App name</value>
+  </data>
+  <data name="MainPage/Header/IdButton.Content" xml:space="preserve">
+    <value>AppID</value>
+  </data>
+  <data name="MainPage/Header/DeveloperButton.Content" xml:space="preserve">
+    <value>Developer</value>
+  </data>
+  <data name="MainPage/Header/VersionButton.Content" xml:space="preserve">
+    <value>version number</value>
+  </data>
+  <data name="MainPage/Header/PriceButton.Content" xml:space="preserve">
+    <value>price</value>
+  </data>
+  <data name="MainPage/Header/PurchasedButton.Content" xml:space="preserve">
+    <value>Purchase status</value>
+  </data>
+  <data name="MainPage/Context/PurchaseItem.Text" xml:space="preserve">
+    <value>Buy</value>
+  </data>
+  <data name="MainPage/Context/AddToQueueItem.Text" xml:space="preserve">
+    <value>download</value>
+  </data>
+  <data name="MainPage/Context/MarkNotPurchasedItem.Text" xml:space="preserve">
+    <value>Mark as not purchased</value>
+  </data>
+  <data name="MainPage/Context/MarkPurchasedItem.Text" xml:space="preserve">
+    <value>Mark as purchased</value>
+  </data>
+  <data name="MainPage/Context/MarkOwnedItem.Text" xml:space="preserve">
+    <value>Mark as owned</value>
+  </data>
+  <data name="MainPage/Context/CopyNameItem.Text" xml:space="preserve">
+    <value>Copy app name</value>
+  </data>
+  <data name="MainPage/Context/CopyIdItem.Text" xml:space="preserve">
+    <value>Copy App ID</value>
+  </data>
+  <data name="MainPage/Context/OpenAppStoreItem.Text" xml:space="preserve">
+    <value>View in the App Store</value>
+  </data>
+  <data name="MainPage/Context/CopyVersionItem.Text" xml:space="preserve">
+    <value>copy version number</value>
+  </data>
+  <data name="MainPage/Log/TitleText.Text" xml:space="preserve">
+    <value>log</value>
+  </data>
+  <data name="MainPage/Log/CopyButton.Content" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="MainPage/Log/ClearButton.Content" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="MainPage/DownloadQueue/AddSelectedIgnored" xml:space="preserve">
+    <value>The selected app cannot be queued for download.</value>
+  </data>
+  <data name="MainPage/DownloadQueue/AddSelectedEmpty" xml:space="preserve">
+    <value>No app selected, download cannot start.</value>
+  </data>
+  <data name="MainPage/DownloadQueue/AddContextIgnored" xml:space="preserve">
+    <value>The right-click target cannot be added to the download queue.</value>
+  </data>
+  <data name="MainPage/DownloadQueue/AddContextEmpty" xml:space="preserve">
+    <value>The right-click target is empty and cannot be added to the download queue.</value>
+  </data>
+  <data name="MainPage/DownloadQueue/ContextAddSummaryPrefix" xml:space="preserve">
+    <value>Right click {0}</value>
+  </data>
+  <data name="MainPage/DownloadQueue/AlreadyRunningContinue" xml:space="preserve">
+    <value>The download queue is already running and the new task will continue processing after the current task.</value>
+  </data>
+  <data name="MainPage/DownloadQueue/AddSummaryAddedAndUpdated" xml:space="preserve">
+    <value>Added to download queue: {0} items, updated: {1} items.</value>
+  </data>
+  <data name="MainPage/DownloadQueue/AddSummaryAdded" xml:space="preserve">
+    <value>Added to download queue: {0} items.</value>
+  </data>
+  <data name="MainPage/DownloadQueue/AddSummaryUpdated" xml:space="preserve">
+    <value>Download queue updated: {0} items.</value>
+  </data>
+  <data name="MainPage/DownloadQueue/StartFailed" xml:space="preserve">
+    <value>Failed to start download: {0}</value>
+  </data>
+  <data name="MainPage/Log/SearchEmptyIgnored" xml:space="preserve">
+    <value>Search term is empty and ignored.</value>
+  </data>
+  <data name="MainPage/Log/SearchStarted" xml:space="preserve">
+    <value>Start search: {0}</value>
+  </data>
+  <data name="MainPage/Log/SearchException" xml:space="preserve">
+    <value>Search exception: {0}</value>
+  </data>
+  <data name="MainPage/Log/SearchTimeoutOrEmpty" xml:space="preserve">
+    <value>The search timed out or returned no results.</value>
+  </data>
+  <data name="MainPage/Log/SearchCompleted" xml:space="preserve">
+    <value>Search completed, {0} results in total.</value>
+  </data>
+  <data name="MainPage/Log/SearchParseFailed" xml:space="preserve">
+    <value>Failed to parse search results.</value>
+  </data>
+  <data name="MainPage/Log/BatchPurchaseEmpty" xml:space="preserve">
+    <value>No apps are selected and cannot be purchased in bulk.</value>
+  </data>
+  <data name="MainPage/Log/BatchPurchaseStarted" xml:space="preserve">
+    <value>Start buying in bulk of {0} items.</value>
+  </data>
+  <data name="MainPage/Log/BatchPurchaseCompleted" xml:space="preserve">
+    <value>Bulk purchase execution completed.</value>
+  </data>
+  <data name="MainPage/Log/BatchPurchaseCanceled" xml:space="preserve">
+    <value>Bulk purchase has been cancelled.</value>
+  </data>
+  <data name="MainPage/Log/BatchPurchaseException" xml:space="preserve">
+    <value>Bulk purchase exception: {0}</value>
+  </data>
+  <data name="MainPage/Log/ContextPurchaseStarted" xml:space="preserve">
+    <value>Right click to buy, {0} items in total.</value>
+  </data>
+  <data name="MainPage/Log/ContextPurchaseCanceled" xml:space="preserve">
+    <value>Right click purchase has been cancelled.</value>
+  </data>
+  <data name="MainPage/Log/ContextPurchaseException" xml:space="preserve">
+    <value>Right-click purchase exception: {0}</value>
+  </data>
+  <data name="MainPage/Log/MarkedStatus" xml:space="preserve">
+    <value>{0} items have been marked {1}.</value>
+  </data>
+  <data name="MainPage/Log/CopyFieldEmpty" xml:space="preserve">
+    <value>Copy failed: {0} is empty.</value>
+  </data>
+  <data name="MainPage/Log/CopyFieldSuccess" xml:space="preserve">
+    <value>{0} of {1} items copied.</value>
+  </data>
+  <data name="MainPage/Log/AppStoreMissingId" xml:space="preserve">
+    <value>Unable to open App Store: Missing App Store ID.</value>
+  </data>
+  <data name="MainPage/Log/AppStoreOpened" xml:space="preserve">
+    <value>App Store opened: {0}.</value>
+  </data>
+  <data name="MainPage/Log/AppStoreOpenFailed" xml:space="preserve">
+    <value>Failed to open App Store: {0}</value>
+  </data>
+  <data name="MainPage/Log/FilterChanged" xml:space="preserve">
+    <value>Toggle filter: {0}</value>
+  </data>
+  <data name="MainPage/Log/CopyEmptyLog" xml:space="preserve">
+    <value>The log is empty and has no content to copy.</value>
+  </data>
+  <data name="MainPage/Log/CopiedToClipboard" xml:space="preserve">
+    <value>Log copied to clipboard.</value>
+  </data>
+  <data name="MainPage/Log/Cleared" xml:space="preserve">
+    <value>The log has been cleared.</value>
+  </data>
+  <data name="MainPage/Field/Name" xml:space="preserve">
+    <value>App name</value>
+  </data>
+  <data name="MainPage/Field/Id" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="MainPage/Field/Version" xml:space="preserve">
+    <value>version number</value>
+  </data>
+  <data name="MainPage/Purchase/MissingSessionEmail" xml:space="preserve">
+    <value>The current login status has not obtained the email address. Please log out and log in again on the account page.</value>
+  </data>
+  <data name="MainPage/Purchase/LoginRequired" xml:space="preserve">
+    <value>Please log in to the account page before purchasing.</value>
+  </data>
+  <data name="MainPage/Purchase/SkipNonFree" xml:space="preserve">
+    <value>Not free app, purchase skipped: {0}</value>
+  </data>
+  <data name="MainPage/PurchaseBlockedHelpGlyph.Text" xml:space="preserve">
+    <value>?</value>
+  </data>
+  <data name="MainPage/PurchaseBlockedReason/NonFree" xml:space="preserve">
+    <value>The current price is {0}, and this software only supports the purchase of free apps.</value>
+  </data>
+  <data name="MainPage/PurchaseBlockedReason/Unknown" xml:space="preserve">
+    <value>This app is not currently available for purchase. It may not be a free app or may not be available for purchase on the App Store.</value>
+  </data>
+  <data name="MainPage/Purchase/MockSuccess" xml:space="preserve">
+    <value>Test account purchase successful: {0}</value>
+  </data>
+  <data name="MainPage/Purchase/Success" xml:space="preserve">
+    <value>Purchase successful: {0}</value>
+  </data>
+  <data name="MainPage/Purchase/OwnedDetected" xml:space="preserve">
+    <value>Already own: {0}</value>
+  </data>
+  <data name="MainPage/Purchase/OwnedMarked" xml:space="preserve">
+    <value>Suspected to be owned, marked: {0}</value>
+  </data>
+  <data name="MainPage/Purchase/OwnedNotMarked" xml:space="preserve">
+    <value>Suspected to be owned, unmarked: {0}</value>
+  </data>
+  <data name="MainPage/Purchase/UnknownError" xml:space="preserve">
+    <value>unknown error</value>
+  </data>
+  <data name="MainPage/Purchase/Failed" xml:space="preserve">
+    <value>Purchase failed: {0} - {1}</value>
+  </data>
+  <data name="MainPage/OwnedPrompt/DisablePrompt" xml:space="preserve">
+    <value>No more prompts, just mark it as owned in the future.</value>
+  </data>
+  <data name="MainPage/OwnedPrompt/Message" xml:space="preserve">
+    <value>ipatool returns STDQ: {0} may be owned, is it marked as "owned"?</value>
+  </data>
+  <data name="MainPage/OwnedPrompt/Title" xml:space="preserve">
+    <value>Suspected to have</value>
+  </data>
+  <data name="MainPage/OwnedPrompt/PrimaryButton" xml:space="preserve">
+    <value>Mark as owned</value>
+  </data>
+  <data name="Common/Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Common/Status/Purchased" xml:space="preserve">
+    <value>Purchased</value>
+  </data>
+  <data name="Common/Status/Owned" xml:space="preserve">
+    <value>Already owned</value>
+  </data>
+  <data name="Common/Status/NotPurchased" xml:space="preserve">
+    <value>Not purchased</value>
+  </data>
+  <data name="Common/Status/CanPurchase" xml:space="preserve">
+    <value>available for purchase</value>
+  </data>
+  <data name="Common/Status/PurchaseBlocked" xml:space="preserve">
+    <value>Unable to purchase</value>
+  </data>
+  <data name="Common/Price/Free" xml:space="preserve">
+    <value>free</value>
+  </data>
+  <data name="DownloadQueue/Status/Pending" xml:space="preserve">
+    <value>Waiting for download</value>
+  </data>
+  <data name="DownloadQueue/Status/Downloading" xml:space="preserve">
+    <value>Downloading</value>
+  </data>
+  <data name="DownloadQueue/Status/RequestingLicense" xml:space="preserve">
+    <value>Requesting license</value>
+  </data>
+  <data name="DownloadQueue/Status/ProcessingResult" xml:space="preserve">
+    <value>Processing download result</value>
+  </data>
+  <data name="DownloadQueue/Status/Success" xml:space="preserve">
+    <value>Download successful</value>
+  </data>
+  <data name="DownloadQueue/Status/Failed" xml:space="preserve">
+    <value>Download failed</value>
+  </data>
+  <data name="DownloadQueue/Status/Canceled" xml:space="preserve">
+    <value>Download terminated</value>
+  </data>
+  <data name="DownloadQueue/Status/CanceledShort" xml:space="preserve">
+    <value>terminated</value>
+  </data>
+  <data name="DownloadQueue/Status/QueueCanceled" xml:space="preserve">
+    <value>queue terminated</value>
+  </data>
+  <data name="DownloadQueue/Status/Requeued" xml:space="preserve">
+    <value>Rejoined download queue</value>
+  </data>
+  <data name="DownloadQueue/Log/Updated" xml:space="preserve">
+    <value>Queue update: {0} ({1})</value>
+  </data>
+  <data name="DownloadQueue/Log/Added" xml:space="preserve">
+    <value>Already added to download queue: {0} ({1})</value>
+  </data>
+  <data name="DownloadQueue/Log/Requeued" xml:space="preserve">
+    <value>Rejoined download queue: {0} ({1})</value>
+  </data>
+  <data name="DownloadQueue/Log/Removed" xml:space="preserve">
+    <value>Removed from download queue: {0} items</value>
+  </data>
+  <data name="DownloadQueue/Log/AlreadyRunning" xml:space="preserve">
+    <value>The download queue is already running</value>
+  </data>
+  <data name="DownloadQueue/Log/NoPendingItems" xml:space="preserve">
+    <value>No items to download</value>
+  </data>
+  <data name="DownloadQueue/Log/StartQueue" xml:space="preserve">
+    <value>Start download queue, total {0} items, output directory: {1}</value>
+  </data>
+  <data name="DownloadQueue/Log/Downloading" xml:space="preserve">
+    <value>Downloading: {0}</value>
+  </data>
+  <data name="DownloadQueue/Log/RequestingLicense" xml:space="preserve">
+    <value>Requesting license: {0}</value>
+  </data>
+  <data name="DownloadQueue/Log/ProcessingResult" xml:space="preserve">
+    <value>Processing download result: {0}</value>
+  </data>
+  <data name="DownloadQueue/Log/MockSuccess" xml:space="preserve">
+    <value>Download successful (test account): {0}</value>
+  </data>
+  <data name="DownloadQueue/Log/Success" xml:space="preserve">
+    <value>Download successful: {0}</value>
+  </data>
+  <data name="DownloadQueue/Log/Failed" xml:space="preserve">
+    <value>Download failed: {0} - {1}</value>
+  </data>
+  <data name="DownloadQueue/Log/Canceled" xml:space="preserve">
+    <value>Download terminated: {0}</value>
+  </data>
+  <data name="DownloadQueue/Log/Exception" xml:space="preserve">
+    <value>Download exception: {0} - {1}</value>
+  </data>
+  <data name="DownloadQueue/Log/Completed" xml:space="preserve">
+    <value>Download queue completed, successful {0}/{1}</value>
+  </data>
+  <data name="DownloadQueue/Log/QueueCanceled" xml:space="preserve">
+    <value>Download queue terminated</value>
+  </data>
+  <data name="DownloadQueue/Log/CancelCurrentRequested" xml:space="preserve">
+    <value>Requested to terminate current download task</value>
+  </data>
+  <data name="DownloadQueue/Log/CancelAllRequested" xml:space="preserve">
+    <value>Requested to terminate all download tasks</value>
+  </data>
+  <data name="DownloadQueue/Error/Timeout" xml:space="preserve">
+    <value>Download timeout</value>
+  </data>
+  <data name="DownloadQueue/Error/ExitCode" xml:space="preserve">
+    <value>Exit code {0}</value>
+  </data>
+  <data name="DownloadQueue/Error/MissingSessionEmail" xml:space="preserve">
+    <value>The current login status has not obtained the email address. Please log out and log in again on the account page.</value>
+  </data>
+  <data name="DownloadQueue/Error/MissingAccount" xml:space="preserve">
+    <value>No available account found, please log in first</value>
+  </data>
+  <data name="Ipatool/Error/RequiredArgument" xml:space="preserve">
+    <value>{0} cannot be empty</value>
+  </data>
+  <data name="Ipatool/Error/AppNameRequired" xml:space="preserve">
+    <value>Application name cannot be empty</value>
+  </data>
+  <data name="Ipatool/Error/HttpRequestFailed" xml:space="preserve">
+    <value>Request failed: {0} {1}</value>
+  </data>
+  <data name="Ipatool/Error/ExecutionTimeout" xml:space="preserve">
+    <value>Execution timeout: {0}</value>
+  </data>
+  <data name="Ipatool/Error/ProcessStartFailed" xml:space="preserve">
+    <value>Unable to start ipatool process</value>
+  </data>
+  <data name="Ipatool/Error/MissingPassphrase" xml:space="preserve">
+    <value>No available encryption key was found, please log in again on the account page and try again.</value>
+  </data>
+  <data name="Ipatool/Error/ReadableJsonError" xml:space="preserve">
+    <value>ipatool error: {0} (exit: {1})</value>
+  </data>
+  <data name="Ipatool/Error/ExecutionFailed" xml:space="preserve">
+    <value>ipatool execution failed (exit: {0})</value>
+  </data>
+  <data name="Ipatool/Debug/FallbackToPath" xml:space="preserve">
+    <value>Private ipatool was not found in the application directory, the executable will be parsed from PATH.</value>
+  </data>
+  <data name="Ipatool/Debug/DeleteCookieLock" xml:space="preserve">
+    <value>Delete ipatool cookies.lock: {0}</value>
+  </data>
+  <data name="Ipatool/Debug/DeleteCookieLockFailed" xml:space="preserve">
+    <value>Deletion of ipatool cookies.lock failed: {0}</value>
+  </data>
+  <data name="KeychainConfig/Error/CountryCodeRequired" xml:space="preserve">
+    <value>Country code cannot be empty</value>
+  </data>
+  <data name="KeychainConfig/Error/CountryCodeInvalid" xml:space="preserve">
+    <value>Invalid country code format</value>
+  </data>
+  <data name="KeychainConfig/Error/PassphraseRequired" xml:space="preserve">
+    <value>Encryption key cannot be empty</value>
+  </data>
+  <data name="KeychainConfig/Error/DownloadDirectoryRequired" xml:space="preserve">
+    <value>The download directory cannot be empty</value>
+  </data>
+  <data name="KeychainConfig/Error/CustomIpatoolPathRequired" xml:space="preserve">
+    <value>Custom ipatool.exe path cannot be empty</value>
+  </data>
+  <data name="KeychainConfig/Error/CustomIpatoolPathNotFound" xml:space="preserve">
+    <value>The custom ipatool.exe file does not exist</value>
+  </data>
+  <data name="PurchasedAppDb/Error/DatabasePathNotInitialized" xml:space="preserve">
+    <value>App database path not initialized</value>
+  </data>
+  <data name="PurchasedAppDb/Debug/AppIdOrAccountRequired" xml:space="preserve">
+    <value>AppID or Account cannot be empty</value>
+  </data>
+  <data name="Database/Debug/Error" xml:space="preserve">
+    <value>Database error: {0}</value>
+  </data>
+  <data name="Database/Debug/LocalStatePathMissing" xml:space="preserve">
+    <value>Unable to get packaged app LocalState path.</value>
+  </data>
+  <data name="Settings/Debug/InitializeCountryCodeFailed" xml:space="preserve">
+    <value>Failed to initialize country code: {0}</value>
+  </data>
+  <data name="Settings/Debug/InitializeDownloadDirectoryFailed" xml:space="preserve">
+    <value>Failed to initialize download directory: {0}</value>
+  </data>
+  <data name="App/Debug/StartupError" xml:space="preserve">
+    <value>Startup error: {0}</value>
+  </data>
+  <data name="App/Debug/WarmupAuthInfoFailed" xml:space="preserve">
+    <value>Silent query login status failed: {0}</value>
+  </data>
+  <data name="DownloadsPage/Action/StartQueueButton.Content" xml:space="preserve">
+    <value>Start download queue</value>
+  </data>
+  <data name="DownloadsPage/Action/RemoveQueueButton.Content" xml:space="preserve">
+    <value>Remove from download queue</value>
+  </data>
+  <data name="DownloadsPage/Action/RemoveSuccessItemsButton.Content" xml:space="preserve">
+    <value>Remove successful download items</value>
+  </data>
+  <data name="DownloadsPage/Action/OpenDirectoryButton.Content" xml:space="preserve">
+    <value>Open download directory</value>
+  </data>
+  <data name="DownloadsPage/Action/CancelAllButton.Content" xml:space="preserve">
+    <value>Terminate all downloads</value>
+  </data>
+  <data name="DownloadsPage/Header/NameButton.Content" xml:space="preserve">
+    <value>App name</value>
+  </data>
+  <data name="DownloadsPage/Header/IdButton.Content" xml:space="preserve">
+    <value>AppID</value>
+  </data>
+  <data name="DownloadsPage/Header/DeveloperButton.Content" xml:space="preserve">
+    <value>Developer</value>
+  </data>
+  <data name="DownloadsPage/Header/VersionButton.Content" xml:space="preserve">
+    <value>version number</value>
+  </data>
+  <data name="DownloadsPage/Header/PriceButton.Content" xml:space="preserve">
+    <value>price</value>
+  </data>
+  <data name="DownloadsPage/Header/StatusButton.Content" xml:space="preserve">
+    <value>Download status</value>
+  </data>
+  <data name="DownloadsPage/Log/TitleText.Text" xml:space="preserve">
+    <value>log</value>
+  </data>
+  <data name="DownloadsPage/Log/CopyButton.Content" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="DownloadsPage/Log/ClearButton.Content" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="DownloadsPage/Log/CancelCurrentButton.Content" xml:space="preserve">
+    <value>Terminate current app download</value>
+  </data>
+  <data name="DownloadsPage/Action/OpenLogDialogButton.Content" xml:space="preserve">
+    <value>log</value>
+  </data>
+  <data name="LoginPage/TitleText.Text" xml:space="preserve">
+    <value>Account login</value>
+  </data>
+  <data name="LoginService/Status/Canceled" xml:space="preserve">
+    <value>Login canceled.</value>
+  </data>
+  <data name="LoginService/Status/Success" xml:space="preserve">
+    <value>Login successful.</value>
+  </data>
+  <data name="LoginService/Status/Timeout" xml:space="preserve">
+    <value>Login request timed out, please try again later.</value>
+  </data>
+  <data name="LoginService/Status/EmptyResponse" xml:space="preserve">
+    <value>No login response received, please try again later.</value>
+  </data>
+  <data name="LoginService/Status/Exception" xml:space="preserve">
+    <value>Login failed: {0}</value>
+  </data>
+  <data name="LoginService/Status/RequiresTwoFactor" xml:space="preserve">
+    <value>A two-step verification code is required.</value>
+  </data>
+  <data name="LoginService/Status/InvalidCredential" xml:space="preserve">
+    <value>The username or password is incorrect.</value>
+  </data>
+  <data name="LoginService/Status/AuthCodeInvalid" xml:space="preserve">
+    <value>The verification code is incorrect, please re-enter it.</value>
+  </data>
+  <data name="LoginService/Status/NetworkError" xml:space="preserve">
+    <value>Network abnormality, please try again later.</value>
+  </data>
+  <data name="LoginService/Status/FailedRetry" xml:space="preserve">
+    <value>Login failed, please try again later.</value>
+  </data>
+  <data name="LoginPage/SubtitleText.Text" xml:space="preserve">
+    <value>Enter your Apple ID, password, and encryption key to log in to purchase and download.</value>
+  </data>
+  <data name="LoginPage/PassphraseChangeHintText.Text" xml:space="preserve">
+    <value>If you need to modify the encryption key, please log out and log in again.</value>
+  </data>
+  <data name="LoginPage/NewAccountHintText.Text" xml:space="preserve">
+    <value>The newly created Apple account must first complete a purchase in the Apple device App Store before the download and purchase functions can be used normally.</value>
+  </data>
+  <data name="LoginPage/EmailLabel.Text" xml:space="preserve">
+    <value>Email address</value>
+  </data>
+  <data name="LoginPage/EmailInput.PlaceholderText" xml:space="preserve">
+    <value>example@icloud.com</value>
+  </data>
+  <data name="LoginPage/PasswordLabel.Text" xml:space="preserve">
+    <value>password</value>
+  </data>
+  <data name="LoginPage/PasswordInput.PlaceholderText" xml:space="preserve">
+    <value>Please enter password</value>
+  </data>
+  <data name="LoginPage/TwoFactorCodeLabel.Text" xml:space="preserve">
+    <value>Two-step verification code</value>
+  </data>
+  <data name="LoginPage/TwoFactorCodeInput.PlaceholderText" xml:space="preserve">
+    <value>Please enter the two-step verification code</value>
+  </data>
+  <data name="LoginPage/PassphraseLabel.Text" xml:space="preserve">
+    <value>encryption key</value>
+  </data>
+  <data name="LoginPage/PassphraseInput.PlaceholderText" xml:space="preserve">
+    <value>for ipatool keychain-passphrase</value>
+  </data>
+  <data name="LoginPage/LoginButton.Content" xml:space="preserve">
+    <value>Log in</value>
+  </data>
+  <data name="LoginPage/QueryAuthInfoButton.Content" xml:space="preserve">
+    <value>Check login status</value>
+  </data>
+  <data name="LoginPage/LogoutButton.Content" xml:space="preserve">
+    <value>Log out</value>
+  </data>
+  <data name="LoginPage/Action/OpenLogDialogButton.Content" xml:space="preserve">
+    <value>log</value>
+  </data>
+  <data name="LoginPage/TwoFactorHelpText.Text" xml:space="preserve">
+    <value>If you do not receive the verification code, please click "Open Apple Account Official Website" to go to account.apple.com to obtain the verification code.</value>
+  </data>
+  <data name="LoginPage/HelpGlyph.Text" xml:space="preserve">
+    <value>?</value>
+  </data>
+  <data name="LoginPage/Status/QueryingAuthInfo" xml:space="preserve">
+    <value>Checking login status...</value>
+  </data>
+  <data name="LoginPage/Status/AuthInfoSuccess" xml:space="preserve">
+    <value>Login status is normal</value>
+  </data>
+  <data name="LoginPage/Status/AuthInfoEmailMissing" xml:space="preserve">
+    <value>The login status has been queried, but the email address has not been obtained. Please log in again before purchasing or downloading.</value>
+  </data>
+  <data name="LoginPage/Status/AuthInfoFailed" xml:space="preserve">
+    <value>Abnormal login status</value>
+  </data>
+  <data name="LoginPage/Status/AuthInfoException" xml:space="preserve">
+    <value>Failed to query login status: {0}</value>
+  </data>
+  <data name="LoginPage/Status/LoggingOut" xml:space="preserve">
+    <value>Logging out...</value>
+  </data>
+  <data name="LoginPage/Status/LogoutSuccess" xml:space="preserve">
+    <value>Logged out</value>
+  </data>
+  <data name="LoginPage/Status/LogoutFailed" xml:space="preserve">
+    <value>Logout failed</value>
+  </data>
+  <data name="LoginPage/Status/LogoutException" xml:space="preserve">
+    <value>Failed to log out: {0}</value>
+  </data>
+  <data name="LoginPage/Status/EmailRequired" xml:space="preserve">
+    <value>Email cannot be empty</value>
+  </data>
+  <data name="LoginPage/Status/RequiredFieldsEmpty" xml:space="preserve">
+    <value>Email, password and encryption key cannot be empty</value>
+  </data>
+  <data name="LoginPage/Status/LoggingIn" xml:space="preserve">
+    <value>Login...</value>
+  </data>
+  <data name="LoginPage/Status/LoginFlowException" xml:space="preserve">
+    <value>Login process exception: {0}</value>
+  </data>
+  <data name="LoginPage/Status/LoginException" xml:space="preserve">
+    <value>Login failed: {0}</value>
+  </data>
+  <data name="LoginPage/Status/Verifying" xml:space="preserve">
+    <value>Verifying...</value>
+  </data>
+  <data name="LoginPage/Status/VerifyException" xml:space="preserve">
+    <value>Verification failed: {0}</value>
+  </data>
+  <data name="LoginPage/Status/AuthCodeInvalid" xml:space="preserve">
+    <value>The verification code is incorrect, please re-enter it.</value>
+  </data>
+  <data name="LoginPage/Status/VerifyFailedRetry" xml:space="preserve">
+    <value>Verification failed, please try again.</value>
+  </data>
+  <data name="LoginPage/Status/TwoFactorPromptFallback" xml:space="preserve">
+    <value>Please enter the two-step verification code to continue logging in. If you do not receive the verification code, please open https://account.apple.com/ to obtain it and then enter it.</value>
+  </data>
+  <data name="LoginPage/Status/TwoFactorPromptWithMessage" xml:space="preserve">
+    <value>{0} If you do not receive the verification code, please open https://account.apple.com/ to obtain it and then enter it.</value>
+  </data>
+  <data name="LoginPage/Status/LoginSuccess" xml:space="preserve">
+    <value>Login successful</value>
+  </data>
+  <data name="LoginPage/Status/OpenAppleAccountSiteFailed" xml:space="preserve">
+    <value>Failed to open Apple account official website: {0}</value>
+  </data>
+  <data name="LoginPage/Status/OperationLocked" xml:space="preserve">
+    <value>You are currently logged in and the operating area is locked.</value>
+  </data>
+  <data name="LoginPage/Log/StartVerifyTwoFactor" xml:space="preserve">
+    <value>Start verifying the two-step verification code.</value>
+  </data>
+  <data name="LoginPage/Log/StartLogin" xml:space="preserve">
+    <value>Start logging in.</value>
+  </data>
+  <data name="LoginPage/Log/LoginFlowException" xml:space="preserve">
+    <value>Login process exception: {0}</value>
+  </data>
+  <data name="LoginPage/Log/AuthInfoSuccess" xml:space="preserve">
+    <value>Query login status successfully: {0}</value>
+  </data>
+  <data name="LoginPage/Log/AuthInfoEmailMissing" xml:space="preserve">
+    <value>Querying the login status was successful, but the email address was not obtained.</value>
+  </data>
+  <data name="LoginPage/Log/AuthInfoFailed" xml:space="preserve">
+    <value>Failed to query login status.</value>
+  </data>
+  <data name="LoginPage/Log/AuthInfoException" xml:space="preserve">
+    <value>Abnormal query login status: {0}</value>
+  </data>
+  <data name="LoginPage/Log/LogoutSuccess" xml:space="preserve">
+    <value>Log out successfully: {0}</value>
+  </data>
+  <data name="LoginPage/Log/PassphraseRotated" xml:space="preserve">
+    <value>Encryption keys have been rotated.</value>
+  </data>
+  <data name="LoginPage/Log/LogoutFailed" xml:space="preserve">
+    <value>Failed to log out: {0}</value>
+  </data>
+  <data name="LoginPage/Log/LogoutException" xml:space="preserve">
+    <value>Logout exception: {0}</value>
+  </data>
+  <data name="LoginPage/Log/RequiredFieldsEmpty" xml:space="preserve">
+    <value>Login blocked: Required fields are empty.</value>
+  </data>
+  <data name="LoginPage/Log/LoginCanceled" xml:space="preserve">
+    <value>Login request canceled.</value>
+  </data>
+  <data name="LoginPage/Log/LoginException" xml:space="preserve">
+    <value>Login exception: {0}</value>
+  </data>
+  <data name="LoginPage/Log/EmptyAuthCodeUsesDefault" xml:space="preserve">
+    <value>If the two-factor verification code is empty, it will be processed as 000000.</value>
+  </data>
+  <data name="LoginPage/Log/CodeValidationCanceled" xml:space="preserve">
+    <value>Verification code verification has been cancelled.</value>
+  </data>
+  <data name="LoginPage/Log/CodeValidationException" xml:space="preserve">
+    <value>Verification code verification exception: {0}</value>
+  </data>
+  <data name="LoginPage/Log/CodeValidationInvalid" xml:space="preserve">
+    <value>Verification code verification failed: Verification code error.</value>
+  </data>
+  <data name="LoginPage/Log/CodeValidationTimeout" xml:space="preserve">
+    <value>Verification code verification failed: Request timed out.</value>
+  </data>
+  <data name="LoginPage/Log/CodeValidationFailed" xml:space="preserve">
+    <value>Verification code verification failed.</value>
+  </data>
+  <data name="LoginPage/Log/CodeValidationSuccess" xml:space="preserve">
+    <value>Two-factor verification code verification successful.</value>
+  </data>
+  <data name="LoginPage/Log/LoginSuccess" xml:space="preserve">
+    <value>Login successful.</value>
+  </data>
+  <data name="LoginPage/Log/TwoFactorRequired" xml:space="preserve">
+    <value>A two-factor verification code is required.</value>
+  </data>
+  <data name="LoginPage/Log/LoginFailed" xml:space="preserve">
+    <value>Login failed: {0}</value>
+  </data>
+  <data name="LoginPage/Debug/SaveAccountInfoFailed" xml:space="preserve">
+    <value>Failed to save account information: {0}</value>
+  </data>
+  <data name="LoginPage/Log/LoginAccount" xml:space="preserve">
+    <value>Login account: {0}</value>
+  </data>
+  <data name="LoginPage/Log/AppleAccountSiteOpened" xml:space="preserve">
+    <value>The official Apple account website has been opened.</value>
+  </data>
+  <data name="LoginPage/Log/CopyEmptyLog" xml:space="preserve">
+    <value>The log is empty and cannot be copied.</value>
+  </data>
+  <data name="LoginPage/Log/CopiedToClipboard" xml:space="preserve">
+    <value>Log copied to clipboard.</value>
+  </data>
+  <data name="LoginPage/Log/Cleared" xml:space="preserve">
+    <value>The log has been cleared.</value>
+  </data>
+  <data name="LoginPage/Log/TitleText.Text" xml:space="preserve">
+    <value>log</value>
+  </data>
+  <data name="LoginPage/Log/CopyButton.Content" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="LoginPage/Log/ClearButton.Content" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Common/LogDialog/Title" xml:space="preserve">
+    <value>log</value>
+  </data>
+  <data name="Common/LogDialog/Subtitle" xml:space="preserve">
+    <value>real time log</value>
+  </data>
+  <data name="Common/LogDialog/CopyButton" xml:space="preserve">
+    <value>Copy log</value>
+  </data>
+  <data name="Common/LogDialog/ClearButton" xml:space="preserve">
+    <value>Clear log</value>
+  </data>
+  <data name="Common/LogDialog/CloseButton" xml:space="preserve">
+    <value>closure</value>
+  </data>
+  <data name="Common/LogDialog/CopyEmptyLog" xml:space="preserve">
+    <value>The log is empty and has no content to copy.</value>
+  </data>
+  <data name="Common/LogDialog/CopiedToClipboard" xml:space="preserve">
+    <value>Log copied to clipboard.</value>
+  </data>
+  <data name="Common/LogDialog/Cleared" xml:space="preserve">
+    <value>The log has been cleared.</value>
+  </data>
+  <data name="MainPage/EmptySearchHintTextBlock.Text" xml:space="preserve">
+    <value>Please search the application in the search box</value>
+  </data>
+  <data name="MainPage/EmptySearchHint/Initial" xml:space="preserve">
+    <value>Please search the application in the search box</value>
+  </data>
+  <data name="MainPage/EmptySearchHint/SearchEmpty" xml:space="preserve">
+    <value>No matching app found</value>
+  </data>
+  <data name="MainPage/EmptySearchHint/FilterEmpty" xml:space="preserve">
+    <value>There are no applications under the current filter</value>
+  </data>
+  <data name="Storefront/AE" xml:space="preserve">
+    <value>United Arab Emirates</value>
+  </data>
+  <data name="Storefront/AG" xml:space="preserve">
+    <value>Antigua &amp; Barbuda</value>
+  </data>
+  <data name="Storefront/AI" xml:space="preserve">
+    <value>Anguilla</value>
+  </data>
+  <data name="Storefront/AL" xml:space="preserve">
+    <value>Albania</value>
+  </data>
+  <data name="Storefront/AM" xml:space="preserve">
+    <value>Armenia</value>
+  </data>
+  <data name="Storefront/AO" xml:space="preserve">
+    <value>Angola</value>
+  </data>
+  <data name="Storefront/AR" xml:space="preserve">
+    <value>Argentina</value>
+  </data>
+  <data name="Storefront/AT" xml:space="preserve">
+    <value>Austria</value>
+  </data>
+  <data name="Storefront/AU" xml:space="preserve">
+    <value>Australia</value>
+  </data>
+  <data name="Storefront/AZ" xml:space="preserve">
+    <value>Azerbaijan</value>
+  </data>
+  <data name="Storefront/BB" xml:space="preserve">
+    <value>Barbados</value>
+  </data>
+  <data name="Storefront/BE" xml:space="preserve">
+    <value>Belgium</value>
+  </data>
+  <data name="Storefront/BF" xml:space="preserve">
+    <value>Burkina Faso</value>
+  </data>
+  <data name="Storefront/BG" xml:space="preserve">
+    <value>Bulgaria</value>
+  </data>
+  <data name="Storefront/BH" xml:space="preserve">
+    <value>Bahrain</value>
+  </data>
+  <data name="Storefront/BJ" xml:space="preserve">
+    <value>Benin</value>
+  </data>
+  <data name="Storefront/BM" xml:space="preserve">
+    <value>Bermuda</value>
+  </data>
+  <data name="Storefront/BN" xml:space="preserve">
+    <value>Brunei</value>
+  </data>
+  <data name="Storefront/BO" xml:space="preserve">
+    <value>Bolivia</value>
+  </data>
+  <data name="Storefront/BR" xml:space="preserve">
+    <value>Brazil</value>
+  </data>
+  <data name="Storefront/BS" xml:space="preserve">
+    <value>Bahamas</value>
+  </data>
+  <data name="Storefront/BT" xml:space="preserve">
+    <value>Bhutan</value>
+  </data>
+  <data name="Storefront/BW" xml:space="preserve">
+    <value>Botswana</value>
+  </data>
+  <data name="Storefront/BY" xml:space="preserve">
+    <value>Belarus</value>
+  </data>
+  <data name="Storefront/BZ" xml:space="preserve">
+    <value>Belize</value>
+  </data>
+  <data name="Storefront/CA" xml:space="preserve">
+    <value>Canada</value>
+  </data>
+  <data name="Storefront/CD" xml:space="preserve">
+    <value>Democratic Republic of the Congo</value>
+  </data>
+  <data name="Storefront/CG" xml:space="preserve">
+    <value>Republic of the Congo</value>
+  </data>
+  <data name="Storefront/CH" xml:space="preserve">
+    <value>Switzerland</value>
+  </data>
+  <data name="Storefront/CI" xml:space="preserve">
+    <value>Côte d’Ivoire</value>
+  </data>
+  <data name="Storefront/CL" xml:space="preserve">
+    <value>Chile</value>
+  </data>
+  <data name="Storefront/CM" xml:space="preserve">
+    <value>Cameroon</value>
+  </data>
+  <data name="Storefront/CN" xml:space="preserve">
+    <value>Mainland China</value>
+  </data>
+  <data name="Storefront/CO" xml:space="preserve">
+    <value>Colombia</value>
+  </data>
+  <data name="Storefront/CR" xml:space="preserve">
+    <value>Costa Rica</value>
+  </data>
+  <data name="Storefront/CV" xml:space="preserve">
+    <value>Cape Verde</value>
+  </data>
+  <data name="Storefront/CY" xml:space="preserve">
+    <value>Cyprus</value>
+  </data>
+  <data name="Storefront/CZ" xml:space="preserve">
+    <value>Czechia</value>
+  </data>
+  <data name="Storefront/DE" xml:space="preserve">
+    <value>Germany</value>
+  </data>
+  <data name="Storefront/DK" xml:space="preserve">
+    <value>Denmark</value>
+  </data>
+  <data name="Storefront/DM" xml:space="preserve">
+    <value>Dominica</value>
+  </data>
+  <data name="Storefront/DO" xml:space="preserve">
+    <value>Dominican Republic</value>
+  </data>
+  <data name="Storefront/DZ" xml:space="preserve">
+    <value>Algeria</value>
+  </data>
+  <data name="Storefront/EC" xml:space="preserve">
+    <value>Ecuador</value>
+  </data>
+  <data name="Storefront/EE" xml:space="preserve">
+    <value>Estonia</value>
+  </data>
+  <data name="Storefront/EG" xml:space="preserve">
+    <value>Egypt</value>
+  </data>
+  <data name="Storefront/ES" xml:space="preserve">
+    <value>Spain</value>
+  </data>
+  <data name="Storefront/FI" xml:space="preserve">
+    <value>Finland</value>
+  </data>
+  <data name="Storefront/FJ" xml:space="preserve">
+    <value>Fiji</value>
+  </data>
+  <data name="Storefront/FM" xml:space="preserve">
+    <value>Micronesia</value>
+  </data>
+  <data name="Storefront/FR" xml:space="preserve">
+    <value>France</value>
+  </data>
+  <data name="Storefront/GA" xml:space="preserve">
+    <value>Gabon</value>
+  </data>
+  <data name="Storefront/GB" xml:space="preserve">
+    <value>United Kingdom</value>
+  </data>
+  <data name="Storefront/GD" xml:space="preserve">
+    <value>Grenada</value>
+  </data>
+  <data name="Storefront/GE" xml:space="preserve">
+    <value>Georgia</value>
+  </data>
+  <data name="Storefront/GH" xml:space="preserve">
+    <value>Ghana</value>
+  </data>
+  <data name="Storefront/GM" xml:space="preserve">
+    <value>Gambia</value>
+  </data>
+  <data name="Storefront/GR" xml:space="preserve">
+    <value>Greece</value>
+  </data>
+  <data name="Storefront/GT" xml:space="preserve">
+    <value>Guatemala</value>
+  </data>
+  <data name="Storefront/GW" xml:space="preserve">
+    <value>Guinea-Bissau</value>
+  </data>
+  <data name="Storefront/GY" xml:space="preserve">
+    <value>Guyana</value>
+  </data>
+  <data name="Storefront/HK" xml:space="preserve">
+    <value>Hong Kong, China</value>
+  </data>
+  <data name="Storefront/HN" xml:space="preserve">
+    <value>Honduras</value>
+  </data>
+  <data name="Storefront/HR" xml:space="preserve">
+    <value>Croatia</value>
+  </data>
+  <data name="Storefront/HU" xml:space="preserve">
+    <value>Hungary</value>
+  </data>
+  <data name="Storefront/ID" xml:space="preserve">
+    <value>Indonesia</value>
+  </data>
+  <data name="Storefront/IE" xml:space="preserve">
+    <value>Ireland</value>
+  </data>
+  <data name="Storefront/IL" xml:space="preserve">
+    <value>Israel</value>
+  </data>
+  <data name="Storefront/IN" xml:space="preserve">
+    <value>India</value>
+  </data>
+  <data name="Storefront/IS" xml:space="preserve">
+    <value>Iceland</value>
+  </data>
+  <data name="Storefront/IT" xml:space="preserve">
+    <value>Italy</value>
+  </data>
+  <data name="Storefront/JM" xml:space="preserve">
+    <value>Jamaica</value>
+  </data>
+  <data name="Storefront/JO" xml:space="preserve">
+    <value>Jordan</value>
+  </data>
+  <data name="Storefront/JP" xml:space="preserve">
+    <value>Japan</value>
+  </data>
+  <data name="Storefront/KE" xml:space="preserve">
+    <value>Kenya</value>
+  </data>
+  <data name="Storefront/KG" xml:space="preserve">
+    <value>Kyrgyzstan</value>
+  </data>
+  <data name="Storefront/KH" xml:space="preserve">
+    <value>Cambodia</value>
+  </data>
+  <data name="Storefront/KN" xml:space="preserve">
+    <value>St. Kitts &amp; Nevis</value>
+  </data>
+  <data name="Storefront/KR" xml:space="preserve">
+    <value>South Korea</value>
+  </data>
+  <data name="Storefront/KW" xml:space="preserve">
+    <value>Kuwait</value>
+  </data>
+  <data name="Storefront/KY" xml:space="preserve">
+    <value>Cayman Islands</value>
+  </data>
+  <data name="Storefront/KZ" xml:space="preserve">
+    <value>Kazakhstan</value>
+  </data>
+  <data name="Storefront/LA" xml:space="preserve">
+    <value>Laos</value>
+  </data>
+  <data name="Storefront/LB" xml:space="preserve">
+    <value>Lebanon</value>
+  </data>
+  <data name="Storefront/LC" xml:space="preserve">
+    <value>St. Lucia</value>
+  </data>
+  <data name="Storefront/LK" xml:space="preserve">
+    <value>Sri Lanka</value>
+  </data>
+  <data name="Storefront/LR" xml:space="preserve">
+    <value>Liberia</value>
+  </data>
+  <data name="Storefront/LT" xml:space="preserve">
+    <value>Lithuania</value>
+  </data>
+  <data name="Storefront/LU" xml:space="preserve">
+    <value>Luxembourg</value>
+  </data>
+  <data name="Storefront/LV" xml:space="preserve">
+    <value>Latvia</value>
+  </data>
+  <data name="Storefront/MD" xml:space="preserve">
+    <value>Moldova</value>
+  </data>
+  <data name="Storefront/MG" xml:space="preserve">
+    <value>Madagascar</value>
+  </data>
+  <data name="Storefront/MK" xml:space="preserve">
+    <value>North Macedonia</value>
+  </data>
+  <data name="Storefront/ML" xml:space="preserve">
+    <value>Mali</value>
+  </data>
+  <data name="Storefront/MM" xml:space="preserve">
+    <value>Myanmar (Burma)</value>
+  </data>
+  <data name="Storefront/MN" xml:space="preserve">
+    <value>Mongolia</value>
+  </data>
+  <data name="Storefront/MO" xml:space="preserve">
+    <value>Macao, China</value>
+  </data>
+  <data name="Storefront/MR" xml:space="preserve">
+    <value>Mauritania</value>
+  </data>
+  <data name="Storefront/MS" xml:space="preserve">
+    <value>Montserrat</value>
+  </data>
+  <data name="Storefront/MT" xml:space="preserve">
+    <value>Malta</value>
+  </data>
+  <data name="Storefront/MU" xml:space="preserve">
+    <value>Mauritius</value>
+  </data>
+  <data name="Storefront/MV" xml:space="preserve">
+    <value>Maldives</value>
+  </data>
+  <data name="Storefront/MW" xml:space="preserve">
+    <value>Malawi</value>
+  </data>
+  <data name="Storefront/MX" xml:space="preserve">
+    <value>Mexico</value>
+  </data>
+  <data name="Storefront/MY" xml:space="preserve">
+    <value>Malaysia</value>
+  </data>
+  <data name="Storefront/MZ" xml:space="preserve">
+    <value>Mozambique</value>
+  </data>
+  <data name="Storefront/NA" xml:space="preserve">
+    <value>Namibia</value>
+  </data>
+  <data name="Storefront/NE" xml:space="preserve">
+    <value>Niger</value>
+  </data>
+  <data name="Storefront/NG" xml:space="preserve">
+    <value>Nigeria</value>
+  </data>
+  <data name="Storefront/NI" xml:space="preserve">
+    <value>Nicaragua</value>
+  </data>
+  <data name="Storefront/NL" xml:space="preserve">
+    <value>Netherlands</value>
+  </data>
+  <data name="Storefront/NO" xml:space="preserve">
+    <value>Norway</value>
+  </data>
+  <data name="Storefront/NP" xml:space="preserve">
+    <value>Nepal</value>
+  </data>
+  <data name="Storefront/NZ" xml:space="preserve">
+    <value>New Zealand</value>
+  </data>
+  <data name="Storefront/OM" xml:space="preserve">
+    <value>Oman</value>
+  </data>
+  <data name="Storefront/PA" xml:space="preserve">
+    <value>Panama</value>
+  </data>
+  <data name="Storefront/PE" xml:space="preserve">
+    <value>Peru</value>
+  </data>
+  <data name="Storefront/PG" xml:space="preserve">
+    <value>Papua New Guinea</value>
+  </data>
+  <data name="Storefront/PH" xml:space="preserve">
+    <value>Philippines</value>
+  </data>
+  <data name="Storefront/PK" xml:space="preserve">
+    <value>Pakistan</value>
+  </data>
+  <data name="Storefront/PL" xml:space="preserve">
+    <value>Poland</value>
+  </data>
+  <data name="Storefront/PT" xml:space="preserve">
+    <value>Portugal</value>
+  </data>
+  <data name="Storefront/PW" xml:space="preserve">
+    <value>Palau</value>
+  </data>
+  <data name="Storefront/PY" xml:space="preserve">
+    <value>Paraguay</value>
+  </data>
+  <data name="Storefront/QA" xml:space="preserve">
+    <value>Qatar</value>
+  </data>
+  <data name="Storefront/RO" xml:space="preserve">
+    <value>Romania</value>
+  </data>
+  <data name="Storefront/RS" xml:space="preserve">
+    <value>Serbia</value>
+  </data>
+  <data name="Storefront/RU" xml:space="preserve">
+    <value>Russia</value>
+  </data>
+  <data name="Storefront/SA" xml:space="preserve">
+    <value>Saudi Arabia</value>
+  </data>
+  <data name="Storefront/SC" xml:space="preserve">
+    <value>Seychelles</value>
+  </data>
+  <data name="Storefront/SE" xml:space="preserve">
+    <value>Sweden</value>
+  </data>
+  <data name="Storefront/SG" xml:space="preserve">
+    <value>Singapore</value>
+  </data>
+  <data name="Storefront/SI" xml:space="preserve">
+    <value>Slovenia</value>
+  </data>
+  <data name="Storefront/SK" xml:space="preserve">
+    <value>Slovakia</value>
+  </data>
+  <data name="Storefront/SL" xml:space="preserve">
+    <value>Sierra Leone</value>
+  </data>
+  <data name="Storefront/SN" xml:space="preserve">
+    <value>Senegal</value>
+  </data>
+  <data name="Storefront/SR" xml:space="preserve">
+    <value>Suriname</value>
+  </data>
+  <data name="Storefront/ST" xml:space="preserve">
+    <value>São Tomé and Príncipe</value>
+  </data>
+  <data name="Storefront/SV" xml:space="preserve">
+    <value>El Salvador</value>
+  </data>
+  <data name="Storefront/SZ" xml:space="preserve">
+    <value>Eswatini</value>
+  </data>
+  <data name="Storefront/TC" xml:space="preserve">
+    <value>Turks &amp; Caicos Islands</value>
+  </data>
+  <data name="Storefront/TD" xml:space="preserve">
+    <value>Chad</value>
+  </data>
+  <data name="Storefront/TH" xml:space="preserve">
+    <value>Thailand</value>
+  </data>
+  <data name="Storefront/TJ" xml:space="preserve">
+    <value>Tajikistan</value>
+  </data>
+  <data name="Storefront/TM" xml:space="preserve">
+    <value>Turkmenistan</value>
+  </data>
+  <data name="Storefront/TN" xml:space="preserve">
+    <value>Tunisia</value>
+  </data>
+  <data name="Storefront/TO" xml:space="preserve">
+    <value>Tonga</value>
+  </data>
+  <data name="Storefront/TR" xml:space="preserve">
+    <value>Türkiye</value>
+  </data>
+  <data name="Storefront/TT" xml:space="preserve">
+    <value>Trinidad &amp; Tobago</value>
+  </data>
+  <data name="Storefront/TW" xml:space="preserve">
+    <value>Taiwan, China</value>
+  </data>
+  <data name="Storefront/TZ" xml:space="preserve">
+    <value>Tanzania</value>
+  </data>
+  <data name="Storefront/UA" xml:space="preserve">
+    <value>Ukraine</value>
+  </data>
+  <data name="Storefront/UG" xml:space="preserve">
+    <value>Uganda</value>
+  </data>
+  <data name="Storefront/US" xml:space="preserve">
+    <value>United States</value>
+  </data>
+  <data name="Storefront/UY" xml:space="preserve">
+    <value>Uruguay</value>
+  </data>
+  <data name="Storefront/UZ" xml:space="preserve">
+    <value>Uzbekistan</value>
+  </data>
+  <data name="Storefront/VC" xml:space="preserve">
+    <value>St. Vincent &amp; Grenadines</value>
+  </data>
+  <data name="Storefront/VE" xml:space="preserve">
+    <value>Venezuela</value>
+  </data>
+  <data name="Storefront/VG" xml:space="preserve">
+    <value>British Virgin Islands</value>
+  </data>
+  <data name="Storefront/VN" xml:space="preserve">
+    <value>Vietnam</value>
+  </data>
+  <data name="Storefront/XK" xml:space="preserve">
+    <value>Kosovo</value>
+  </data>
+  <data name="Storefront/YE" xml:space="preserve">
+    <value>Yemen</value>
+  </data>
+  <data name="Storefront/ZA" xml:space="preserve">
+    <value>South Africa</value>
+  </data>
+  <data name="Storefront/ZM" xml:space="preserve">
+    <value>Zambia</value>
+  </data>
+  <data name="Storefront/ZW" xml:space="preserve">
+    <value>Zimbabwe</value>
+  </data>
+  <data name="Storefront/AF" xml:space="preserve">
+    <value>Afghanistan</value>
+  </data>
+  <data name="Storefront/BA" xml:space="preserve">
+    <value>Bosnia &amp; Herzegovina</value>
+  </data>
+  <data name="Storefront/IQ" xml:space="preserve">
+    <value>Iraq</value>
+  </data>
+  <data name="Storefront/LY" xml:space="preserve">
+    <value>Libya</value>
+  </data>
+  <data name="Storefront/MA" xml:space="preserve">
+    <value>Morocco</value>
+  </data>
+  <data name="Storefront/ME" xml:space="preserve">
+    <value>Montenegro</value>
+  </data>
+  <data name="Storefront/NR" xml:space="preserve">
+    <value>Nauru</value>
+  </data>
+  <data name="Storefront/RW" xml:space="preserve">
+    <value>Rwanda</value>
+  </data>
+  <data name="Storefront/SB" xml:space="preserve">
+    <value>Solomon Islands</value>
+  </data>
+  <data name="Storefront/VU" xml:space="preserve">
+    <value>Vanuatu</value>
+  </data>
+  <data name="Settings/Card/DisplayLanguage.Header" xml:space="preserve">
+    <value>Display language</value>
+  </data>
+  <data name="Settings/Card/DisplayLanguage.Description" xml:space="preserve">
+    <value>Select the language used by the app interface.</value>
+  </data>
+  <data name="Settings/Language/Auto.Content" xml:space="preserve">
+    <value>Automatic</value>
+  </data>
+  <data name="Settings/Language/RestartTitle" xml:space="preserve">
+    <value>Restart app</value>
+  </data>
+  <data name="Settings/Language/RestartMessage" xml:space="preserve">
+    <value>The language setting takes effect after the app restarts. Restart now?</value>
+  </data>
+  <data name="Settings/Language/RestartNow" xml:space="preserve">
+    <value>Restart now</value>
+  </data>
+  <data name="Settings/Language/RestartLater" xml:space="preserve">
+    <value>Restart later</value>
+  </data>
+  <data name="Settings/Language/RestartFailedTitle" xml:space="preserve">
+    <value>Restart failed</value>
+  </data>
+  <data name="Settings/Language/RestartFailedMessage" xml:space="preserve">
+    <value>Unable to restart the app: {0}</value>
+  </data>
+</root>

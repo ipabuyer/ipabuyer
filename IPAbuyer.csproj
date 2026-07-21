@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <DefaultLanguage>zh-CN</DefaultLanguage>
+        <DefaultLanguage>zh-Hans</DefaultLanguage>
         <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
         <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
         <OutputType>WinExe</OutputType>
@@ -51,33 +51,22 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.8" />
-        <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.251219" />
-        <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.1.3" />
-        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.1839" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.3.1" />
+        <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="3.53.3" />
+        <ProjectReference Include="IPAbuyer.Core\IPAbuyer.Core.csproj" />
+        <ProjectReference Include="IPAbuyer.Pages\IPAbuyer.Pages.csproj" />
+        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2270" />
         <Manifest Include="$(ApplicationManifest)" />
 
-        <Content Include="Include\ipatool-main-windows-amd64.exe" Condition="'$(Platform)' == 'x64' Or '$(RuntimeIdentifier)' == 'win-x64' Or '$(RuntimeIdentifier)' == 'win10-x64'">
+        <Content Include="Include\ipatool-2.3.1-windows-amd64.exe" Condition="'$(Platform)' == 'x64' Or '$(RuntimeIdentifier)' == 'win-x64' Or '$(RuntimeIdentifier)' == 'win10-x64'">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <TargetPath>ipatool.exe</TargetPath>
             <IncludeInPackage>true</IncludeInPackage>
         </Content>
 
-        <Content Include="Include\ipatool-main-windows-arm64.exe" Condition="'$(Platform)' == 'ARM64' Or '$(RuntimeIdentifier)' == 'win-arm64' Or '$(RuntimeIdentifier)' == 'win10-arm64'">
+        <Content Include="Include\ipatool-2.3.1-windows-arm64.exe" Condition="'$(Platform)' == 'ARM64' Or '$(RuntimeIdentifier)' == 'win-arm64' Or '$(RuntimeIdentifier)' == 'win10-arm64'">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <TargetPath>ipatool.exe</TargetPath>
-            <IncludeInPackage>true</IncludeInPackage>
-        </Content>
-
-        <Content Include="Include\ipatool-2.3.0-windows-amd64.exe" Condition="'$(Platform)' == 'x64' Or '$(RuntimeIdentifier)' == 'win-x64' Or '$(RuntimeIdentifier)' == 'win10-x64'">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <TargetPath>ipatool-legacy.exe</TargetPath>
-            <IncludeInPackage>true</IncludeInPackage>
-        </Content>
-
-        <Content Include="Include\ipatool-2.3.0-windows-arm64.exe" Condition="'$(Platform)' == 'ARM64' Or '$(RuntimeIdentifier)' == 'win-arm64' Or '$(RuntimeIdentifier)' == 'win10-arm64'">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <TargetPath>ipatool-legacy.exe</TargetPath>
             <IncludeInPackage>true</IncludeInPackage>
         </Content>
     </ItemGroup>
@@ -91,9 +80,11 @@
         <ProjectCapability Include="Msix" />
     </ItemGroup>
     <ItemGroup>
-        <Page Update="Views\*.xaml">
-            <Generator>MSBuild:Compile</Generator>
-        </Page>
+        <Compile Remove="IPAbuyer.Core\**\*.cs" />
+        <Compile Remove="IPAbuyer.Core.Execution\**\*.cs" />
+        <Compile Remove="IPAbuyer.Pages\**\*.cs" />
+        <Page Remove="IPAbuyer.Pages\**\*.xaml" />
+        <None Remove="IPAbuyer.Pages\**\*.xaml" />
     </ItemGroup>
     <ItemGroup>
         <TrimmerRootDescriptor Include="ILLink.Descriptors.xml" />
@@ -136,5 +127,15 @@
         <PublishSingleFile>False</PublishSingleFile>
         <PlatformTarget>AnyCPU</PlatformTarget>
         <SignAssembly>False</SignAssembly>
+        <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
+        <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+        <AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
+        <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+        <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+        <GenerateTestArtifacts>False</GenerateTestArtifacts>
+        <AppxBundle>Always</AppxBundle>
+        <AppxBundlePlatforms>x64|arm64</AppxBundlePlatforms>
+        <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+        <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
     </PropertyGroup>
 </Project>
