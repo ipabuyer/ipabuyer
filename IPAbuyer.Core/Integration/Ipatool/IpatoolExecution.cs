@@ -294,8 +294,8 @@ namespace IPAbuyer.Core.Integration.Ipatool
                     return new IpatoolResult(null, LF("Ipatool/Error/ExecutionTimeout", $"download --bundle-identifier {bundleId}"), ExitCode: -1, TimedOut: true);
                 }
 
-                using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, ShutdownCts.Token);
-                linkedCts.CancelAfter(DefaultTimeout);
+                using var timeoutCts = new CancellationTokenSource(DefaultTimeout);
+                using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, ShutdownCts.Token, timeoutCts.Token);
 
                 var outputBuilder = new StringBuilder();
                 var errorBuilder = new StringBuilder();
@@ -311,6 +311,12 @@ namespace IPAbuyer.Core.Integration.Ipatool
                 {
                     TryTerminateProcess(process);
                     await WaitForProcessCleanupAsync(process, readStdoutTask, readStderrTask).ConfigureAwait(false);
+                    ThrowIfExternalCancellationRequested(cancellationToken);
+                    if (ShutdownCts.IsCancellationRequested)
+                    {
+                        throw new OperationCanceledException(ShutdownCts.Token);
+                    }
+
                     return new IpatoolResult(null, LF("Ipatool/Error/ExecutionTimeout", $"download --bundle-identifier {bundleId}"), ExitCode: -1, TimedOut: true);
                 }
 
@@ -325,6 +331,14 @@ namespace IPAbuyer.Core.Integration.Ipatool
                 Debug.WriteLine($"ipatool stderr: {Preview(error)}");
                 (string normalizedOutput, string normalizedError) = NormalizeIpatoolStreams(output, error, process.ExitCode);
                 return new IpatoolResult(normalizedOutput, normalizedError, process.ExitCode, TimedOut: false);
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                throw;
+            }
+            catch (OperationCanceledException) when (ShutdownCts.IsCancellationRequested)
+            {
+                throw;
             }
             catch (Exception ex)
             {
@@ -430,8 +444,8 @@ namespace IPAbuyer.Core.Integration.Ipatool
                     return new IpatoolResult(null, LF("Ipatool/Error/ExecutionTimeout", GetSafeCommandLabel(arguments)), ExitCode: -1, TimedOut: true);
                 }
 
-                using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, ShutdownCts.Token);
-                linkedCts.CancelAfter(DefaultTimeout);
+                using var timeoutCts = new CancellationTokenSource(DefaultTimeout);
+                using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, ShutdownCts.Token, timeoutCts.Token);
 
                 outputTask = process.StandardOutput.ReadToEndAsync();
                 errorTask = process.StandardError.ReadToEndAsync();
@@ -444,6 +458,12 @@ namespace IPAbuyer.Core.Integration.Ipatool
                 {
                     TryTerminateProcess(process);
                     await WaitForProcessCleanupAsync(process, outputTask, errorTask).ConfigureAwait(false);
+                    ThrowIfExternalCancellationRequested(cancellationToken);
+                    if (ShutdownCts.IsCancellationRequested)
+                    {
+                        throw new OperationCanceledException(ShutdownCts.Token);
+                    }
+
                     return new IpatoolResult(null, LF("Ipatool/Error/ExecutionTimeout", GetSafeCommandLabel(arguments)), ExitCode: -1, TimedOut: true);
                 }
 
@@ -459,6 +479,14 @@ namespace IPAbuyer.Core.Integration.Ipatool
 
                 (string normalizedOutput, string normalizedError) = NormalizeIpatoolStreams(output, error, process.ExitCode);
                 return new IpatoolResult(normalizedOutput, normalizedError, process.ExitCode, TimedOut: false);
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                throw;
+            }
+            catch (OperationCanceledException) when (ShutdownCts.IsCancellationRequested)
+            {
+                throw;
             }
             catch (Exception ex)
             {
@@ -593,19 +621,16 @@ namespace IPAbuyer.Core.Integration.Ipatool
                 {
                     await Task.WhenAll(stdoutTask ?? Task.CompletedTask, stderrTask ?? Task.CompletedTask).ConfigureAwait(false);
                 }
-                catch (OperationCanceledException)
+                catch
                 {
-                    // Expected when shutdown closes the redirected streams.
-                }
-                catch (ObjectDisposedException)
-                {
-                    // Expected only after the process was terminated during shutdown.
-                }
-                catch (IOException)
-                {
-                    // A killed process can close a redirected pipe while it is being read.
+                    // Process termination can concurrently cancel or fault both redirected-pipe readers.
                 }
             }
+        }
+
+        private static void ThrowIfExternalCancellationRequested(CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
         }
 
         private static void TryTerminateProcess(Process process)

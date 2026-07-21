@@ -237,6 +237,8 @@ namespace IPAbuyer.Core.Services.Downloads
                                 }
                             }
 
+                            itemCts.Token.ThrowIfCancellationRequested();
+
                             if (IsDownloadSuccess(result))
                             {
                                 item.Status = DownloadQueueStatus.Success;
@@ -253,7 +255,7 @@ namespace IPAbuyer.Core.Services.Downloads
                             }
                         }
                     }
-                    catch (OperationCanceledException)
+                    catch (OperationCanceledException) when (itemCts.IsCancellationRequested)
                     {
                         item.Status = DownloadQueueStatus.Canceled;
                         item.LastMessage = L("DownloadQueue/Status/Canceled");
@@ -282,7 +284,7 @@ namespace IPAbuyer.Core.Services.Downloads
                 EmitLog(LF("DownloadQueue/Log/Completed", completed, processed), UiLogLevel.Success);
                 return completed;
             }
-            catch (OperationCanceledException)
+            catch (OperationCanceledException) when (queueCts?.IsCancellationRequested == true)
             {
                 EmitLog(L("DownloadQueue/Log/QueueCanceled"), UiLogLevel.Tip);
                 return 0;
