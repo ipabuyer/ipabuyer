@@ -251,7 +251,7 @@ namespace IPAbuyer.Core.Integration.Ipatool
             string effectivePassphrase = EnsurePassphrase(null);
             var finalArguments = new List<string>
             {
-                "download", "--output", outputDirectory, "--bundle-identifier", bundleId,
+                "download", "--output", outputDirectory, "--bundle-identifier", bundleId, "--purchase",
                 "--keychain-passphrase", effectivePassphrase, "--format", "json", "--non-interactive", "--verbose"
             };
 

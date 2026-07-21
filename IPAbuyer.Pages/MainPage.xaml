@@ -64,6 +64,7 @@
                             Height="36"
                             Click="ShowHomeLogDialog_Click"
                             x:Uid="MainPage/Action/OpenLogButton" />
+                        <ProgressRing x:Uid="MainPage/DownloadQueue/ActivityRing" x:Name="DownloadActivityRing" Width="20" Height="20" IsActive="False" Visibility="Collapsed" />
                         <Button x:Uid="MainPage/Action/CancelAllDownloadsButton" x:Name="CancelAllDownloadsButton" Click="CancelAllDownloadsButton_Click" Visibility="Collapsed" />
                     </StackPanel>
                 </Grid>

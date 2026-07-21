@@ -426,6 +426,12 @@
   <data name="MainPage/Action/CancelAllDownloadsButton.Content" xml:space="preserve">
     <value>终止下载</value>
   </data>
+  <data name="MainPage/DownloadQueue/ActivityRing.AutomationProperties.Name" xml:space="preserve">
+    <value>下载进行中</value>
+  </data>
+  <data name="MainPage/DownloadQueue/ActivityRing.ToolTipService.ToolTip" xml:space="preserve">
+    <value>下载进行中</value>
+  </data>
   <data name="MainPage/Action/OpenLogButton.Content" xml:space="preserve">
     <value>日志</value>
   </data>
@@ -684,6 +690,12 @@
   <data name="DownloadQueue/Status/Downloading" xml:space="preserve">
     <value>下载中</value>
   </data>
+  <data name="DownloadQueue/Status/RequestingLicense" xml:space="preserve">
+    <value>正在请求许可证</value>
+  </data>
+  <data name="DownloadQueue/Status/ProcessingResult" xml:space="preserve">
+    <value>正在处理下载结果</value>
+  </data>
   <data name="DownloadQueue/Status/Success" xml:space="preserve">
     <value>下载成功</value>
   </data>
@@ -722,6 +734,15 @@
   </data>
   <data name="DownloadQueue/Log/StartQueue" xml:space="preserve">
     <value>开始下载队列，共 {0} 项，输出目录: {1}</value>
+  </data>
+  <data name="DownloadQueue/Log/Downloading" xml:space="preserve">
+    <value>正在下载：{0}</value>
+  </data>
+  <data name="DownloadQueue/Log/RequestingLicense" xml:space="preserve">
+    <value>正在请求许可证：{0}</value>
+  </data>
+  <data name="DownloadQueue/Log/ProcessingResult" xml:space="preserve">
+    <value>正在处理下载结果：{0}</value>
   </data>
   <data name="DownloadQueue/Log/MockSuccess" xml:space="preserve">
     <value>下载成功(测试账户): {0}</value>

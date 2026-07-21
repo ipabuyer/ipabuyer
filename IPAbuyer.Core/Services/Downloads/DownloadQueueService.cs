@@ -185,8 +185,7 @@ namespace IPAbuyer.Core.Services.Downloads
                     processedItems.Add(item);
 
                     item.Status = DownloadQueueStatus.Downloading;
-                    item.LastMessage = L("DownloadQueue/Status/Downloading");
-                    NotifyQueueChanged();
+                    UpdateDownloadStage(item, "DownloadQueue/Status/Downloading", "DownloadQueue/Log/Downloading");
 
                     var itemCts = CancellationTokenSource.CreateLinkedTokenSource(queueCts!.Token);
                     lock (_cancellationLock)
@@ -205,6 +204,7 @@ namespace IPAbuyer.Core.Services.Downloads
                         else
                         {
                             string chunkLogBuffer = string.Empty;
+                            string stageJsonBuffer = string.Empty;
                             string lastChunkLog = string.Empty;
                             int lastLoggedPercent = -1;
                             object chunkLogSync = new();
@@ -223,6 +223,7 @@ namespace IPAbuyer.Core.Services.Downloads
                                     {
                                         if (!itemCts.IsCancellationRequested)
                                         {
+                                            TryUpdateDownloadStageFromChunk(item, ref stageJsonBuffer, chunk);
                                             EmitChunkLogLines(ref chunkLogBuffer, chunk, item.Name, ref lastLoggedPercent, ref lastChunkLog);
                                         }
                                     }
@@ -233,11 +234,13 @@ namespace IPAbuyer.Core.Services.Downloads
                             {
                                 lock (chunkLogSync)
                                 {
+                                    TryUpdateDownloadStageFromChunk(item, ref stageJsonBuffer, "\n");
                                     EmitChunkLogLines(ref chunkLogBuffer, "\n", item.Name, ref lastLoggedPercent, ref lastChunkLog);
                                 }
                             }
 
                             itemCts.Token.ThrowIfCancellationRequested();
+                            UpdateDownloadStage(item, "DownloadQueue/Status/ProcessingResult", "DownloadQueue/Log/ProcessingResult");
 
                             if (IsDownloadSuccess(result))
                             {
@@ -481,6 +484,58 @@ namespace IPAbuyer.Core.Services.Downloads
             }
 
             return account.Trim();
+        }
+
+        private void TryUpdateDownloadStageFromChunk(DownloadQueueItem item, ref string buffer, string? chunk)
+        {
+            if (string.IsNullOrEmpty(chunk))
+            {
+                return;
+            }
+
+            buffer += SanitizeForParsing(chunk);
+            if (buffer.Length > 4096)
+            {
+                buffer = buffer.Substring(buffer.Length - 4096, 4096);
+            }
+
+            int lineBreakIndex;
+            while ((lineBreakIndex = FindLineBreakIndex(buffer)) >= 0)
+            {
+                string line = buffer.Substring(0, lineBreakIndex).Trim();
+                int consume = lineBreakIndex + 1 < buffer.Length
+                    && buffer[lineBreakIndex] == '\r'
+                    && buffer[lineBreakIndex + 1] == '\n'
+                    ? 2
+                    : 1;
+                buffer = buffer.Substring(lineBreakIndex + consume);
+                TryUpdateDownloadStageFromJsonLine(item, line);
+            }
+        }
+
+        private void TryUpdateDownloadStageFromJsonLine(DownloadQueueItem item, string line)
+        {
+            if (!JsonPayload.TryParseToken(line, out var token)
+                || !JsonPayload.TryReadString(token, out string? message, "message")
+                || !string.Equals(message, "purchase", StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            UpdateDownloadStage(item, "DownloadQueue/Status/RequestingLicense", "DownloadQueue/Log/RequestingLicense");
+        }
+
+        private void UpdateDownloadStage(DownloadQueueItem item, string statusKey, string logKey)
+        {
+            string status = L(statusKey);
+            if (string.Equals(item.LastMessage, status, StringComparison.Ordinal))
+            {
+                return;
+            }
+
+            item.LastMessage = status;
+            EmitLog(LF(logKey, item.Name), UiLogLevel.Info);
+            NotifyQueueChanged();
         }
 
         private static int? TryExtractProgressPercent(string? line)

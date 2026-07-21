@@ -309,6 +309,8 @@ namespace IPAbuyer.Pages
             bool isRunning = _downloadQueueService.IsRunning;
             CancelAllDownloadsButton.Visibility = isRunning ? Visibility.Visible : Visibility.Collapsed;
             CancelAllDownloadsButton.IsEnabled = isRunning;
+            DownloadActivityRing.Visibility = isRunning ? Visibility.Visible : Visibility.Collapsed;
+            DownloadActivityRing.IsActive = isRunning;
         }
 
         private SearchResult? ResolveContextItem(object sender)

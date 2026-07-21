@@ -426,6 +426,12 @@
   <data name="MainPage/Action/CancelAllDownloadsButton.Content" xml:space="preserve">
     <value>Terminate download</value>
   </data>
+  <data name="MainPage/DownloadQueue/ActivityRing.AutomationProperties.Name" xml:space="preserve">
+    <value>Download in progress</value>
+  </data>
+  <data name="MainPage/DownloadQueue/ActivityRing.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Download in progress</value>
+  </data>
   <data name="MainPage/Action/OpenLogButton.Content" xml:space="preserve">
     <value>log</value>
   </data>
@@ -684,6 +690,12 @@
   <data name="DownloadQueue/Status/Downloading" xml:space="preserve">
     <value>Downloading</value>
   </data>
+  <data name="DownloadQueue/Status/RequestingLicense" xml:space="preserve">
+    <value>Requesting license</value>
+  </data>
+  <data name="DownloadQueue/Status/ProcessingResult" xml:space="preserve">
+    <value>Processing download result</value>
+  </data>
   <data name="DownloadQueue/Status/Success" xml:space="preserve">
     <value>Download successful</value>
   </data>
@@ -722,6 +734,15 @@
   </data>
   <data name="DownloadQueue/Log/StartQueue" xml:space="preserve">
     <value>Start download queue, total {0} items, output directory: {1}</value>
+  </data>
+  <data name="DownloadQueue/Log/Downloading" xml:space="preserve">
+    <value>Downloading: {0}</value>
+  </data>
+  <data name="DownloadQueue/Log/RequestingLicense" xml:space="preserve">
+    <value>Requesting license: {0}</value>
+  </data>
+  <data name="DownloadQueue/Log/ProcessingResult" xml:space="preserve">
+    <value>Processing download result: {0}</value>
   </data>
   <data name="DownloadQueue/Log/MockSuccess" xml:space="preserve">
     <value>Download successful (test account): {0}</value>
