@@ -81,6 +81,7 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Remove="IPAbuyer.Core\**\*.cs" />
+        <Compile Remove="IPAbuyer.Core.Execution\**\*.cs" />
         <Compile Remove="IPAbuyer.Pages\**\*.cs" />
         <Page Remove="IPAbuyer.Pages\**\*.xaml" />
         <None Remove="IPAbuyer.Pages\**\*.xaml" />

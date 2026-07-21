@@ -3,6 +3,7 @@
     <Platform Name="ARM64" />
     <Platform Name="x64" />
   </Configurations>
+  <Project Path="IPAbuyer.Core.Execution\IPAbuyer.Core.Execution.csproj" />
   <Project Path="IPAbuyer.Core\IPAbuyer.Core.csproj" />
   <Project Path="IPAbuyer.Pages\IPAbuyer.Pages.csproj" />
   <Project Path="IPAbuyer.csproj">

@@ -1,8 +1,8 @@
 using IPAbuyer.Core.Configuration;
+using IPAbuyer.Core.Execution;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace IPAbuyer.Core.Integration.Ipatool
@@ -16,10 +16,7 @@ namespace IPAbuyer.Core.Integration.Ipatool
         }
 
         private static readonly ResourceLoader Loader = new();
-        private static readonly object ActiveProcessesLock = new();
-        private static readonly HashSet<Process> ActiveProcesses = new();
-        private static readonly CancellationTokenSource ShutdownCts = new();
-        private static bool IsShuttingDown;
+        private static readonly ProcessExecutionService ProcessExecutionService = new();
         private const int MaxPreviewLength = 200;
         private static readonly TimeSpan DefaultTimeout = TimeSpan.FromMinutes(2);
         private static readonly HttpClient HttpClient = new();
@@ -47,23 +44,7 @@ namespace IPAbuyer.Core.Integration.Ipatool
 
         public static void BeginShutdown()
         {
-            Process[] processes;
-            lock (ActiveProcessesLock)
-            {
-                if (IsShuttingDown)
-                {
-                    return;
-                }
-
-                IsShuttingDown = true;
-                ShutdownCts.Cancel();
-                processes = ActiveProcesses.ToArray();
-            }
-
-            foreach (Process process in processes)
-            {
-                TryTerminateProcess(process);
-            }
+            ProcessExecutionService.BeginShutdown();
         }
 
         public static Task<IpatoolResult> AuthLoginAsync(string account, string password, string authCode, string passphrase, CancellationToken cancellationToken = default)
@@ -274,110 +255,40 @@ namespace IPAbuyer.Core.Integration.Ipatool
                 "--keychain-passphrase", effectivePassphrase, "--format", "json", "--non-interactive", "--verbose"
             };
 
-            var psi = CreateIpatoolProcessStartInfo(ipatoolPath, workingDirectory, finalArguments);
-            Process? process = null;
-            Task? readStdoutTask = null;
-            Task? readStderrTask = null;
-
             try
             {
                 EmitCommandLog(ipatoolPath, finalArguments);
-                process = new Process { StartInfo = psi, EnableRaisingEvents = true };
-                if (!process.Start())
-                {
-                    return new IpatoolResult(null, L("Ipatool/Error/ProcessStartFailed"), ExitCode: -1, TimedOut: false);
-                }
+                var request = new ProcessExecutionRequest(
+                    ipatoolPath,
+                    workingDirectory,
+                    finalArguments,
+                    DefaultTimeout,
+                    CreateIpatoolEnvironmentVariables(),
+                    outputChunkCallback);
+                ProcessExecutionResult result = await ProcessExecutionService.ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
 
-                if (!RegisterProcess(process))
+                if (result.TimedOut)
                 {
-                    await WaitForProcessCleanupAsync(process, null, null).ConfigureAwait(false);
                     return new IpatoolResult(null, LF("Ipatool/Error/ExecutionTimeout", $"download --bundle-identifier {bundleId}"), ExitCode: -1, TimedOut: true);
                 }
 
-                using var timeoutCts = new CancellationTokenSource(DefaultTimeout);
-                using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, ShutdownCts.Token, timeoutCts.Token);
-
-                var outputBuilder = new StringBuilder();
-                var errorBuilder = new StringBuilder();
-                readStdoutTask = ReadProcessStreamAsync(process.StandardOutput, outputBuilder, outputChunkCallback, linkedCts.Token);
-                readStderrTask = ReadProcessStreamAsync(process.StandardError, errorBuilder, outputChunkCallback, linkedCts.Token);
-
-                try
-                {
-                    await process.WaitForExitAsync(linkedCts.Token).ConfigureAwait(false);
-                    await Task.WhenAll(readStdoutTask, readStderrTask).ConfigureAwait(false);
-                }
-                catch (OperationCanceledException)
-                {
-                    TryTerminateProcess(process);
-                    await WaitForProcessCleanupAsync(process, readStdoutTask, readStderrTask).ConfigureAwait(false);
-                    ThrowIfExternalCancellationRequested(cancellationToken);
-                    if (ShutdownCts.IsCancellationRequested)
-                    {
-                        throw new OperationCanceledException(ShutdownCts.Token);
-                    }
-
-                    return new IpatoolResult(null, LF("Ipatool/Error/ExecutionTimeout", $"download --bundle-identifier {bundleId}"), ExitCode: -1, TimedOut: true);
-                }
-
-                string output = outputBuilder.ToString();
-                string error = errorBuilder.ToString();
                 if (outputChunkCallback == null)
                 {
-                    EmitDetailedOutputLogs(output, error);
+                    EmitDetailedOutputLogs(result.StandardOutput, result.StandardError);
                 }
 
-                Debug.WriteLine($"ipatool output: {Preview(output)}");
-                Debug.WriteLine($"ipatool stderr: {Preview(error)}");
-                (string normalizedOutput, string normalizedError) = NormalizeIpatoolStreams(output, error, process.ExitCode);
-                return new IpatoolResult(normalizedOutput, normalizedError, process.ExitCode, TimedOut: false);
+                Debug.WriteLine($"ipatool output: {Preview(result.StandardOutput)}");
+                Debug.WriteLine($"ipatool stderr: {Preview(result.StandardError)}");
+                (string normalizedOutput, string normalizedError) = NormalizeIpatoolStreams(result.StandardOutput, result.StandardError, result.ExitCode);
+                return new IpatoolResult(normalizedOutput, normalizedError, result.ExitCode, TimedOut: false);
             }
-            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
-            {
-                throw;
-            }
-            catch (OperationCanceledException) when (ShutdownCts.IsCancellationRequested)
+            catch (OperationCanceledException)
             {
                 throw;
             }
             catch (Exception ex)
             {
-                if (process != null)
-                {
-                    TryTerminateProcess(process);
-                    await WaitForProcessCleanupAsync(process, readStdoutTask, readStderrTask).ConfigureAwait(false);
-                }
-
                 return new IpatoolResult(null, ex.Message, ExitCode: -1, TimedOut: false);
-            }
-            finally
-            {
-                if (process != null)
-                {
-                    UnregisterProcess(process);
-                    process.Dispose();
-                }
-            }
-        }
-
-        private static async Task ReadProcessStreamAsync(
-            StreamReader reader,
-            StringBuilder builder,
-            Action<string>? outputChunkCallback,
-            CancellationToken cancellationToken)
-        {
-            char[] buffer = new char[1024];
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                int read = await reader.ReadAsync(buffer.AsMemory(0, buffer.Length), cancellationToken).ConfigureAwait(false);
-                if (read <= 0)
-                {
-                    break;
-                }
-
-                string chunk = new(buffer, 0, read);
-                builder.Append(chunk);
-                outputChunkCallback?.Invoke(chunk);
             }
         }
 
@@ -414,12 +325,6 @@ namespace IPAbuyer.Core.Integration.Ipatool
             finalArguments.Add("--non-interactive");
             finalArguments.Add("--verbose");
 
-            var psi = CreateIpatoolProcessStartInfo(ipatoolPath, workingDirectory, finalArguments);
-
-            Process? process = null;
-            Task<string>? outputTask = null;
-            Task<string>? errorTask = null;
-
             try
             {
                 if (isLogout)
@@ -431,80 +336,39 @@ namespace IPAbuyer.Core.Integration.Ipatool
                 {
                     EmitCommandLog(ipatoolPath, finalArguments);
                 }
-                process = new Process { StartInfo = psi, EnableRaisingEvents = true };
 
-                if (!process.Start())
+                var request = new ProcessExecutionRequest(
+                    ipatoolPath,
+                    workingDirectory,
+                    finalArguments,
+                    DefaultTimeout,
+                    CreateIpatoolEnvironmentVariables());
+                ProcessExecutionResult result = await ProcessExecutionService.ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
+                if (result.TimedOut)
                 {
-                    return new IpatoolResult(null, L("Ipatool/Error/ProcessStartFailed"), ExitCode: -1, TimedOut: false);
-                }
-
-                if (!RegisterProcess(process))
-                {
-                    await WaitForProcessCleanupAsync(process, null, null).ConfigureAwait(false);
                     return new IpatoolResult(null, LF("Ipatool/Error/ExecutionTimeout", GetSafeCommandLabel(arguments)), ExitCode: -1, TimedOut: true);
                 }
 
-                using var timeoutCts = new CancellationTokenSource(DefaultTimeout);
-                using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, ShutdownCts.Token, timeoutCts.Token);
-
-                outputTask = process.StandardOutput.ReadToEndAsync();
-                errorTask = process.StandardError.ReadToEndAsync();
-
-                try
-                {
-                    await process.WaitForExitAsync(linkedCts.Token).ConfigureAwait(false);
-                }
-                catch (OperationCanceledException)
-                {
-                    TryTerminateProcess(process);
-                    await WaitForProcessCleanupAsync(process, outputTask, errorTask).ConfigureAwait(false);
-                    ThrowIfExternalCancellationRequested(cancellationToken);
-                    if (ShutdownCts.IsCancellationRequested)
-                    {
-                        throw new OperationCanceledException(ShutdownCts.Token);
-                    }
-
-                    return new IpatoolResult(null, LF("Ipatool/Error/ExecutionTimeout", GetSafeCommandLabel(arguments)), ExitCode: -1, TimedOut: true);
-                }
-
-                string output = await outputTask.ConfigureAwait(false);
-                string error = await errorTask.ConfigureAwait(false);
                 if (!suppressLogEvents)
                 {
-                    EmitDetailedOutputLogs(output, error);
+                    EmitDetailedOutputLogs(result.StandardOutput, result.StandardError);
                 }
 
-                Debug.WriteLine($"ipatool output: {Preview(output)}");
-                Debug.WriteLine($"ipatool stderr: {Preview(error)}");
-
-                (string normalizedOutput, string normalizedError) = NormalizeIpatoolStreams(output, error, process.ExitCode);
-                return new IpatoolResult(normalizedOutput, normalizedError, process.ExitCode, TimedOut: false);
+                Debug.WriteLine($"ipatool output: {Preview(result.StandardOutput)}");
+                Debug.WriteLine($"ipatool stderr: {Preview(result.StandardError)}");
+                (string normalizedOutput, string normalizedError) = NormalizeIpatoolStreams(result.StandardOutput, result.StandardError, result.ExitCode);
+                return new IpatoolResult(normalizedOutput, normalizedError, result.ExitCode, TimedOut: false);
             }
-            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
-            {
-                throw;
-            }
-            catch (OperationCanceledException) when (ShutdownCts.IsCancellationRequested)
+            catch (OperationCanceledException)
             {
                 throw;
             }
             catch (Exception ex)
             {
-                if (process != null)
-                {
-                    TryTerminateProcess(process);
-                    await WaitForProcessCleanupAsync(process, outputTask, errorTask).ConfigureAwait(false);
-                }
                 return new IpatoolResult(null, ex.Message, -1, TimedOut: false);
             }
             finally
             {
-                if (process != null)
-                {
-                    UnregisterProcess(process);
-                    process.Dispose();
-                }
-
                 if (isLogout)
                 {
                     DeleteCookieLockFile();
@@ -576,76 +440,6 @@ namespace IPAbuyer.Core.Integration.Ipatool
             }
 
             throw new InvalidOperationException(L("Ipatool/Error/MissingPassphrase"));
-        }
-
-        private static bool RegisterProcess(Process process)
-        {
-            lock (ActiveProcessesLock)
-            {
-                if (IsShuttingDown)
-                {
-                    TryTerminateProcess(process);
-                    return false;
-                }
-
-                ActiveProcesses.Add(process);
-                return true;
-            }
-        }
-
-        private static void UnregisterProcess(Process process)
-        {
-            lock (ActiveProcessesLock)
-            {
-                ActiveProcesses.Remove(process);
-            }
-        }
-
-        private static async Task WaitForProcessCleanupAsync(Process process, Task? stdoutTask, Task? stderrTask)
-        {
-            try
-            {
-                if (!process.HasExited)
-                {
-                    await process.WaitForExitAsync().ConfigureAwait(false);
-                }
-            }
-            catch
-            {
-                // The process may already be exiting or its handle may be closing.
-            }
-
-            if (stdoutTask != null || stderrTask != null)
-            {
-                try
-                {
-                    await Task.WhenAll(stdoutTask ?? Task.CompletedTask, stderrTask ?? Task.CompletedTask).ConfigureAwait(false);
-                }
-                catch
-                {
-                    // Process termination can concurrently cancel or fault both redirected-pipe readers.
-                }
-            }
-        }
-
-        private static void ThrowIfExternalCancellationRequested(CancellationToken cancellationToken)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-        }
-
-        private static void TryTerminateProcess(Process process)
-        {
-            try
-            {
-                if (!process.HasExited)
-                {
-                    process.Kill(entireProcessTree: true);
-                }
-            }
-            catch
-            {
-                // Ignore termination races with natural process exit.
-            }
         }
 
         private static string? ExtractMeaningfulJson(string? content)
@@ -761,28 +555,13 @@ namespace IPAbuyer.Core.Integration.Ipatool
             }
         }
 
-        private static ProcessStartInfo CreateIpatoolProcessStartInfo(string ipatoolPath, string workingDirectory, IReadOnlyList<string> arguments)
+        private static IReadOnlyDictionary<string, string> CreateIpatoolEnvironmentVariables()
         {
-            var psi = new ProcessStartInfo
+            return new Dictionary<string, string>
             {
-                FileName = ipatoolPath,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                StandardOutputEncoding = Encoding.UTF8,
-                StandardErrorEncoding = Encoding.UTF8,
-                WorkingDirectory = workingDirectory,
+                ["NO_COLOR"] = "1",
+                ["TERM"] = "dumb"
             };
-
-            foreach (string arg in arguments)
-            {
-                psi.ArgumentList.Add(arg);
-            }
-
-            psi.EnvironmentVariables["NO_COLOR"] = "1";
-            psi.EnvironmentVariables["TERM"] = "dumb";
-            return psi;
         }
 
         private static string GetSafeCommandLabel(IReadOnlyList<string> arguments)
