@@ -286,7 +286,7 @@
     <value>Not logged in</value>
   </data>
   <data name="MainWindow/Nav/Main.Content" xml:space="preserve">
-    <value>Home page</value>
+    <value>Home</value>
   </data>
   <data name="MainWindow/Nav/Account.Content" xml:space="preserve">
     <value>Account</value>
