@@ -5,7 +5,7 @@
         <StackPanel Padding="{StaticResource AppPagePadding}" Spacing="12" HorizontalAlignment="Stretch">
             <controls:SettingsCard x:Uid="Settings/Card/DisplayLanguage" HorizontalAlignment="Stretch">
                 <controls:SettingsCard.HeaderIcon>
-                    <FontIcon FontSize="20" Glyph="&#xE774;" />
+                    <FontIcon FontSize="20" Glyph="&#xF2B7;" />
                 </controls:SettingsCard.HeaderIcon>
                 <ComboBox
                     x:Name="DisplayLanguageComboBox"
