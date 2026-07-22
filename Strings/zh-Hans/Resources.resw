@@ -139,9 +139,8 @@
     <value>恢复默认</value>
     <comment>设置页面下载目录的恢复默认按钮</comment>
   </data>
-  <data name="Settings/Button/CopyFeedbackEmail.Content" xml:space="preserve">
-    <value>复制</value>
-    <comment>设置页面复制反馈邮箱按钮</comment>
+  <data name="Settings/Button/OpenProjectRepository.Content" xml:space="preserve">
+    <value>打开仓库</value>
   </data>
   <data name="Settings/Button/ClearLocalDatabase.Content" xml:space="preserve">
     <value>清空记录</value>
@@ -216,12 +215,6 @@
   <data name="Settings/DownloadDirectory/UpdatedMessage" xml:space="preserve">
     <value>下载目录已更新</value>
   </data>
-  <data name="Settings/Feedback/CopiedMessage" xml:space="preserve">
-    <value>反馈邮箱已复制：{0}</value>
-  </data>
-  <data name="Settings/Feedback/CopyFailMessage" xml:space="preserve">
-    <value>复制邮箱失败：{0}</value>
-  </data>
   <data name="Settings/Card/ClearLocalDatabase.Description" xml:space="preserve">
     <value>仅清除本地记录，不影响 Apple 购买历史。</value>
   </data>
@@ -235,7 +228,7 @@
     <value>国家/地区代码</value>
   </data>
   <data name="Settings/Card/DeveloperSite.Description" xml:space="preserve">
-    <value>查看项目说明与常见问题。</value>
+    <value>https://www.blazesnow.com/ipa/</value>
   </data>
   <data name="Settings/Card/DeveloperSite.Header" xml:space="preserve">
     <value>开发者网站</value>
@@ -249,11 +242,11 @@
   <data name="Settings/Card/AppVersion.Header" xml:space="preserve">
     <value>软件版本</value>
   </data>
-  <data name="Settings/Card/FeedbackEmail.Description" xml:space="preserve">
-    <value>使用本软件时遇到问题，欢迎反馈</value>
+  <data name="Settings/Card/ProjectRepository.Description" xml:space="preserve">
+    <value>https://github.com/ipabuyer/gui</value>
   </data>
-  <data name="Settings/Card/FeedbackEmail.Header" xml:space="preserve">
-    <value>反馈邮箱</value>
+  <data name="Settings/Card/ProjectRepository.Header" xml:space="preserve">
+    <value>项目仓库</value>
   </data>
   <data name="Settings/Card/OwnedPrompt.Description" xml:space="preserve">
     <value>关闭后，标记“已拥有”时不再确认。</value>
@@ -621,9 +614,6 @@
   <data name="MainPage/Purchase/SkipNonFree" xml:space="preserve">
     <value>非免费应用，已跳过购买: {0}</value>
   </data>
-  <data name="MainPage/PurchaseBlockedHelpGlyph.Text" xml:space="preserve">
-    <value>?</value>
-  </data>
   <data name="MainPage/PurchaseBlockedReason/NonFree" xml:space="preserve">
     <value>当前价格为 {0}，本软件仅支持购买免费 App。</value>
   </data>
@@ -986,9 +976,6 @@
   </data>
   <data name="LoginPage/TwoFactorHelpText.Text" xml:space="preserve">
     <value>收不到验证码时，请点击“打开苹果账户官网”前往 account.apple.com 获取验证码。</value>
-  </data>
-  <data name="LoginPage/HelpGlyph.Text" xml:space="preserve">
-    <value>?</value>
   </data>
   <data name="LoginPage/Status/QueryingAuthInfo" xml:space="preserve">
     <value>正在查询登录状态...</value>

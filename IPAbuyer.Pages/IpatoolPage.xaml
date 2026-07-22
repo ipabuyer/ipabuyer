@@ -140,7 +140,7 @@
 
             <controls:SettingsCard x:Uid="IpatoolPage/Card/DetailedIpatoolLog" HorizontalAlignment="Stretch">
                 <controls:SettingsCard.HeaderIcon>
-                    <FontIcon FontSize="20" Glyph="&#xE9D5;" />
+                    <FontIcon FontSize="20" Glyph="&#xE8BD;" />
                 </controls:SettingsCard.HeaderIcon>
                 <ToggleSwitch x:Name="DetailedIpatoolLogCheckBox" Toggled="DetailedIpatoolLogCheckBox_Toggled" />
             </controls:SettingsCard>
@@ -154,7 +154,7 @@
 
             <controls:SettingsCard x:Uid="IpatoolPage/Card/Repository" HorizontalAlignment="Stretch">
                 <controls:SettingsCard.HeaderIcon>
-                    <FontIcon FontSize="20" Glyph="&#xE943;" />
+                    <FontIcon FontSize="20" Glyph="&#xE8F1;" />
                 </controls:SettingsCard.HeaderIcon>
                 <Button x:Uid="IpatoolPage/Repository/OpenButton" Click="OpenRepositoryButton_Click" HorizontalAlignment="Right" />
             </controls:SettingsCard>
