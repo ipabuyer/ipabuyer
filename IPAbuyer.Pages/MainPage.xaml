@@ -119,8 +119,9 @@
                                                 Text="{Binding purchased}"
                                                 TextTrimming="CharacterEllipsis"
                                                 ToolTipService.ToolTip="{Binding purchased}" />
-                                            <TextBlock
-                                                x:Uid="MainPage/PurchaseBlockedHelpGlyph"
+                                            <FontIcon
+                                                FontSize="14"
+                                                Glyph="&#xE897;"
                                                 VerticalAlignment="Center"
                                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                                 Visibility="{Binding purchased, Converter={StaticResource MainPagePurchaseBlockedHelpVisibilityConverter}}">
@@ -132,7 +133,7 @@
                                                             TextWrapping="WrapWholeWords" />
                                                     </ToolTip>
                                                 </ToolTipService.ToolTip>
-                                            </TextBlock>
+                                            </FontIcon>
                                         </StackPanel>
                                         <Button
                                             Grid.Column="2"

@@ -614,9 +614,6 @@
   <data name="MainPage/Purchase/SkipNonFree" xml:space="preserve">
     <value>非免费应用，已跳过购买: {0}</value>
   </data>
-  <data name="MainPage/PurchaseBlockedHelpGlyph.Text" xml:space="preserve">
-    <value>?</value>
-  </data>
   <data name="MainPage/PurchaseBlockedReason/NonFree" xml:space="preserve">
     <value>当前价格为 {0}，本软件仅支持购买免费 App。</value>
   </data>
@@ -979,9 +976,6 @@
   </data>
   <data name="LoginPage/TwoFactorHelpText.Text" xml:space="preserve">
     <value>收不到验证码时，请点击“打开苹果账户官网”前往 account.apple.com 获取验证码。</value>
-  </data>
-  <data name="LoginPage/HelpGlyph.Text" xml:space="preserve">
-    <value>?</value>
   </data>
   <data name="LoginPage/Status/QueryingAuthInfo" xml:space="preserve">
     <value>正在查询登录状态...</value>

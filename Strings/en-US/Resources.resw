@@ -614,9 +614,6 @@
   <data name="MainPage/Purchase/SkipNonFree" xml:space="preserve">
     <value>Not free app, purchase skipped: {0}</value>
   </data>
-  <data name="MainPage/PurchaseBlockedHelpGlyph.Text" xml:space="preserve">
-    <value>?</value>
-  </data>
   <data name="MainPage/PurchaseBlockedReason/NonFree" xml:space="preserve">
     <value>The current price is {0}, and this software only supports the purchase of free apps.</value>
   </data>
@@ -979,9 +976,6 @@
   </data>
   <data name="LoginPage/TwoFactorHelpText.Text" xml:space="preserve">
     <value>If you do not receive the verification code, please click "Open Apple Account Official Website" to go to account.apple.com to obtain the verification code.</value>
-  </data>
-  <data name="LoginPage/HelpGlyph.Text" xml:space="preserve">
-    <value>?</value>
   </data>
   <data name="LoginPage/Status/QueryingAuthInfo" xml:space="preserve">
     <value>Checking login status...</value>
