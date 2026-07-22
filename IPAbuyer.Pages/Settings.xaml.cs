@@ -6,7 +6,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage.Pickers;
 using Windows.System.UserProfile;
 using WinRT.Interop;
@@ -394,25 +393,13 @@ namespace IPAbuyer.Pages
             }
         }
 
-        private async void CopyFeedbackEmailButton_Click(object sender, RoutedEventArgs e)
+        private void OpenProjectRepositoryButton_Click(object sender, RoutedEventArgs e)
         {
-            const string feedbackEmail = "ipa@blazesnow.com";
-            try
+            Process.Start(new ProcessStartInfo
             {
-                var dataPackage = new DataPackage();
-                dataPackage.SetText(feedbackEmail);
-                Clipboard.SetContent(dataPackage);
-                Clipboard.Flush();
-                await ShowDialogAsync(
-                    L("Settings/Dialog/SuccessTitle"),
-                    LF("Settings/Feedback/CopiedMessage", feedbackEmail));
-            }
-            catch (Exception ex)
-            {
-                await ShowDialogAsync(
-                    L("Settings/Dialog/OperationFailedTitle"),
-                    LF("Settings/Feedback/CopyFailMessage", ex.Message));
-            }
+                FileName = "https://github.com/ipabuyer/gui",
+                UseShellExecute = true
+            });
         }
 
         private void InitializeAppVersion()

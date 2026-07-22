@@ -139,9 +139,8 @@
     <value>Restore default</value>
     <comment>设置页面下载目录的恢复默认按钮</comment>
   </data>
-  <data name="Settings/Button/CopyFeedbackEmail.Content" xml:space="preserve">
-    <value>Copy</value>
-    <comment>设置页面复制反馈邮箱按钮</comment>
+  <data name="Settings/Button/OpenProjectRepository.Content" xml:space="preserve">
+    <value>Open repository</value>
   </data>
   <data name="Settings/Button/ClearLocalDatabase.Content" xml:space="preserve">
     <value>Clear records</value>
@@ -216,12 +215,6 @@
   <data name="Settings/DownloadDirectory/UpdatedMessage" xml:space="preserve">
     <value>Download directory has been updated</value>
   </data>
-  <data name="Settings/Feedback/CopiedMessage" xml:space="preserve">
-    <value>Feedback email has been copied: {0}</value>
-  </data>
-  <data name="Settings/Feedback/CopyFailMessage" xml:space="preserve">
-    <value>Failed to copy mailbox: {0}</value>
-  </data>
   <data name="Settings/Card/ClearLocalDatabase.Description" xml:space="preserve">
     <value>Only clears local records and does not affect Apple purchase history.</value>
   </data>
@@ -235,7 +228,7 @@
     <value>Country code</value>
   </data>
   <data name="Settings/Card/DeveloperSite.Description" xml:space="preserve">
-    <value>View program descriptions and FAQs.</value>
+    <value>https://www.blazesnow.com/ipa/</value>
   </data>
   <data name="Settings/Card/DeveloperSite.Header" xml:space="preserve">
     <value>Developer website</value>
@@ -249,11 +242,11 @@
   <data name="Settings/Card/AppVersion.Header" xml:space="preserve">
     <value>Software version</value>
   </data>
-  <data name="Settings/Card/FeedbackEmail.Description" xml:space="preserve">
-    <value>If you encounter problems when using this software, feedback is welcome</value>
+  <data name="Settings/Card/ProjectRepository.Description" xml:space="preserve">
+    <value>https://github.com/ipabuyer/gui</value>
   </data>
-  <data name="Settings/Card/FeedbackEmail.Header" xml:space="preserve">
-    <value>Feedback email</value>
+  <data name="Settings/Card/ProjectRepository.Header" xml:space="preserve">
+    <value>Project repository</value>
   </data>
   <data name="Settings/Card/OwnedPrompt.Description" xml:space="preserve">
     <value>After closing, there is no confirmation when marking "Owned".</value>

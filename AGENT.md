@@ -152,8 +152,8 @@
    1. LocalSettings 名称：`KeychainPassphraseRotationEnabled`
 7. 开发者官方网站（按钮跳转 <https://ipa.blazesnow.com>）：
    1. 需要提示用户：打开开发者官方网站，查看 Q&A 及更多信息。
-8. 反馈邮箱（按钮复制 <ipa@blazesnow.com>）：
-   1. 需要提示用户：附带屏幕截图和复现步骤，有助于更快地修复问题。
+8. 项目仓库（按钮打开 <https://github.com/ipabuyer/gui>）：
+   1. 可在 GitHub 项目仓库反馈问题或参与贡献。
 9. 清空本地数据库按钮与介绍。
 10. 设置页最底部显示软件版本卡片，仅显示版本号，不需要 Description。
 

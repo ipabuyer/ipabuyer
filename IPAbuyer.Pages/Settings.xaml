@@ -49,31 +49,31 @@
             </controls:SettingsCard>
             <controls:SettingsCard x:Uid="Settings/Card/OwnedPrompt" HorizontalAlignment="Stretch">
                 <controls:SettingsCard.HeaderIcon>
-                    <FontIcon FontSize="20" Glyph="&#xE8FB;" />
+                    <FontIcon FontSize="20" Glyph="&#xE9D5;" />
                 </controls:SettingsCard.HeaderIcon>
                 <ToggleSwitch x:Name="OwnedCheckBox" Toggled="OwnedCheckBox_Toggled" />
             </controls:SettingsCard>
             <controls:SettingsCard x:Uid="Settings/Card/KeychainPassphraseRotation" HorizontalAlignment="Stretch">
                 <controls:SettingsCard.HeaderIcon>
-                    <FontIcon FontSize="20" Glyph="&#xE72E;" />
+                    <FontIcon FontSize="20" Glyph="&#xEC19;" />
                 </controls:SettingsCard.HeaderIcon>
                 <ToggleSwitch x:Name="KeychainPassphraseRotationCheckBox" Toggled="KeychainPassphraseRotationCheckBox_Toggled" />
             </controls:SettingsCard>
             <controls:SettingsCard x:Uid="Settings/Card/DeveloperSite" HorizontalAlignment="Stretch">
                 <controls:SettingsCard.HeaderIcon>
-                    <FontIcon FontSize="20" Glyph="&#xE943;" />
+                    <FontIcon FontSize="20" Glyph="&#xE71B;" />
                 </controls:SettingsCard.HeaderIcon>
                 <Button x:Uid="Settings/Button/OpenDeveloperSite" Click="GithubButton" HorizontalAlignment="Right" />
             </controls:SettingsCard>
-            <controls:SettingsCard x:Uid="Settings/Card/FeedbackEmail" HorizontalAlignment="Stretch">
+            <controls:SettingsCard x:Uid="Settings/Card/ProjectRepository" HorizontalAlignment="Stretch">
                 <controls:SettingsCard.HeaderIcon>
-                    <FontIcon FontSize="20" Glyph="&#xE715;" />
+                    <FontIcon FontSize="20" Glyph="&#xE8F1;" />
                 </controls:SettingsCard.HeaderIcon>
-                <Button x:Uid="Settings/Button/CopyFeedbackEmail" Click="CopyFeedbackEmailButton_Click" HorizontalAlignment="Right" />
+                <Button x:Uid="Settings/Button/OpenProjectRepository" Click="OpenProjectRepositoryButton_Click" HorizontalAlignment="Right" />
             </controls:SettingsCard>
             <controls:SettingsCard x:Uid="Settings/Card/ClearLocalDatabase" HorizontalAlignment="Stretch">
                 <controls:SettingsCard.HeaderIcon>
-                    <FontIcon FontSize="20" Glyph="&#xE777;" />
+                    <FontIcon FontSize="20" Glyph="&#xEA99;" />
                 </controls:SettingsCard.HeaderIcon>
                 <Button x:Uid="Settings/Button/ClearLocalDatabase" Click="DeleteDataBase" HorizontalAlignment="Right" />
             </controls:SettingsCard>
