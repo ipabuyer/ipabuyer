@@ -55,7 +55,7 @@
         <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="3.53.3" />
         <ProjectReference Include="IPAbuyer.Core\IPAbuyer.Core.csproj" />
         <ProjectReference Include="IPAbuyer.Pages\IPAbuyer.Pages.csproj" />
-        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2270" />
+        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2526" />
         <Manifest Include="$(ApplicationManifest)" />
 
         <Content Include="Include\ipatool-2.3.1-windows-amd64.exe" Condition="'$(Platform)' == 'x64' Or '$(RuntimeIdentifier)' == 'win-x64' Or '$(RuntimeIdentifier)' == 'win10-x64'">
