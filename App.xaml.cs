@@ -1,6 +1,6 @@
 using IPAbuyer.Core.Configuration;
-using IPAbuyer.Core.Data.PurchasedApps;
 using IPAbuyer.Core.Integration.Ipatool;
+using IPAbuyer.Core.Services.Purchases;
 using IPAbuyer.Core.State;
 using IPAbuyer.Pages;
 using Microsoft.UI.Xaml;
@@ -36,7 +36,7 @@ namespace IPAbuyer
                 try
                 {
                     // 初始化数据库
-                    PurchasedAppDb.InitDb();
+                    PurchaseHistoryService.Initialize();
                 }
                 catch (Exception ex)
                 {
@@ -45,8 +45,8 @@ namespace IPAbuyer
 
                 try
                 {
-                    // KeychainConfig 改为文件配置（无 KeychainConfig.db），保留初始化入口用于创建默认配置文件。
-                    KeychainConfig.InitializeDatabase();
+                    // 初始化 LocalSettings、凭据和 legacy 配置迁移。
+                    ConfigurationBootstrapper.Initialize();
                 }
                 catch (Exception ex)
                 {
@@ -95,13 +95,13 @@ namespace IPAbuyer
         {
             try
             {
-                var result = await IpatoolExecution.AuthInfoAsync(
+                var result = await IpatoolClient.AuthInfoAsync(
                     passphrase: null,
                     silent: true).ConfigureAwait(false);
-                string account = IpatoolExecution.ExtractEmailFromPayload(result.OutputOrError);
+                string account = IpatoolClient.ExtractEmailFromPayload(result.OutputOrError);
                 bool isAuthSuccess = result.IsSuccessResponse
-                    && !IpatoolExecution.HasExplicitFailureFlag(result.OutputOrError)
-                    && (IpatoolExecution.IsPayloadSuccess(result.OutputOrError) || !string.IsNullOrWhiteSpace(account));
+                    && !IpatoolClient.HasExplicitFailureFlag(result.OutputOrError)
+                    && (IpatoolClient.IsPayloadSuccess(result.OutputOrError) || !string.IsNullOrWhiteSpace(account));
                 if (!isAuthSuccess)
                 {
                     return;

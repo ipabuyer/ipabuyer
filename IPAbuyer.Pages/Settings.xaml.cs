@@ -1,5 +1,5 @@
 ﻿using IPAbuyer.Core.Configuration;
-using IPAbuyer.Core.Data.PurchasedApps;
+using IPAbuyer.Core.Services.Purchases;
 using IPAbuyer.Core.State;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -51,7 +51,7 @@ namespace IPAbuyer.Pages
 
         private async void DeleteDataBase(object sender, RoutedEventArgs e)
         {
-            int totalBefore = PurchasedAppDb.GetTotalCount();
+            int totalBefore = PurchaseHistoryService.GetTotalCount();
             var dialog = new ContentDialog
             {
                 Title = L("Settings/Dialog/ConfirmAction/Title"),
@@ -71,8 +71,8 @@ namespace IPAbuyer.Pages
 
             try
             {
-                PurchasedAppDb.ClearPurchasedApps();
-                int totalAfter = PurchasedAppDb.GetTotalCount();
+                PurchaseHistoryService.Clear();
+                int totalAfter = PurchaseHistoryService.GetTotalCount();
                 await ShowDialogAsync(
                     L("Settings/Dialog/SuccessTitle"),
                     LF(
@@ -189,7 +189,7 @@ namespace IPAbuyer.Pages
         {
             try
             {
-                string currentCode = KeychainConfig.GetCountryCode();
+                string currentCode = ApplicationSettings.GetCountryCode();
                 if (CountryCodeValueTextBlockControl != null)
                 {
                     CountryCodeValueTextBlockControl.Text = LF("Settings/CountryCode/CurrentFormat", currentCode);
@@ -207,7 +207,7 @@ namespace IPAbuyer.Pages
             {
                 if (DownloadDirectoryValueTextBlockControl != null)
                 {
-                    DownloadDirectoryValueTextBlockControl.Text = KeychainConfig.GetDownloadDirectory();
+                    DownloadDirectoryValueTextBlockControl.Text = ApplicationSettings.GetDownloadDirectory();
                 }
             }
             catch (Exception ex)
@@ -233,7 +233,7 @@ namespace IPAbuyer.Pages
 
         private async Task HandleCountryCodeSubmissionAsync()
         {
-            string currentCode = KeychainConfig.GetCountryCode();
+            string currentCode = ApplicationSettings.GetCountryCode();
             IReadOnlyList<StorefrontPickerItem> allStorefronts = CreateStorefrontPickerItems();
             var filteredStorefronts = new ObservableCollection<StorefrontPickerItem>(allStorefronts);
             var searchBox = new TextBox
@@ -311,7 +311,7 @@ namespace IPAbuyer.Pages
 
             try
             {
-                KeychainConfig.SaveCountryCode(selectedStorefront.Code);
+                ApplicationSettings.SaveCountryCode(selectedStorefront.Code);
                 if (CountryCodeValueTextBlockControl != null)
                 {
                     CountryCodeValueTextBlockControl.Text = LF("Settings/CountryCode/CurrentFormat", selectedStorefront.Code);
@@ -352,7 +352,7 @@ namespace IPAbuyer.Pages
                     return;
                 }
 
-                KeychainConfig.SaveDownloadDirectory(folder.Path);
+                ApplicationSettings.SaveDownloadDirectory(folder.Path);
                 if (DownloadDirectoryValueTextBlockControl != null)
                 {
                     DownloadDirectoryValueTextBlockControl.Text = folder.Path;
@@ -374,8 +374,8 @@ namespace IPAbuyer.Pages
         {
             try
             {
-                string defaultDirectory = KeychainConfig.GetDefaultDownloadDirectory();
-                KeychainConfig.SaveDownloadDirectory(defaultDirectory);
+                string defaultDirectory = ApplicationSettings.GetDefaultDownloadDirectory();
+                ApplicationSettings.SaveDownloadDirectory(defaultDirectory);
                 if (DownloadDirectoryValueTextBlockControl != null)
                 {
                     DownloadDirectoryValueTextBlockControl.Text = defaultDirectory;
@@ -423,7 +423,7 @@ namespace IPAbuyer.Pages
             _isInitializingOwnedCheckOption = true;
             try
             {
-                OwnedCheckBox.IsOn = KeychainConfig.GetOwnedCheckEnabled();
+                OwnedCheckBox.IsOn = ApplicationSettings.GetOwnedCheckEnabled();
             }
             finally
             {
@@ -438,7 +438,7 @@ namespace IPAbuyer.Pages
                 return;
             }
 
-            KeychainConfig.SaveOwnedCheckEnabled(OwnedCheckBox.IsOn);
+            ApplicationSettings.SaveOwnedCheckEnabled(OwnedCheckBox.IsOn);
         }
 
         private void InitializeKeychainPassphraseRotationOption()
@@ -451,7 +451,7 @@ namespace IPAbuyer.Pages
             _isInitializingPassphraseRotationOption = true;
             try
             {
-                KeychainPassphraseRotationCheckBox.IsOn = KeychainConfig.GetKeychainPassphraseRotationEnabled();
+                KeychainPassphraseRotationCheckBox.IsOn = ApplicationSettings.GetKeychainPassphraseRotationEnabled();
             }
             finally
             {
@@ -466,7 +466,7 @@ namespace IPAbuyer.Pages
                 return;
             }
 
-            KeychainConfig.SaveKeychainPassphraseRotationEnabled(KeychainPassphraseRotationCheckBox.IsOn);
+            ApplicationSettings.SaveKeychainPassphraseRotationEnabled(KeychainPassphraseRotationCheckBox.IsOn);
         }
 
         private async Task ShowDialogAsync(string title, string message)

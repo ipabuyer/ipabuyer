@@ -217,7 +217,7 @@ namespace IPAbuyer.Pages
         {
             _isClosing = true;
             DownloadQueueService.Instance.CancelAll();
-            IpatoolExecution.BeginShutdown();
+            IpatoolClient.BeginShutdown();
             WindowContext.ClearMainWindow(this);
             SessionState.LoginStateChanged -= OnLoginStateChanged;
         }

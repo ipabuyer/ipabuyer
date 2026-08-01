@@ -95,7 +95,7 @@ namespace IPAbuyer.Core.State
                 return;
             }
 
-            KeychainConfig.InitializeDatabase();
+            ConfigurationBootstrapper.Initialize();
             _currentAccount = string.Empty;
             _isLoggedIn = false;
             _isMockAccount = false;

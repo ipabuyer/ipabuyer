@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Text.Json;
 
-namespace IPAbuyer.Core.Integration.Ipatool
+namespace IPAbuyer.Core.Serialization
 {
     public static class JsonPayload
     {

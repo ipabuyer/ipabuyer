@@ -29,7 +29,7 @@ namespace IPAbuyer.Pages
         {
             InitializeComponent();
 
-            string defaultPassphrase = KeychainConfig.GetPassphrase(null) ?? KeychainConfig.GetDefaultPassphrase();
+            string defaultPassphrase = PassphraseStore.Get();
             if (PassphraseInput != null)
             {
                 PassphraseInput.Text = defaultPassphrase;
@@ -42,10 +42,10 @@ namespace IPAbuyer.Pages
 
         private void LoginPage_Loaded(object sender, RoutedEventArgs e)
         {
-            IpatoolExecution.CommandExecuting -= OnIpatoolCommandExecuting;
-            IpatoolExecution.CommandExecuting += OnIpatoolCommandExecuting;
-            IpatoolExecution.CommandOutputReceived -= OnIpatoolCommandOutputReceived;
-            IpatoolExecution.CommandOutputReceived += OnIpatoolCommandOutputReceived;
+            IpatoolClient.CommandExecuting -= OnIpatoolCommandExecuting;
+            IpatoolClient.CommandExecuting += OnIpatoolCommandExecuting;
+            IpatoolClient.CommandOutputReceived -= OnIpatoolCommandOutputReceived;
+            IpatoolClient.CommandOutputReceived += OnIpatoolCommandOutputReceived;
             SessionState.LoginStateChanged -= OnSessionStateChanged;
             SessionState.LoginStateChanged += OnSessionStateChanged;
 
@@ -60,8 +60,8 @@ namespace IPAbuyer.Pages
 
         private void LoginPage_Unloaded(object sender, RoutedEventArgs e)
         {
-            IpatoolExecution.CommandExecuting -= OnIpatoolCommandExecuting;
-            IpatoolExecution.CommandOutputReceived -= OnIpatoolCommandOutputReceived;
+            IpatoolClient.CommandExecuting -= OnIpatoolCommandExecuting;
+            IpatoolClient.CommandOutputReceived -= OnIpatoolCommandOutputReceived;
             SessionState.LoginStateChanged -= OnSessionStateChanged;
             CancelCurrentOperation();
             if (!_pageCts.IsCancellationRequested)
@@ -125,15 +125,15 @@ namespace IPAbuyer.Pages
                 SetBusyState(true, L("LoginPage/Status/QueryingAuthInfo"));
 
                 string inputPassphrase = PassphraseInput?.Text?.Trim() ?? string.Empty;
-                var result = await IpatoolExecution.AuthInfoAsync(
+                var result = await IpatoolClient.AuthInfoAsync(
                     passphrase: string.IsNullOrWhiteSpace(inputPassphrase) ? null : inputPassphrase,
                     cancellationToken: _currentOperationCts.Token);
                 DisposeCurrentOperation();
 
-                string payloadEmail = IpatoolExecution.ExtractEmailFromPayload(result.OutputOrError);
+                string payloadEmail = IpatoolClient.ExtractEmailFromPayload(result.OutputOrError);
                 bool isAuthSuccess = result.IsSuccessResponse
-                    && !IpatoolExecution.HasExplicitFailureFlag(result.OutputOrError)
-                    && (IpatoolExecution.IsPayloadSuccess(result.OutputOrError) || !string.IsNullOrWhiteSpace(payloadEmail));
+                    && !IpatoolClient.HasExplicitFailureFlag(result.OutputOrError)
+                    && (IpatoolClient.IsPayloadSuccess(result.OutputOrError) || !string.IsNullOrWhiteSpace(payloadEmail));
 
                 if (isAuthSuccess)
                 {
@@ -196,15 +196,15 @@ namespace IPAbuyer.Pages
                 _currentOperationCts = CancellationTokenSource.CreateLinkedTokenSource(_pageCts.Token);
                 SetBusyState(true, L("LoginPage/Status/LoggingOut"));
 
-                var result = await IpatoolExecution.AuthLogoutAsync(_currentOperationCts.Token);
+                var result = await IpatoolClient.AuthLogoutAsync(_currentOperationCts.Token);
                 DisposeCurrentOperation();
 
                 if (result.IsSuccessResponse)
                 {
                     SessionState.Reset();
-                    if (KeychainConfig.GetKeychainPassphraseRotationEnabled())
+                    if (ApplicationSettings.GetKeychainPassphraseRotationEnabled())
                     {
-                        _passphrase = KeychainConfig.RotateDefaultPassphrase();
+                        _passphrase = PassphraseStore.Rotate();
                         if (PassphraseInput != null)
                         {
                             PassphraseInput.Text = _passphrase;
@@ -647,7 +647,7 @@ namespace IPAbuyer.Pages
         {
             try
             {
-                KeychainConfig.SavePassphrase(_passphrase);
+                PassphraseStore.Save(_passphrase);
                 if (EmailTextBox != null)
                 {
                     EmailTextBox.Text = _account;
@@ -659,7 +659,7 @@ namespace IPAbuyer.Pages
             }
 
             HideInlineTwoFactor();
-            bool isMockAccount = KeychainConfig.IsMockAccount(_account, _password);
+            bool isMockAccount = DevelopmentAccountRules.IsMockAccount(_account, _password);
             SessionState.SetLoginState(_account, true, isMockAccount);
             ApplyOperationLock(true);
             DisposeCurrentOperation();

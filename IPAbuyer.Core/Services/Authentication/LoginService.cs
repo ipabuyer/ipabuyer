@@ -1,5 +1,6 @@
 using IPAbuyer.Core.Configuration;
 using IPAbuyer.Core.Integration.Ipatool;
+using IPAbuyer.Core.Serialization;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Text.Json;
 
@@ -40,7 +41,7 @@ namespace IPAbuyer.Core.Services.Authentication
 
         private static async Task<LoginResult> ExecuteLoginAsync(string account, string password, string passphrase, string authCode, CancellationToken cancellationToken, bool isTwoFactor)
         {
-            if (KeychainConfig.IsMockAccount(account, password))
+            if (DevelopmentAccountRules.IsMockAccount(account, password))
             {
                 try
                 {
@@ -56,7 +57,7 @@ namespace IPAbuyer.Core.Services.Authentication
 
             try
             {
-                var response = await IpatoolExecution.AuthLoginAsync(account, password, authCode, passphrase, cancellationToken).ConfigureAwait(false);
+                var response = await IpatoolClient.AuthLoginAsync(account, password, authCode, passphrase, cancellationToken).ConfigureAwait(false);
 
                 if (response.TimedOut)
                 {
