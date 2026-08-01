@@ -125,7 +125,7 @@
         <PublishDir>bin\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\publish\</PublishDir>
         <SelfContained>true</SelfContained>
         <PublishSingleFile>False</PublishSingleFile>
-        <PlatformTarget>AnyCPU</PlatformTarget>
+        <PlatformTarget>$(Platform)</PlatformTarget>
         <SignAssembly>False</SignAssembly>
         <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
         <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
