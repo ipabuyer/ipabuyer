@@ -249,10 +249,10 @@
     <value>Project repository</value>
   </data>
   <data name="Settings/Card/OwnedPrompt.Description" xml:space="preserve">
-    <value>After closing, there is no confirmation when marking "Owned".</value>
+    <value>When turned on, confirmation is skipped when marking an app as "Owned".</value>
   </data>
   <data name="Settings/Card/OwnedPrompt.Header" xml:space="preserve">
-    <value>Tips before marking "Owned"</value>
+    <value>Disable confirmation before marking "Owned"</value>
   </data>
   <data name="Settings/Card/KeychainPassphraseRotation.Description" xml:space="preserve">
     <value>When turned off, new encryption keys will no longer be automatically generated when logging out.</value>

@@ -249,10 +249,10 @@
     <value>项目仓库</value>
   </data>
   <data name="Settings/Card/OwnedPrompt.Description" xml:space="preserve">
-    <value>关闭后，标记“已拥有”时不再确认。</value>
+    <value>开启后，标记“已拥有”时不再确认。</value>
   </data>
   <data name="Settings/Card/OwnedPrompt.Header" xml:space="preserve">
-    <value>标记“已拥有”前提示</value>
+    <value>关闭标记“已拥有”前提示</value>
   </data>
   <data name="Settings/Card/KeychainPassphraseRotation.Description" xml:space="preserve">
     <value>关闭后，退出登录时不再自动生成新的加密密钥。</value>
