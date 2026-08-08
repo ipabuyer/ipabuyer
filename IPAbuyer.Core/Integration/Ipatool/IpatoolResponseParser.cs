@@ -6,7 +6,6 @@ namespace IPAbuyer.Core.Integration.Ipatool
 {
     internal static class IpatoolResponseParser
     {
-        private static readonly ResourceLoader Loader = new();
         private static readonly Regex EmailRegex = new(
             @"[A-Z0-9._%+\-]+@[A-Z0-9.\-]+\.[A-Z]{2,}",
             RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -102,13 +101,18 @@ namespace IPAbuyer.Core.Integration.Ipatool
                     && JsonPayload.TryReadString(token, out string? message, "error", "message")
                     && !string.IsNullOrWhiteSpace(message))
                 {
-                    return string.Format(System.Globalization.CultureInfo.CurrentCulture, Loader.GetString("Ipatool/Error/ReadableJsonError"), message, exitCode);
+                    return string.Format(System.Globalization.CultureInfo.CurrentCulture, GetResourceString("Ipatool/Error/ReadableJsonError"), message, exitCode);
                 }
 
                 return trimmed;
             }
 
-            return string.Format(System.Globalization.CultureInfo.CurrentCulture, Loader.GetString("Ipatool/Error/ExecutionFailed"), exitCode);
+            return string.Format(System.Globalization.CultureInfo.CurrentCulture, GetResourceString("Ipatool/Error/ExecutionFailed"), exitCode);
+        }
+
+        private static string GetResourceString(string key)
+        {
+            return new ResourceLoader().GetString(key);
         }
     }
 }

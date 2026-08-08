@@ -7,7 +7,6 @@ namespace IPAbuyer.Core.Services.Downloads
 {
     internal static class DownloadResultParser
     {
-        private static readonly ResourceLoader Loader = new();
         private static readonly Regex SuccessFlagRegex = new(@"success\s*[:=]\s*(true|false)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         internal static bool IsSuccess(IpatoolResult result)
@@ -31,13 +30,13 @@ namespace IPAbuyer.Core.Services.Downloads
         {
             if (result.TimedOut)
             {
-                return Loader.GetString("DownloadQueue/Error/Timeout");
+                return GetResourceString("DownloadQueue/Error/Timeout");
             }
 
             string payload = result.OutputOrError;
             if (string.IsNullOrWhiteSpace(payload))
             {
-                return string.Format(System.Globalization.CultureInfo.CurrentCulture, Loader.GetString("DownloadQueue/Error/ExitCode"), result.ExitCode);
+                return string.Format(System.Globalization.CultureInfo.CurrentCulture, GetResourceString("DownloadQueue/Error/ExitCode"), result.ExitCode);
             }
 
             foreach (var token in JsonPayload.EnumerateTokens(payload))
@@ -49,6 +48,11 @@ namespace IPAbuyer.Core.Services.Downloads
             }
 
             return payload.Length > 160 ? payload[..160] + "..." : payload;
+        }
+
+        private static string GetResourceString(string key)
+        {
+            return new ResourceLoader().GetString(key);
         }
 
         private static bool TryExtractSuccessFlag(string? payload, out bool success)

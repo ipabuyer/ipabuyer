@@ -28,6 +28,7 @@ namespace IPAbuyer.Tests.Serialization
             JsonElement token = Assert.Single(JsonPayload.EnumerateTokens("[{\"success\":true}]"));
 
             Assert.Equal(JsonValueKind.Array, token.ValueKind);
+            Assert.False(JsonPayload.TryReadBoolean(token, "success", out _));
         }
 
         [Theory]
