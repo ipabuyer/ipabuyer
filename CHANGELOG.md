@@ -5,8 +5,9 @@
 1. 适配未登录时的报错信息
 2. 新增功能：首次启动时从 Windows 区域初始化国家/地区代码
 3. 修复数据库App状态
-4. 修复开发者网站链接
-5. 修改仓库链接：
+4. 优化标记已拥有功能的文本提示
+5. 修复开发者网站链接
+6. 修改仓库链接：
    1. 旧：<https://github.com/ipabuyer/gui>
    2. 新：<https://github.com/ipabuyer/ipabuyer>
 
