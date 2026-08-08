@@ -450,7 +450,9 @@ namespace IPAbuyer.Pages
                 return;
             }
 
-            _selectedDeveloper = item.Tag as string;
+            _selectedDeveloper = item.Tag is string developer && !string.Equals(developer, "All", StringComparison.Ordinal)
+                ? developer
+                : null;
             ApplyFilterAndRefresh();
         }
 
@@ -464,12 +466,10 @@ namespace IPAbuyer.Pages
             _isUpdatingDeveloperFilter = true;
             try
             {
-                DeveloperFilterComboBox.Items.Clear();
-                DeveloperFilterComboBox.Items.Add(new ComboBoxItem
+                while (DeveloperFilterComboBox.Items.Count > 1)
                 {
-                    Content = L("MainPage/DeveloperFilter/AllItem.Content"),
-                    Tag = null
-                });
+                    DeveloperFilterComboBox.Items.RemoveAt(1);
+                }
 
                 var developers = new Dictionary<string, (string DisplayName, int Count)>(StringComparer.OrdinalIgnoreCase);
                 foreach (SearchResult result in _allResults)
