@@ -44,7 +44,7 @@ namespace IPAbuyer.Pages
         {
             Process.Start(new ProcessStartInfo
             {
-                FileName = "https://ipa.blazesnow.com/",
+                FileName = "https://www.blazesnow.com/ipa/",
                 UseShellExecute = true
             });
         }
