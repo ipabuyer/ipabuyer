@@ -428,6 +428,15 @@
   <data name="MainPage/Action/OpenLogButton.Content" xml:space="preserve">
     <value>log</value>
   </data>
+  <data name="MainPage/DeveloperFilter.AutomationProperties.Name" xml:space="preserve">
+    <value>Developer filter</value>
+  </data>
+  <data name="MainPage/DeveloperFilter.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Filter search results by developer</value>
+  </data>
+  <data name="MainPage/DeveloperFilter/AllItem.Content" xml:space="preserve">
+    <value>All developers</value>
+  </data>
   <data name="MainPage/Filter/AllItem.Content" xml:space="preserve">
     <value>all</value>
   </data>

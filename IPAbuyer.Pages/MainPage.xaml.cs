@@ -26,7 +26,9 @@ namespace IPAbuyer.Pages
         private CancellationTokenSource _pageCts = new();
         private bool _isInactive;
         private bool _hasCompletedSearch;
+        private bool _isUpdatingDeveloperFilter;
         private string _selectedFilter = "All";
+        private string? _selectedDeveloper;
         private static readonly string StatusPurchased = PurchaseStatusPolicy.PurchasedStatus;
         private static readonly string StatusOwned = PurchaseStatusPolicy.OwnedStatus;
         private static readonly string StatusCanPurchase = PurchaseStatusPolicy.CanPurchaseStatus;
@@ -36,6 +38,7 @@ namespace IPAbuyer.Pages
         public MainPage()
         {
             InitializeComponent();
+            UpdateDeveloperFilterOptions();
             NavigationCacheMode = Microsoft.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
         }
 
@@ -117,6 +120,7 @@ namespace IPAbuyer.Pages
             _allResults.Clear();
             _allResults.AddRange(results);
             _hasCompletedSearch = true;
+            UpdateDeveloperFilterOptions();
             ApplyFilterAndRefresh();
             AppendHomeLog(LF("MainPage/Log/SearchCompleted", _allResults.Count), UiLogLevel.Success);
         }
@@ -439,6 +443,73 @@ namespace IPAbuyer.Pages
             }
         }
 
+        private void DeveloperFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_isUpdatingDeveloperFilter || DeveloperFilterComboBox.SelectedItem is not ComboBoxItem item)
+            {
+                return;
+            }
+
+            _selectedDeveloper = item.Tag as string;
+            ApplyFilterAndRefresh();
+        }
+
+        private void UpdateDeveloperFilterOptions()
+        {
+            if (DeveloperFilterComboBox == null)
+            {
+                return;
+            }
+
+            _isUpdatingDeveloperFilter = true;
+            try
+            {
+                DeveloperFilterComboBox.Items.Clear();
+                DeveloperFilterComboBox.Items.Add(new ComboBoxItem
+                {
+                    Content = L("MainPage/DeveloperFilter/AllItem.Content"),
+                    Tag = null
+                });
+
+                var developers = new Dictionary<string, (string DisplayName, int Count)>(StringComparer.OrdinalIgnoreCase);
+                foreach (SearchResult result in _allResults)
+                {
+                    string developer = result.developer?.Trim() ?? string.Empty;
+                    if (string.IsNullOrWhiteSpace(developer))
+                    {
+                        continue;
+                    }
+
+                    if (developers.TryGetValue(developer, out var existing))
+                    {
+                        developers[developer] = (existing.DisplayName, existing.Count + 1);
+                    }
+                    else
+                    {
+                        developers.Add(developer, (developer, 1));
+                    }
+                }
+
+                foreach (var developer in developers.Values
+                    .OrderByDescending(item => item.Count)
+                    .ThenBy(item => item.DisplayName, StringComparer.CurrentCultureIgnoreCase))
+                {
+                    DeveloperFilterComboBox.Items.Add(new ComboBoxItem
+                    {
+                        Content = developer.DisplayName,
+                        Tag = developer.DisplayName
+                    });
+                }
+
+                _selectedDeveloper = null;
+                DeveloperFilterComboBox.SelectedIndex = 0;
+            }
+            finally
+            {
+                _isUpdatingDeveloperFilter = false;
+            }
+        }
+
         private void ApplyFilterAndRefresh()
         {
             if (ResultList == null)
@@ -626,15 +697,23 @@ namespace IPAbuyer.Pages
 
         private List<SearchResult> GetFilteredResults()
         {
-            List<SearchResult> filtered = _selectedFilter switch
+            IEnumerable<SearchResult> filtered = _selectedFilter switch
             {
-                "OnlyPurchased" => _allResults.Where(a => IsPurchasedStatus(a.purchased)).ToList(),
-                "OnlyNotPurchased" => _allResults.Where(a => IsCanPurchaseStatus(a.purchased)).ToList(),
-                "OnlyHad" => _allResults.Where(a => IsOwnedStatus(a.purchased)).ToList(),
-                _ => _allResults.ToList(),
+                "OnlyPurchased" => _allResults.Where(a => IsPurchasedStatus(a.purchased)),
+                "OnlyNotPurchased" => _allResults.Where(a => IsCanPurchaseStatus(a.purchased)),
+                "OnlyHad" => _allResults.Where(a => IsOwnedStatus(a.purchased)),
+                _ => _allResults,
             };
 
-            return filtered;
+            if (!string.IsNullOrWhiteSpace(_selectedDeveloper))
+            {
+                filtered = filtered.Where(app => string.Equals(
+                    app.developer?.Trim(),
+                    _selectedDeveloper,
+                    StringComparison.OrdinalIgnoreCase));
+            }
+
+            return filtered.ToList();
         }
 
         private async Task<bool> PurchaseAppsAsync(List<SearchResult> selectedApps)
@@ -900,6 +979,7 @@ namespace IPAbuyer.Pages
         {
             _allResults.Clear();
             _hasCompletedSearch = false;
+            UpdateDeveloperFilterOptions();
             if (ResultList != null)
             {
                 SetResultListItemsSource(null);
