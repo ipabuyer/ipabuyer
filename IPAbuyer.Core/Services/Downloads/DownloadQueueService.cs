@@ -274,7 +274,7 @@ namespace IPAbuyer.Core.Services.Downloads
                     }
                 }
 
-                EmitLog(LF("DownloadQueue/Log/Completed", completed, processed), UiLogLevel.Success);
+                EmitLog(LF("DownloadQueue/Log/Completed", completed, processed), UiLogLevel.Info);
                 return completed;
             }
             catch (OperationCanceledException) when (queueCts?.IsCancellationRequested == true)
