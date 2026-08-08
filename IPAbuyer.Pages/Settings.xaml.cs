@@ -397,7 +397,7 @@ namespace IPAbuyer.Pages
         {
             Process.Start(new ProcessStartInfo
             {
-                FileName = "https://github.com/ipabuyer/gui",
+                FileName = "https://github.com/ipabuyer/ipabuyer",
                 UseShellExecute = true
             });
         }

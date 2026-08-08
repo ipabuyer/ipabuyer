@@ -243,7 +243,7 @@
     <value>软件版本</value>
   </data>
   <data name="Settings/Card/ProjectRepository.Description" xml:space="preserve">
-    <value>https://github.com/ipabuyer/gui</value>
+    <value>https://github.com/ipabuyer/ipabuyer</value>
   </data>
   <data name="Settings/Card/ProjectRepository.Header" xml:space="preserve">
     <value>项目仓库</value>
