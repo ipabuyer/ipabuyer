@@ -745,21 +745,21 @@ namespace IPAbuyer.Pages
                         break;
 
                     case PurchaseOutcome.Purchased:
-                    {
-                        SearchResult updatedApp = ReplaceSearchResultStatus(app, PurchaseStatusPolicy.PurchasedStatus);
-                        string key = string.Equals(result.Detail, "Mock", StringComparison.Ordinal)
-                            ? "MainPage/Purchase/MockSuccess"
-                            : "MainPage/Purchase/Success";
-                        AppendHomeLog(LF(key, GetAppDisplayLabel(updatedApp, bundleId)), UiLogLevel.Success);
-                        break;
-                    }
+                        {
+                            SearchResult updatedApp = ReplaceSearchResultStatus(app, PurchaseStatusPolicy.PurchasedStatus);
+                            string key = string.Equals(result.Detail, "Mock", StringComparison.Ordinal)
+                                ? "MainPage/Purchase/MockSuccess"
+                                : "MainPage/Purchase/Success";
+                            AppendHomeLog(LF(key, GetAppDisplayLabel(updatedApp, bundleId)), UiLogLevel.Success);
+                            break;
+                        }
 
                     case PurchaseOutcome.AlreadyOwned:
-                    {
-                        SearchResult updatedApp = ReplaceSearchResultStatus(app, PurchaseStatusPolicy.OwnedStatus);
-                        AppendHomeLog(LF("MainPage/Purchase/OwnedDetected", GetAppDisplayLabel(updatedApp, bundleId)), UiLogLevel.Success);
-                        break;
-                    }
+                        {
+                            SearchResult updatedApp = ReplaceSearchResultStatus(app, PurchaseStatusPolicy.OwnedStatus);
+                            AppendHomeLog(LF("MainPage/Purchase/OwnedDetected", GetAppDisplayLabel(updatedApp, bundleId)), UiLogLevel.Success);
+                            break;
+                        }
 
                     case PurchaseOutcome.NeedsOwnedConfirmation:
                         if (await ConfirmMarkOwnedAsync(app).ConfigureAwait(true))
