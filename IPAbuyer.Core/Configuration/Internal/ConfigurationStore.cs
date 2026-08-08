@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json;
 using Windows.Security.Credentials;
 using Windows.Storage;
+using Windows.System.UserProfile;
 
 namespace IPAbuyer.Core.Configuration
 {
@@ -36,6 +37,10 @@ namespace IPAbuyer.Core.Configuration
             {
                 EnsureStorageReady();
                 RemoveLegacyKeychainDatabase();
+                var values = ApplicationData.Current.LocalSettings.Values;
+                bool hasSavedCountryCode = values.ContainsKey(CountryCodeSettingKey);
+                bool hasMigratedSettings = TryMigrateLegacySettingsFile();
+                InitializeCountryCodeIfMissing(hasSavedCountryCode || hasMigratedSettings);
                 _ = LoadSettingsInternal();
             }
         }
@@ -458,6 +463,40 @@ namespace IPAbuyer.Core.Configuration
             Directory.CreateDirectory(ResolveDataDirectory());
         }
 
+        private static void InitializeCountryCodeIfMissing(bool hasSavedCountryCode)
+        {
+            if (hasSavedCountryCode)
+            {
+                return;
+            }
+
+            string countryCode = ResolveInitialCountryCodeFromWindows();
+            ApplicationData.Current.LocalSettings.Values[CountryCodeSettingKey] = countryCode;
+        }
+
+        private static string ResolveInitialCountryCodeFromWindows()
+        {
+            try
+            {
+                return ResolveInitialCountryCode(GlobalizationPreferences.HomeGeographicRegion);
+            }
+            catch
+            {
+                return DefaultCountryCode;
+            }
+        }
+
+        internal static string ResolveInitialCountryCode(string? homeGeographicRegion)
+        {
+            if (string.IsNullOrWhiteSpace(homeGeographicRegion))
+            {
+                return DefaultCountryCode;
+            }
+
+            string normalized = homeGeographicRegion.Trim().ToLowerInvariant();
+            return AppleStorefrontCatalog.Contains(normalized) ? normalized : DefaultCountryCode;
+        }
+
         private static LocalSettingsModel LoadSettingsInternal()
         {
             TryMigrateLegacySettingsFile();
@@ -504,27 +543,40 @@ namespace IPAbuyer.Core.Configuration
             return model;
         }
 
-        private static void TryMigrateLegacySettingsFile()
+        private static bool TryMigrateLegacySettingsFile()
         {
+            var values = ApplicationData.Current.LocalSettings.Values;
+            if (values.ContainsKey(CountryCodeSettingKey))
+            {
+                return true;
+            }
+
             string path = GetSettingsFilePath();
             if (!File.Exists(path))
             {
-                return;
+                return false;
             }
 
             LocalSettingsModel model;
+            bool hasCountryCode;
             try
             {
-                model = ReadLegacySettingsFile(path);
+                (model, hasCountryCode) = ReadLegacySettingsFile(path);
+                if (!hasCountryCode)
+                {
+                    model.CountryCode = ResolveInitialCountryCodeFromWindows();
+                }
+
                 NormalizeSettings(model);
             }
             catch
             {
-                return;
+                return false;
             }
 
             SaveSettingsInternal(model);
             MarkLegacySettingsFileMigrated(path);
+            return true;
         }
 
         private static void SaveSettingsInternal(LocalSettingsModel settings)
@@ -553,18 +605,19 @@ namespace IPAbuyer.Core.Configuration
             values.Remove("custom_ipatool_path");
         }
 
-        private static LocalSettingsModel ReadLegacySettingsFile(string path)
+        private static (LocalSettingsModel Model, bool HasCountryCode) ReadLegacySettingsFile(string path)
         {
             string json = File.ReadAllText(path, Encoding.UTF8);
             var model = CreateDefaultSettings();
             if (string.IsNullOrWhiteSpace(json))
             {
-                return model;
+                return (model, false);
             }
 
             using JsonDocument document = JsonDocument.Parse(json);
             JsonElement root = document.RootElement;
-            if (TryReadStringProperty(root, out string? countryValue, "country", "CountryCode"))
+            bool hasCountryCode = TryReadStringProperty(root, out string? countryValue, "country", "CountryCode");
+            if (hasCountryCode)
             {
                 model.CountryCode = countryValue ?? DefaultCountryCode;
             }
@@ -599,7 +652,7 @@ namespace IPAbuyer.Core.Configuration
                 model.CustomIpatoolPath = customIpatoolPathValue ?? string.Empty;
             }
 
-            return model;
+            return (model, hasCountryCode);
         }
 
         private static void MarkLegacySettingsFileMigrated(string path)
