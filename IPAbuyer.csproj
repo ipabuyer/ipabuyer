@@ -28,11 +28,11 @@
             win10-x64;win10-arm64</RuntimeIdentifiers>
         <PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-        <PackageReleaseNotes>更新日志见：https://github.com/ipabuyer/.github/blob/main/CHANGELOG.md</PackageReleaseNotes>
+        <PackageReleaseNotes>更新日志见：https://github.com/ipabuyer/ipabuyer/blob/main/CHANGELOG.md</PackageReleaseNotes>
         <RepositoryType>git</RepositoryType>
-        <RepositoryUrl>https://github.com/ipabuyer/gui</RepositoryUrl>
+        <RepositoryUrl>https://github.com/ipabuyer/ipabuyer</RepositoryUrl>
         <Copyright>Copyright © 2025-2026 IPAbuyer. 保留所有权利。</Copyright>
-        <PackageProjectUrl>https://github.com/ipabuyer/gui</PackageProjectUrl>
+        <PackageProjectUrl>https://github.com/ipabuyer/ipabuyer</PackageProjectUrl>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Platform)' == 'x64' And '$(RuntimeIdentifier)' == ''">
