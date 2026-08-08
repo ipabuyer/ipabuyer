@@ -21,7 +21,7 @@
 ## exe 可执行文件
 
 1. 内置 `ipatool.exe` 位于 `Include` 目录，注意区分 `amd64` 和 `arm64`。
-2. 当前内置版本为上游正式版 `2.3.1`，文件名为 `ipatool-2.3.1-windows-*.exe`，打包后映射为 `ipatool.exe`，用于所有内置 `ipatool` 命令。
+2. 当前内置版本为上游正式版 `2.3.2`，文件名为 `ipatool-2.3.2-windows-*.exe`，打包后映射为 `ipatool.exe`，用于所有内置 `ipatool` 命令。
 3. `Include/get-ipatool-release.ps1` 可获取并校验上游最新正式版；更新内置版本时需要同步更新项目引用、设置页展示与本文件。
 4. 用户可通过设置页配置并选择自定义 `ipatool.exe`；未选择或路径失效时使用内置版本。
 5. 针对 `ipatool` 输出的内容，需要在命令中加入 `--format json`；详细日志开启时记录命令和输出。
@@ -89,7 +89,7 @@
 ## ipatool 界面
 
 1. 使用 CommunityToolkit `SettingsCard` 展示内置 `ipatool` 与可选的自定义 `ipatool.exe`。
-2. 内置版本展示为 `release@2.3.1`。
+2. 内置版本展示为 `release@2.3.2`。
 3. 内置与自定义来源选择写入 LocalSettings 名称：`IpatoolFlavor`，内部值为 `Main`（内置正式版）和 `Custom`；默认值为 `Main`。
 4. 自定义 `ipatool.exe` 路径写入 LocalSettings 名称：`CustomIpatoolPath`；自定义文件只要求扩展名为 `.exe`。
 5. 认证登录、查询登录状态、退出登录、购买、下载等所有 `ipatool` 命令使用当前选择的来源；自定义路径失效时回退到内置正式版。
