@@ -33,9 +33,9 @@ namespace IPAbuyer.Pages
             AppTitleBar.Title = Title;
             AppTitleBar.Subtitle = L("MainWindow/TitleBarSubtitle");
             SetWindowIcon(this);
-            UpdateLoginStatusPicture();
             SessionState.LoginStateChanged -= OnLoginStateChanged;
             SessionState.LoginStateChanged += OnLoginStateChanged;
+            UpdateLoginStatusPicture();
             Closed += MainWindow_Closed;
 
             ContentFrame.Navigated += ContentFrame_Navigated;
@@ -217,7 +217,7 @@ namespace IPAbuyer.Pages
         {
             _isClosing = true;
             DownloadQueueService.Instance.CancelAll();
-            IpatoolExecution.BeginShutdown();
+            IpatoolClient.BeginShutdown();
             WindowContext.ClearMainWindow(this);
             SessionState.LoginStateChanged -= OnLoginStateChanged;
         }

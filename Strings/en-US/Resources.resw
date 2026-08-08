@@ -243,16 +243,16 @@
     <value>Software version</value>
   </data>
   <data name="Settings/Card/ProjectRepository.Description" xml:space="preserve">
-    <value>https://github.com/ipabuyer/gui</value>
+    <value>https://github.com/ipabuyer/ipabuyer</value>
   </data>
   <data name="Settings/Card/ProjectRepository.Header" xml:space="preserve">
     <value>Project repository</value>
   </data>
   <data name="Settings/Card/OwnedPrompt.Description" xml:space="preserve">
-    <value>After closing, there is no confirmation when marking "Owned".</value>
+    <value>When turned on, confirmation is skipped when marking an app as "Owned".</value>
   </data>
   <data name="Settings/Card/OwnedPrompt.Header" xml:space="preserve">
-    <value>Tips before marking "Owned"</value>
+    <value>"Owned" confirmation dialog</value>
   </data>
   <data name="Settings/Card/KeychainPassphraseRotation.Description" xml:space="preserve">
     <value>When turned off, new encryption keys will no longer be automatically generated when logging out.</value>
@@ -300,7 +300,7 @@
     <value>Built-in ipatool</value>
   </data>
   <data name="IpatoolPage/Release/VersionTextBlock.Text" xml:space="preserve">
-    <value>release@2.3.1</value>
+    <value>release@2.3.2</value>
   </data>
   <data name="IpatoolPage/Release/DisplayName" xml:space="preserve">
     <value>Built-in official version of ipatool</value>
@@ -427,6 +427,9 @@
   </data>
   <data name="MainPage/Action/OpenLogButton.Content" xml:space="preserve">
     <value>log</value>
+  </data>
+  <data name="MainPage/DeveloperSelectorAllItem.Content" xml:space="preserve">
+    <value>All developers</value>
   </data>
   <data name="MainPage/Filter/AllItem.Content" xml:space="preserve">
     <value>all</value>
@@ -982,6 +985,9 @@
   </data>
   <data name="LoginPage/Status/AuthInfoSuccess" xml:space="preserve">
     <value>Login status is normal</value>
+  </data>
+  <data name="LoginPage/Status/AuthInfoNotLoggedIn" xml:space="preserve">
+    <value>Not logged in</value>
   </data>
   <data name="LoginPage/Status/AuthInfoEmailMissing" xml:space="preserve">
     <value>The login status has been queried, but the email address has not been obtained. Please log in again before purchasing or downloading.</value>

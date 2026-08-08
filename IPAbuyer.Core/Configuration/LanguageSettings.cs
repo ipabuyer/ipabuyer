@@ -74,12 +74,13 @@ namespace IPAbuyer.Core.Configuration
                 return false;
             }
 
-            return language.Equals("zh-Hans", StringComparison.OrdinalIgnoreCase)
-                || language.StartsWith("zh-Hans-", StringComparison.OrdinalIgnoreCase)
-                || language.Equals("zh-CN", StringComparison.OrdinalIgnoreCase)
-                || language.StartsWith("zh-CN-", StringComparison.OrdinalIgnoreCase)
-                || language.Equals("zh-SG", StringComparison.OrdinalIgnoreCase)
-                || language.StartsWith("zh-SG-", StringComparison.OrdinalIgnoreCase);
+            string normalizedLanguage = language.Trim();
+            return normalizedLanguage.Equals("zh-Hans", StringComparison.OrdinalIgnoreCase)
+                || normalizedLanguage.StartsWith("zh-Hans-", StringComparison.OrdinalIgnoreCase)
+                || normalizedLanguage.Equals("zh-CN", StringComparison.OrdinalIgnoreCase)
+                || normalizedLanguage.StartsWith("zh-CN-", StringComparison.OrdinalIgnoreCase)
+                || normalizedLanguage.Equals("zh-SG", StringComparison.OrdinalIgnoreCase)
+                || normalizedLanguage.StartsWith("zh-SG-", StringComparison.OrdinalIgnoreCase);
         }
     }
 }

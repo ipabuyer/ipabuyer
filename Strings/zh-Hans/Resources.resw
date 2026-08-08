@@ -243,16 +243,16 @@
     <value>软件版本</value>
   </data>
   <data name="Settings/Card/ProjectRepository.Description" xml:space="preserve">
-    <value>https://github.com/ipabuyer/gui</value>
+    <value>https://github.com/ipabuyer/ipabuyer</value>
   </data>
   <data name="Settings/Card/ProjectRepository.Header" xml:space="preserve">
     <value>项目仓库</value>
   </data>
   <data name="Settings/Card/OwnedPrompt.Description" xml:space="preserve">
-    <value>关闭后，标记“已拥有”时不再确认。</value>
+    <value>开启后，标记“已拥有”时不再确认。</value>
   </data>
   <data name="Settings/Card/OwnedPrompt.Header" xml:space="preserve">
-    <value>标记“已拥有”前提示</value>
+    <value>“已拥有”提示弹窗</value>
   </data>
   <data name="Settings/Card/KeychainPassphraseRotation.Description" xml:space="preserve">
     <value>关闭后，退出登录时不再自动生成新的加密密钥。</value>
@@ -300,7 +300,7 @@
     <value>内置 ipatool</value>
   </data>
   <data name="IpatoolPage/Release/VersionTextBlock.Text" xml:space="preserve">
-    <value>release@2.3.1</value>
+    <value>release@2.3.2</value>
   </data>
   <data name="IpatoolPage/Release/DisplayName" xml:space="preserve">
     <value>内置正式版 ipatool</value>
@@ -427,6 +427,9 @@
   </data>
   <data name="MainPage/Action/OpenLogButton.Content" xml:space="preserve">
     <value>日志</value>
+  </data>
+  <data name="MainPage/DeveloperSelectorAllItem.Content" xml:space="preserve">
+    <value>所有开发者</value>
   </data>
   <data name="MainPage/Filter/AllItem.Content" xml:space="preserve">
     <value>全部</value>
@@ -982,6 +985,9 @@
   </data>
   <data name="LoginPage/Status/AuthInfoSuccess" xml:space="preserve">
     <value>登录状态正常</value>
+  </data>
+  <data name="LoginPage/Status/AuthInfoNotLoggedIn" xml:space="preserve">
+    <value>当前未登录</value>
   </data>
   <data name="LoginPage/Status/AuthInfoEmailMissing" xml:space="preserve">
     <value>已查询到登录状态，但未获取到邮箱。请先重新登录后再进行购买或下载。</value>

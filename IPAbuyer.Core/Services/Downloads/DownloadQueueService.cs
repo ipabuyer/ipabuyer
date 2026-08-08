@@ -6,7 +6,6 @@ using IPAbuyer.Core.State;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Text.RegularExpressions;
 
 namespace IPAbuyer.Core.Services.Downloads
 {
@@ -21,11 +20,7 @@ namespace IPAbuyer.Core.Services.Downloads
     public sealed class DownloadQueueService
     {
         private static readonly ResourceLoader Loader = new();
-        private static readonly Regex ProgressRegex = new(@"(?<!\d)(\d{1,3}(?:\.\d+)?)\s*[%％]", RegexOptions.Compiled);
-        private static readonly Regex SuccessFlagRegex = new(@"success\s*[:=]\s*(true|false)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex AnsiEscapeRegex = new(@"\x1B\[[0-9;?]*[ -/]*[@-~]", RegexOptions.Compiled);
-        private const int ProgressBufferMaxLength = 256;
-        private const int ProgressUiNotifyIntervalMs = 120;
+
         private readonly ObservableCollection<DownloadQueueItem> _items = new();
         private readonly SemaphoreSlim _runLock = new(1, 1);
         private readonly object _cancellationLock = new();
@@ -167,7 +162,7 @@ namespace IPAbuyer.Core.Services.Downloads
                 }
                 NotifyQueueChanged();
 
-                string outputDirectory = KeychainConfig.GetDownloadDirectory();
+                string outputDirectory = ApplicationSettings.GetDownloadDirectory();
                 Directory.CreateDirectory(outputDirectory);
                 bool useMockFlow = SessionState.IsLoggedIn
                     && SessionState.IsMockAccount
@@ -203,12 +198,9 @@ namespace IPAbuyer.Core.Services.Downloads
                         }
                         else
                         {
-                            string chunkLogBuffer = string.Empty;
-                            string stageJsonBuffer = string.Empty;
-                            string lastChunkLog = string.Empty;
-                            int lastLoggedPercent = -1;
+                            var outputParser = new DownloadOutputParser();
                             object chunkLogSync = new();
-                            var result = await IpatoolExecution.DownloadAppWithProgressAsync(
+                            var result = await IpatoolClient.DownloadAppWithProgressAsync(
                                 item.BundleId,
                                 outputDirectory,
                                 account,
@@ -223,8 +215,7 @@ namespace IPAbuyer.Core.Services.Downloads
                                     {
                                         if (!itemCts.IsCancellationRequested)
                                         {
-                                            TryUpdateDownloadStageFromChunk(item, ref stageJsonBuffer, chunk);
-                                            EmitChunkLogLines(ref chunkLogBuffer, chunk, item.Name, ref lastLoggedPercent, ref lastChunkLog);
+                                            ApplyOutputUpdate(item, outputParser.ProcessChunk(chunk));
                                         }
                                     }
                                 },
@@ -234,15 +225,14 @@ namespace IPAbuyer.Core.Services.Downloads
                             {
                                 lock (chunkLogSync)
                                 {
-                                    TryUpdateDownloadStageFromChunk(item, ref stageJsonBuffer, "\n");
-                                    EmitChunkLogLines(ref chunkLogBuffer, "\n", item.Name, ref lastLoggedPercent, ref lastChunkLog);
+                                    ApplyOutputUpdate(item, outputParser.Flush());
                                 }
                             }
 
                             itemCts.Token.ThrowIfCancellationRequested();
                             UpdateDownloadStage(item, "DownloadQueue/Status/ProcessingResult", "DownloadQueue/Log/ProcessingResult");
 
-                            if (IsDownloadSuccess(result))
+                            if (DownloadResultParser.IsSuccess(result))
                             {
                                 item.Status = DownloadQueueStatus.Success;
                                 item.LastMessage = L("DownloadQueue/Status/Success");
@@ -251,7 +241,7 @@ namespace IPAbuyer.Core.Services.Downloads
                             }
                             else
                             {
-                                string message = BuildErrorMessage(result);
+                                string message = DownloadResultParser.GetErrorMessage(result);
                                 item.Status = DownloadQueueStatus.Failed;
                                 item.LastMessage = message;
                                 EmitLog(LF("DownloadQueue/Log/Failed", item.Name, message), UiLogLevel.Error);
@@ -284,7 +274,7 @@ namespace IPAbuyer.Core.Services.Downloads
                     }
                 }
 
-                EmitLog(LF("DownloadQueue/Log/Completed", completed, processed), UiLogLevel.Success);
+                EmitLog(LF("DownloadQueue/Log/Completed", completed, processed), UiLogLevel.Info);
                 return completed;
             }
             catch (OperationCanceledException) when (queueCts?.IsCancellationRequested == true)
@@ -383,93 +373,6 @@ namespace IPAbuyer.Core.Services.Downloads
                 || item.Status == DownloadQueueStatus.Canceled;
         }
 
-        private static bool IsDownloadSuccess(IpatoolExecution.IpatoolResult result)
-        {
-            string payload = result.OutputOrError;
-            if (TryExtractSuccessFlag(payload, out bool successByText))
-            {
-                return successByText;
-            }
-
-            if (result.IsSuccessResponse)
-            {
-                return true;
-            }
-
-            if (string.IsNullOrWhiteSpace(payload))
-            {
-                return false;
-            }
-
-            if (payload.Contains("\"success\":true", StringComparison.OrdinalIgnoreCase))
-            {
-                return true;
-            }
-
-            foreach (var token in JsonPayload.EnumerateTokens(payload))
-            {
-                if (JsonPayload.TryReadBoolean(token, "success", out bool success))
-                {
-                    return success;
-                }
-            }
-
-            return false;
-        }
-
-        private static bool TryExtractSuccessFlag(string? payload, out bool success)
-        {
-            success = false;
-            if (string.IsNullOrWhiteSpace(payload))
-            {
-                return false;
-            }
-
-            MatchCollection matches = SuccessFlagRegex.Matches(payload);
-            if (matches.Count == 0)
-            {
-                return false;
-            }
-
-            Match match = matches[matches.Count - 1];
-            if (match.Groups.Count < 2)
-            {
-                return false;
-            }
-
-            success = string.Equals(match.Groups[1].Value, "true", StringComparison.OrdinalIgnoreCase);
-            return true;
-        }
-
-        private static string BuildErrorMessage(IpatoolExecution.IpatoolResult result)
-        {
-            if (result.TimedOut)
-            {
-                return L("DownloadQueue/Error/Timeout");
-            }
-
-            string payload = result.OutputOrError;
-            if (string.IsNullOrWhiteSpace(payload))
-            {
-                return LF("DownloadQueue/Error/ExitCode", result.ExitCode);
-            }
-
-            foreach (var token in JsonPayload.EnumerateTokens(payload))
-            {
-                if (JsonPayload.TryReadString(token, out string? error, "error") && !string.IsNullOrWhiteSpace(error))
-                {
-                    return error;
-                }
-
-                if (JsonPayload.TryReadString(token, out string? message, "message") && !string.IsNullOrWhiteSpace(message))
-                {
-                    return message;
-                }
-            }
-
-            return payload.Length > 160 ? payload.Substring(0, 160) + "..." : payload;
-        }
-
         private static string ResolveAccount()
         {
             string account = SessionState.IsLoggedIn ? SessionState.CurrentAccount : string.Empty;
@@ -486,43 +389,22 @@ namespace IPAbuyer.Core.Services.Downloads
             return account.Trim();
         }
 
-        private void TryUpdateDownloadStageFromChunk(DownloadQueueItem item, ref string buffer, string? chunk)
+        private void ApplyOutputUpdate(DownloadQueueItem item, DownloadOutputUpdate update)
         {
-            if (string.IsNullOrEmpty(chunk))
+            if (update.RequestingLicense)
+            {
+                UpdateDownloadStage(item, "DownloadQueue/Status/RequestingLicense", "DownloadQueue/Log/RequestingLicense");
+            }
+
+            if (!ApplicationSettings.GetDetailedIpatoolLogEnabled())
             {
                 return;
             }
 
-            buffer += SanitizeForParsing(chunk);
-            if (buffer.Length > 4096)
+            foreach (string line in update.LogLines)
             {
-                buffer = buffer.Substring(buffer.Length - 4096, 4096);
+                EmitLog($"[{item.Name}] {line}", UiLogLevel.Ipatool, UiLogSource.Ipatool);
             }
-
-            int lineBreakIndex;
-            while ((lineBreakIndex = FindLineBreakIndex(buffer)) >= 0)
-            {
-                string line = buffer.Substring(0, lineBreakIndex).Trim();
-                int consume = lineBreakIndex + 1 < buffer.Length
-                    && buffer[lineBreakIndex] == '\r'
-                    && buffer[lineBreakIndex + 1] == '\n'
-                    ? 2
-                    : 1;
-                buffer = buffer.Substring(lineBreakIndex + consume);
-                TryUpdateDownloadStageFromJsonLine(item, line);
-            }
-        }
-
-        private void TryUpdateDownloadStageFromJsonLine(DownloadQueueItem item, string line)
-        {
-            if (!JsonPayload.TryParseToken(line, out var token)
-                || !JsonPayload.TryReadString(token, out string? message, "message")
-                || !string.Equals(message, "purchase", StringComparison.OrdinalIgnoreCase))
-            {
-                return;
-            }
-
-            UpdateDownloadStage(item, "DownloadQueue/Status/RequestingLicense", "DownloadQueue/Log/RequestingLicense");
         }
 
         private void UpdateDownloadStage(DownloadQueueItem item, string statusKey, string logKey)
@@ -536,226 +418,6 @@ namespace IPAbuyer.Core.Services.Downloads
             item.LastMessage = status;
             EmitLog(LF(logKey, item.Name), UiLogLevel.Info);
             NotifyQueueChanged();
-        }
-
-        private static int? TryExtractProgressPercent(string? line)
-        {
-            if (string.IsNullOrWhiteSpace(line))
-            {
-                return null;
-            }
-
-            line = SanitizeForParsing(line);
-            if (string.IsNullOrWhiteSpace(line))
-            {
-                return null;
-            }
-
-            MatchCollection matches = ProgressRegex.Matches(line);
-            if (matches.Count > 0)
-            {
-                Match match = matches[matches.Count - 1];
-                if (match.Groups.Count >= 2 && TryConvertProgressValue(match.Groups[1].Value, out int percentBySymbol))
-                {
-                    return percentBySymbol;
-                }
-            }
-
-            foreach (var token in JsonPayload.EnumerateTokens(line))
-            {
-                if (JsonPayload.TryReadString(
-                    token,
-                    out string? progressValue,
-                    "progress",
-                    "percent",
-                    "percentage",
-                    "completed",
-                    "completion",
-                    "fraction")
-                    && progressValue != null
-                    && TryConvertProgressValue(progressValue, out int percentByJson))
-                {
-                    return percentByJson;
-                }
-            }
-
-            return null;
-        }
-
-        private static int? TryExtractProgressPercentFromChunk(ref string buffer, string? chunk)
-        {
-            if (string.IsNullOrEmpty(chunk))
-            {
-                return null;
-            }
-
-            buffer += SanitizeForParsing(chunk);
-            if (buffer.Length > ProgressBufferMaxLength)
-            {
-                buffer = buffer.Substring(buffer.Length - ProgressBufferMaxLength, ProgressBufferMaxLength);
-            }
-
-            return TryExtractProgressPercent(buffer);
-        }
-
-        private static bool ShouldNotifyProgress(int progress, ref long lastNotifyTick)
-        {
-            long nowTick = Environment.TickCount64;
-            if (progress >= 100 || lastNotifyTick == 0 || nowTick - lastNotifyTick >= ProgressUiNotifyIntervalMs)
-            {
-                lastNotifyTick = nowTick;
-                return true;
-            }
-
-            return false;
-        }
-
-        private void EmitChunkLogLines(ref string buffer, string? chunk, string appName, ref int lastLoggedPercent, ref string lastChunkLog)
-        {
-            if (string.IsNullOrEmpty(chunk))
-            {
-                return;
-            }
-
-            buffer += chunk;
-            if (buffer.Length > 4096)
-            {
-                buffer = buffer.Substring(buffer.Length - 4096, 4096);
-            }
-
-            int lineBreakIndex;
-            while ((lineBreakIndex = FindLineBreakIndex(buffer)) >= 0)
-            {
-                string line = buffer.Substring(0, lineBreakIndex);
-                int consume = 1;
-                if (lineBreakIndex + 1 < buffer.Length
-                    && buffer[lineBreakIndex] == '\r'
-                    && buffer[lineBreakIndex + 1] == '\n')
-                {
-                    consume = 2;
-                }
-
-                buffer = buffer.Substring(lineBreakIndex + consume);
-                EmitSingleChunkLine(line, appName, ref lastLoggedPercent, ref lastChunkLog);
-            }
-
-            // 无换行时也周期性输出，避免“只有结束/取消才看见日志”。
-            string pending = buffer.Trim();
-            if (pending.Length >= 48)
-            {
-                EmitSingleChunkLine(pending, appName, ref lastLoggedPercent, ref lastChunkLog);
-                buffer = string.Empty;
-            }
-        }
-
-        private static int FindLineBreakIndex(string value)
-        {
-            int rn = value.IndexOf("\r\n", StringComparison.Ordinal);
-            int r = value.IndexOf('\r');
-            int n = value.IndexOf('\n');
-
-            int first = -1;
-            if (rn >= 0)
-            {
-                first = rn;
-            }
-
-            if (r >= 0 && (first < 0 || r < first))
-            {
-                first = r;
-            }
-
-            if (n >= 0 && (first < 0 || n < first))
-            {
-                first = n;
-            }
-
-            return first;
-        }
-
-        private void EmitSingleChunkLine(string rawLine, string appName, ref int lastLoggedPercent, ref string lastChunkLog)
-        {
-            string line = SanitizeForParsing(rawLine).Trim();
-            if (string.IsNullOrWhiteSpace(line))
-            {
-                return;
-            }
-
-            int? percent = TryExtractProgressPercent(line);
-            if (percent.HasValue)
-            {
-                if (percent.Value == lastLoggedPercent)
-                {
-                    return;
-                }
-
-                lastLoggedPercent = percent.Value;
-                EmitUniqueChunkLog(appName, line, ref lastChunkLog);
-                return;
-            }
-
-            EmitUniqueChunkLog(appName, line, ref lastChunkLog);
-        }
-
-        private void EmitUniqueChunkLog(string appName, string line, ref string lastChunkLog)
-        {
-            if (!KeychainConfig.GetDetailedIpatoolLogEnabled())
-            {
-                return;
-            }
-
-            if (string.Equals(lastChunkLog, line, StringComparison.Ordinal))
-            {
-                return;
-            }
-
-            lastChunkLog = line;
-            EmitLog($"[{appName}] {line}", UiLogLevel.Ipatool, UiLogSource.Ipatool);
-        }
-
-        private static string SanitizeForParsing(string input)
-        {
-            if (string.IsNullOrEmpty(input))
-            {
-                return string.Empty;
-            }
-
-            string withoutAnsi = AnsiEscapeRegex.Replace(input, string.Empty);
-            var chars = new char[withoutAnsi.Length];
-            int index = 0;
-
-            foreach (char ch in withoutAnsi)
-            {
-                if (ch == '\r' || ch == '\n' || ch == '\t' || !char.IsControl(ch))
-                {
-                    chars[index++] = ch;
-                }
-            }
-
-            return index == 0 ? string.Empty : new string(chars, 0, index);
-        }
-
-        private static bool TryConvertProgressValue(string raw, out int percent)
-        {
-            percent = 0;
-            if (string.IsNullOrWhiteSpace(raw))
-            {
-                return false;
-            }
-
-            if (!double.TryParse(raw.Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out double value))
-            {
-                return false;
-            }
-
-            // JSON 中常见 0~1 比例值，这里统一转成百分比。
-            if (value >= 0d && value <= 1d)
-            {
-                value *= 100d;
-            }
-
-            percent = Math.Clamp((int)Math.Round(value, MidpointRounding.AwayFromZero), 0, 100);
-            return true;
         }
 
         private void EmitLog(string message, UiLogLevel level, UiLogSource source = UiLogSource.App)

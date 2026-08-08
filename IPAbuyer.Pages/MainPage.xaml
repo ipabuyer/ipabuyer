@@ -59,6 +59,13 @@
                         <ToggleButton x:Uid="MainPage/Filter/OnlyOwnedItem" x:Name="OnlyHadFilterButton" Style="{StaticResource MainFilterButtonStyle}" Tag="OnlyHad" Click="FilterButton_Click" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10">
+                        <ComboBox
+                            x:Name="DeveloperFilterComboBox"
+                            Width="220"
+                            HorizontalAlignment="Right"
+                            SelectionChanged="DeveloperFilterComboBox_SelectionChanged">
+                            <ComboBoxItem x:Uid="MainPage/DeveloperSelectorAllItem" x:Name="AllDevelopersComboBoxItem" Tag="All" />
+                        </ComboBox>
                         <Button
                             x:Name="OpenLogButton"
                             Height="36"

@@ -35,7 +35,7 @@ namespace IPAbuyer.Pages
         {
             try
             {
-                string outputDirectory = KeychainConfig.GetDownloadDirectory();
+                string outputDirectory = ApplicationSettings.GetDownloadDirectory();
                 string displayName = L("IpatoolPage/Release/DisplayName");
                 var confirmDialog = new ContentDialog
                 {
@@ -104,18 +104,18 @@ namespace IPAbuyer.Pages
 
         private void UseBundledIpatoolButton_Click(object sender, RoutedEventArgs e)
         {
-            KeychainConfig.SaveIpatoolFlavor(KeychainConfig.IpatoolFlavorMain);
+            IpatoolSettings.SaveFlavor(IpatoolSettings.FlavorMain);
             UpdateCustomIpatoolPath();
         }
 
         private void UseCustomIpatoolButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!KeychainConfig.HasUsableCustomIpatoolPath())
+            if (!IpatoolSettings.HasUsableCustomPath())
             {
                 return;
             }
 
-            KeychainConfig.SaveIpatoolFlavor(KeychainConfig.IpatoolFlavorCustom);
+            IpatoolSettings.SaveFlavor(IpatoolSettings.FlavorCustom);
             UpdateCustomIpatoolPath();
         }
 
@@ -126,7 +126,7 @@ namespace IPAbuyer.Pages
 
         private async void DeleteCustomIpatoolMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(KeychainConfig.GetCustomIpatoolPath()))
+            if (string.IsNullOrWhiteSpace(IpatoolSettings.GetCustomPath()))
             {
                 return;
             }
@@ -145,7 +145,7 @@ namespace IPAbuyer.Pages
                 return;
             }
 
-            KeychainConfig.DeleteCustomIpatoolPath();
+            IpatoolSettings.DeleteCustomPath();
             UpdateCustomIpatoolPath();
         }
 
@@ -197,7 +197,7 @@ namespace IPAbuyer.Pages
             _isInitializingDetailedLogOption = true;
             try
             {
-                DetailedIpatoolLogCheckBox.IsOn = KeychainConfig.GetDetailedIpatoolLogEnabled();
+                DetailedIpatoolLogCheckBox.IsOn = ApplicationSettings.GetDetailedIpatoolLogEnabled();
             }
             finally
             {
@@ -209,16 +209,16 @@ namespace IPAbuyer.Pages
         {
             if (!_isInitializingDetailedLogOption)
             {
-                KeychainConfig.SaveDetailedIpatoolLogEnabled(DetailedIpatoolLogCheckBox.IsOn);
+                ApplicationSettings.SaveDetailedIpatoolLogEnabled(DetailedIpatoolLogCheckBox.IsOn);
             }
         }
 
         private void UpdateCustomIpatoolPath()
         {
-            string customPath = KeychainConfig.GetCustomIpatoolPath();
+            string customPath = IpatoolSettings.GetCustomPath();
             bool hasCustomPath = !string.IsNullOrWhiteSpace(customPath) && File.Exists(customPath);
             bool isCustomSelected = hasCustomPath
-                && string.Equals(KeychainConfig.GetIpatoolFlavor(), KeychainConfig.IpatoolFlavorCustom, StringComparison.OrdinalIgnoreCase);
+                && string.Equals(IpatoolSettings.GetFlavor(), IpatoolSettings.FlavorCustom, StringComparison.OrdinalIgnoreCase);
             CustomIpatoolPathTextBlock.Text = hasCustomPath
                 ? customPath
                 : L("IpatoolPage/Custom/EmptyPath");
@@ -260,7 +260,7 @@ namespace IPAbuyer.Pages
 
             try
             {
-                KeychainConfig.SaveCustomIpatoolPath(file.Path);
+                IpatoolSettings.SaveCustomPath(file.Path);
                 UpdateCustomIpatoolPath();
             }
             catch (Exception ex)
@@ -291,7 +291,7 @@ namespace IPAbuyer.Pages
                 return null;
             }
 
-            string includePath = Path.Combine(baseDirectory, "Include", $"ipatool-2.3.1-windows-{architectureSuffix}.exe");
+            string includePath = Path.Combine(baseDirectory, "Include", $"ipatool-2.3.2-windows-{architectureSuffix}.exe");
             return File.Exists(includePath) ? includePath : null;
         }
 

@@ -1,16 +1,16 @@
-using IPAbuyer.Core.Integration.Ipatool;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Text;
 using System.Text.Json;
 using Windows.Security.Credentials;
 using Windows.Storage;
+using Windows.System.UserProfile;
 
 namespace IPAbuyer.Core.Configuration
 {
     /// <summary>
     /// 本地配置读写（LocalSettings 版，不使用 KeychainConfig.db）
     /// </summary>
-    public static partial class KeychainConfig
+    internal static class ConfigurationStore
     {
         private static readonly ResourceLoader Loader = new();
         private const string SettingsFileName = "settings.json";
@@ -24,30 +24,28 @@ namespace IPAbuyer.Core.Configuration
         private const string DetailedIpatoolLogEnabledSettingKey = "DetailedIpatoolLogEnabled";
         private const string OwnedCheckEnabledSettingKey = "OwnedCheckEnabled";
         private const string KeychainPassphraseRotationEnabledSettingKey = "KeychainPassphraseRotationEnabled";
-        public const string IpatoolFlavorMain = "Main";
-        public const string IpatoolFlavorCustom = "Custom";
+        internal const string IpatoolFlavorMain = "Main";
+        internal const string IpatoolFlavorCustom = "Custom";
         private const string IpatoolFlavorSettingKey = "IpatoolFlavor";
         private const string CustomIpatoolPathSettingKey = "CustomIpatoolPath";
         private static readonly object SyncRoot = new();
 
 
-        public static void InitializeDatabase()
+        internal static void InitializeDatabase()
         {
             lock (SyncRoot)
             {
                 EnsureStorageReady();
                 RemoveLegacyKeychainDatabase();
+                var values = ApplicationData.Current.LocalSettings.Values;
+                bool hasSavedCountryCode = values.ContainsKey(CountryCodeSettingKey);
+                bool hasMigratedSettings = TryMigrateLegacySettingsFile();
+                InitializeCountryCodeIfMissing(hasSavedCountryCode || hasMigratedSettings);
                 _ = LoadSettingsInternal();
             }
         }
 
-        public static string? GetSecretKey(string username)
-        {
-            // 兼容旧调用：已移除数据库，不再存储 SecretKey。
-            return null;
-        }
-
-        public static string GetCountryCode(string? account = null)
+        internal static string GetCountryCode(string? account = null)
         {
             lock (SyncRoot)
             {
@@ -59,7 +57,7 @@ namespace IPAbuyer.Core.Configuration
             }
         }
 
-        public static void SaveCountryCode(string countryCode, string? account = null)
+        internal static void SaveCountryCode(string countryCode, string? account = null)
         {
             if (string.IsNullOrWhiteSpace(countryCode))
             {
@@ -80,7 +78,7 @@ namespace IPAbuyer.Core.Configuration
             }
         }
 
-        public static string GetDownloadDirectory()
+        internal static string GetDownloadDirectory()
         {
             lock (SyncRoot)
             {
@@ -100,7 +98,7 @@ namespace IPAbuyer.Core.Configuration
             }
         }
 
-        public static void SavePassphrase(string passphrase)
+        internal static void SavePassphrase(string passphrase)
         {
             if (string.IsNullOrWhiteSpace(passphrase))
             {
@@ -120,7 +118,7 @@ namespace IPAbuyer.Core.Configuration
             }
         }
 
-        public static string? GetPassphrase(string? account)
+        internal static string? GetPassphrase(string? account)
         {
             lock (SyncRoot)
             {
@@ -144,12 +142,12 @@ namespace IPAbuyer.Core.Configuration
             }
         }
 
-        public static string GetDefaultPassphrase()
+        internal static string GetDefaultPassphrase()
         {
             return GetPassphrase(null) ?? CreateDefaultPassphrase();
         }
 
-        public static string RotateDefaultPassphrase()
+        internal static string RotateDefaultPassphrase()
         {
             lock (SyncRoot)
             {
@@ -167,7 +165,7 @@ namespace IPAbuyer.Core.Configuration
             }
         }
 
-        public static void SaveDownloadDirectory(string directoryPath)
+        internal static void SaveDownloadDirectory(string directoryPath)
         {
             if (string.IsNullOrWhiteSpace(directoryPath))
             {
@@ -185,7 +183,7 @@ namespace IPAbuyer.Core.Configuration
             }
         }
 
-        public static bool GetDetailedIpatoolLogEnabled()
+        internal static bool GetDetailedIpatoolLogEnabled()
         {
             lock (SyncRoot)
             {
@@ -193,7 +191,7 @@ namespace IPAbuyer.Core.Configuration
             }
         }
 
-        public static void SaveDetailedIpatoolLogEnabled(bool enabled)
+        internal static void SaveDetailedIpatoolLogEnabled(bool enabled)
         {
             lock (SyncRoot)
             {
@@ -203,7 +201,7 @@ namespace IPAbuyer.Core.Configuration
             }
         }
 
-        public static bool GetOwnedCheckEnabled()
+        internal static bool GetOwnedCheckEnabled()
         {
             lock (SyncRoot)
             {
@@ -211,7 +209,7 @@ namespace IPAbuyer.Core.Configuration
             }
         }
 
-        public static void SaveOwnedCheckEnabled(bool enabled)
+        internal static void SaveOwnedCheckEnabled(bool enabled)
         {
             lock (SyncRoot)
             {
@@ -221,7 +219,7 @@ namespace IPAbuyer.Core.Configuration
             }
         }
 
-        public static bool GetKeychainPassphraseRotationEnabled()
+        internal static bool GetKeychainPassphraseRotationEnabled()
         {
             lock (SyncRoot)
             {
@@ -229,7 +227,7 @@ namespace IPAbuyer.Core.Configuration
             }
         }
 
-        public static void SaveKeychainPassphraseRotationEnabled(bool enabled)
+        internal static void SaveKeychainPassphraseRotationEnabled(bool enabled)
         {
             lock (SyncRoot)
             {
@@ -239,7 +237,7 @@ namespace IPAbuyer.Core.Configuration
             }
         }
 
-        public static string GetIpatoolFlavor()
+        internal static string GetIpatoolFlavor()
         {
             lock (SyncRoot)
             {
@@ -247,7 +245,7 @@ namespace IPAbuyer.Core.Configuration
             }
         }
 
-        public static void SaveIpatoolFlavor(string flavor)
+        internal static void SaveIpatoolFlavor(string flavor)
         {
             lock (SyncRoot)
             {
@@ -257,7 +255,7 @@ namespace IPAbuyer.Core.Configuration
             }
         }
 
-        public static string GetCustomIpatoolPath()
+        internal static string GetCustomIpatoolPath()
         {
             lock (SyncRoot)
             {
@@ -265,7 +263,7 @@ namespace IPAbuyer.Core.Configuration
             }
         }
 
-        public static bool HasUsableCustomIpatoolPath()
+        internal static bool HasUsableCustomIpatoolPath()
         {
             lock (SyncRoot)
             {
@@ -274,7 +272,7 @@ namespace IPAbuyer.Core.Configuration
             }
         }
 
-        public static void SaveCustomIpatoolPath(string path)
+        internal static void SaveCustomIpatoolPath(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
             {
@@ -296,7 +294,7 @@ namespace IPAbuyer.Core.Configuration
             }
         }
 
-        public static void DeleteCustomIpatoolPath()
+        internal static void DeleteCustomIpatoolPath()
         {
             lock (SyncRoot)
             {
@@ -307,7 +305,7 @@ namespace IPAbuyer.Core.Configuration
             }
         }
 
-        public static bool IsValidCountryCode(string? code)
+        internal static bool IsValidCountryCode(string? code)
         {
             if (string.IsNullOrWhiteSpace(code))
             {
@@ -317,7 +315,7 @@ namespace IPAbuyer.Core.Configuration
             return AppleStorefrontCatalog.Contains(code);
         }
 
-        public static bool IsMockAccount(string? username, string? password)
+        internal static bool IsMockAccount(string? username, string? password)
         {
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
@@ -328,7 +326,7 @@ namespace IPAbuyer.Core.Configuration
                 && string.Equals(password.Trim(), "test", StringComparison.Ordinal);
         }
 
-        public static string GetDefaultDownloadDirectory()
+        internal static string GetDefaultDownloadDirectory()
         {
             string userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             string downloadPath = Path.Combine(userProfile, "Downloads");
@@ -465,6 +463,40 @@ namespace IPAbuyer.Core.Configuration
             Directory.CreateDirectory(ResolveDataDirectory());
         }
 
+        private static void InitializeCountryCodeIfMissing(bool hasSavedCountryCode)
+        {
+            if (hasSavedCountryCode)
+            {
+                return;
+            }
+
+            string countryCode = ResolveInitialCountryCodeFromWindows();
+            ApplicationData.Current.LocalSettings.Values[CountryCodeSettingKey] = countryCode;
+        }
+
+        private static string ResolveInitialCountryCodeFromWindows()
+        {
+            try
+            {
+                return ResolveInitialCountryCode(GlobalizationPreferences.HomeGeographicRegion);
+            }
+            catch
+            {
+                return DefaultCountryCode;
+            }
+        }
+
+        internal static string ResolveInitialCountryCode(string? homeGeographicRegion)
+        {
+            if (string.IsNullOrWhiteSpace(homeGeographicRegion))
+            {
+                return DefaultCountryCode;
+            }
+
+            string normalized = homeGeographicRegion.Trim().ToLowerInvariant();
+            return AppleStorefrontCatalog.Contains(normalized) ? normalized : DefaultCountryCode;
+        }
+
         private static LocalSettingsModel LoadSettingsInternal()
         {
             TryMigrateLegacySettingsFile();
@@ -511,27 +543,40 @@ namespace IPAbuyer.Core.Configuration
             return model;
         }
 
-        private static void TryMigrateLegacySettingsFile()
+        private static bool TryMigrateLegacySettingsFile()
         {
+            var values = ApplicationData.Current.LocalSettings.Values;
+            if (values.ContainsKey(CountryCodeSettingKey))
+            {
+                return true;
+            }
+
             string path = GetSettingsFilePath();
             if (!File.Exists(path))
             {
-                return;
+                return false;
             }
 
             LocalSettingsModel model;
+            bool hasCountryCode;
             try
             {
-                model = ReadLegacySettingsFile(path);
+                (model, hasCountryCode) = ReadLegacySettingsFile(path);
+                if (!hasCountryCode)
+                {
+                    model.CountryCode = ResolveInitialCountryCodeFromWindows();
+                }
+
                 NormalizeSettings(model);
             }
             catch
             {
-                return;
+                return false;
             }
 
             SaveSettingsInternal(model);
             MarkLegacySettingsFileMigrated(path);
+            return true;
         }
 
         private static void SaveSettingsInternal(LocalSettingsModel settings)
@@ -560,18 +605,19 @@ namespace IPAbuyer.Core.Configuration
             values.Remove("custom_ipatool_path");
         }
 
-        private static LocalSettingsModel ReadLegacySettingsFile(string path)
+        private static (LocalSettingsModel Model, bool HasCountryCode) ReadLegacySettingsFile(string path)
         {
             string json = File.ReadAllText(path, Encoding.UTF8);
             var model = CreateDefaultSettings();
             if (string.IsNullOrWhiteSpace(json))
             {
-                return model;
+                return (model, false);
             }
 
             using JsonDocument document = JsonDocument.Parse(json);
             JsonElement root = document.RootElement;
-            if (TryReadStringProperty(root, out string? countryValue, "country", "CountryCode"))
+            bool hasCountryCode = TryReadStringProperty(root, out string? countryValue, "country", "CountryCode");
+            if (hasCountryCode)
             {
                 model.CountryCode = countryValue ?? DefaultCountryCode;
             }
@@ -606,7 +652,7 @@ namespace IPAbuyer.Core.Configuration
                 model.CustomIpatoolPath = customIpatoolPathValue ?? string.Empty;
             }
 
-            return model;
+            return (model, hasCountryCode);
         }
 
         private static void MarkLegacySettingsFileMigrated(string path)
@@ -671,7 +717,7 @@ namespace IPAbuyer.Core.Configuration
         {
             foreach (string name in names)
             {
-                if (JsonPayload.TryGetProperty(root, name, out JsonElement token)
+                if (TryGetJsonProperty(root, name, out JsonElement token)
                     && token.ValueKind != JsonValueKind.Null
                     && token.ValueKind != JsonValueKind.Undefined)
                 {
@@ -690,7 +736,7 @@ namespace IPAbuyer.Core.Configuration
         {
             foreach (string name in names)
             {
-                if (!JsonPayload.TryGetProperty(root, name, out JsonElement token)
+                if (!TryGetJsonProperty(root, name, out JsonElement token)
                     || token.ValueKind == JsonValueKind.Null
                     || token.ValueKind == JsonValueKind.Undefined)
                 {
@@ -714,6 +760,24 @@ namespace IPAbuyer.Core.Configuration
             }
 
             value = false;
+            return false;
+        }
+
+        private static bool TryGetJsonProperty(JsonElement element, string name, out JsonElement value)
+        {
+            if (element.ValueKind == JsonValueKind.Object)
+            {
+                foreach (JsonProperty property in element.EnumerateObject())
+                {
+                    if (string.Equals(property.Name, name, StringComparison.OrdinalIgnoreCase))
+                    {
+                        value = property.Value;
+                        return true;
+                    }
+                }
+            }
+
+            value = default;
             return false;
         }
 

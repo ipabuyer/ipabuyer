@@ -1,9 +1,10 @@
 ﻿using IPAbuyer.Core.Configuration;
-using IPAbuyer.Core.Data.PurchasedApps;
 using IPAbuyer.Core.Integration.Ipatool;
 using IPAbuyer.Core.Logging;
 using IPAbuyer.Core.Models;
+using IPAbuyer.Core.Services.AppCatalog;
 using IPAbuyer.Core.Services.Downloads;
+using IPAbuyer.Core.Services.Purchases;
 using IPAbuyer.Core.State;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -12,7 +13,6 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Globalization;
-using System.Text.Json;
 
 namespace IPAbuyer.Pages
 {
@@ -26,21 +26,19 @@ namespace IPAbuyer.Pages
         private CancellationTokenSource _pageCts = new();
         private bool _isInactive;
         private bool _hasCompletedSearch;
+        private bool _isUpdatingDeveloperFilter;
         private string _selectedFilter = "All";
-        private static readonly string StatusPurchased = L("Common/Status/Purchased");
-        private static readonly string StatusOwned = L("Common/Status/Owned");
-        private static readonly string StatusCanPurchase = L("Common/Status/NotPurchased");
-        private static readonly string StatusPurchaseBlocked = L("Common/Status/PurchaseBlocked");
-
-        private static readonly string[] PurchasedAliases = { StatusPurchased };
-        private static readonly string[] OwnedAliases = { StatusOwned };
-        private static readonly string[] CanPurchaseAliases = { L("Common/Status/CanPurchase"), StatusCanPurchase };
+        private string? _selectedDeveloper;
+        private static readonly string StatusPurchased = PurchaseStatusPolicy.PurchasedStatus;
+        private static readonly string StatusOwned = PurchaseStatusPolicy.OwnedStatus;
+        private static readonly string StatusCanPurchase = PurchaseStatusPolicy.CanPurchaseStatus;
 
         public int SearchLimitNum { get; set; } = 200;
 
         public MainPage()
         {
             InitializeComponent();
+            UpdateDeveloperFilterOptions();
             NavigationCacheMode = Microsoft.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
         }
 
@@ -48,10 +46,10 @@ namespace IPAbuyer.Pages
         {
             base.OnNavigatedTo(e);
             _isInactive = false;
-            IpatoolExecution.CommandExecuting -= OnIpatoolCommandExecuting;
-            IpatoolExecution.CommandExecuting += OnIpatoolCommandExecuting;
-            IpatoolExecution.CommandOutputReceived -= OnIpatoolCommandOutputReceived;
-            IpatoolExecution.CommandOutputReceived += OnIpatoolCommandOutputReceived;
+            IpatoolClient.CommandExecuting -= OnIpatoolCommandExecuting;
+            IpatoolClient.CommandExecuting += OnIpatoolCommandExecuting;
+            IpatoolClient.CommandOutputReceived -= OnIpatoolCommandOutputReceived;
+            IpatoolClient.CommandOutputReceived += OnIpatoolCommandOutputReceived;
             _downloadQueueService.LogReceived -= OnDownloadQueueLogReceived;
             _downloadQueueService.LogReceived += OnDownloadQueueLogReceived;
             _downloadQueueService.QueueChanged -= OnDownloadQueueChanged;
@@ -92,10 +90,23 @@ namespace IPAbuyer.Pages
         private async Task PerformSearchAsync(string appName, CancellationToken cancellationToken)
         {
             string account = GetActiveAccount();
-            string countryCode = NormalizeCountryCode(KeychainConfig.GetCountryCode(account));
+            IReadOnlyList<SearchResult>? results;
+            try
+            {
+                results = await AppCatalogService.SearchAsync(appName, SearchLimitNum, account, cancellationToken);
+            }
+            catch (System.Text.Json.JsonException)
+            {
+                if (ResultList != null)
+                {
+                    SetResultListItemsSource(null);
+                }
 
-            var result = await IpatoolExecution.SearchAppAsync(appName, SearchLimitNum, account, countryCode, cancellationToken);
-            if (result.TimedOut || string.IsNullOrWhiteSpace(result.OutputOrError))
+                AppendHomeLog(L("MainPage/Log/SearchParseFailed"), UiLogLevel.Error);
+                return;
+            }
+
+            if (results == null)
             {
                 if (ResultList != null)
                 {
@@ -106,74 +117,12 @@ namespace IPAbuyer.Pages
                 return;
             }
 
-            ParseSearchResponse(result.OutputOrError, account);
-        }
-
-        private void ParseSearchResponse(string payload, string account)
-        {
-            try
-            {
-                using JsonDocument document = JsonDocument.Parse(payload);
-                JsonElement root = document.RootElement;
-                if (root.ValueKind != JsonValueKind.Object
-                    || !root.TryGetProperty("results", out JsonElement resultsElement)
-                    || resultsElement.ValueKind != JsonValueKind.Array)
-                {
-                    if (ResultList != null)
-                    {
-                        SetResultListItemsSource(null);
-                    }
-
-                    return;
-                }
-
-                var purchasedDict = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-                if (!string.IsNullOrWhiteSpace(account))
-                {
-                    foreach (var record in PurchasedAppDb.GetPurchasedApps(account))
-                    {
-                        if (string.IsNullOrWhiteSpace(record.appID))
-                        {
-                            continue;
-                        }
-
-                        purchasedDict[record.appID] = record.status;
-                    }
-                }
-
-                _allResults.Clear();
-                foreach (JsonElement appElement in resultsElement.EnumerateArray())
-                {
-                    string bundleId = GetBundleId(appElement) ?? string.Empty;
-                    string price = NormalizePriceForDisplay(GetPriceValue(appElement));
-                    string status = ResolveSearchStatus(bundleId, price, purchasedDict);
-
-                    _allResults.Add(new SearchResult
-                    {
-                        bundleId = bundleId,
-                        id = GetPropertyValue(appElement, "trackId"),
-                        name = GetPropertyValue(appElement, "trackName"),
-                        developer = GetPropertyValue(appElement, "sellerName"),
-                        artworkUrl = GetPropertyValue(appElement, "artworkUrl100"),
-                        price = price,
-                        version = GetPropertyValue(appElement, "version"),
-                        purchased = status
-                    });
-                }
-
-                _hasCompletedSearch = true;
-                ApplyFilterAndRefresh();
-                AppendHomeLog(LF("MainPage/Log/SearchCompleted", _allResults.Count), UiLogLevel.Success);
-            }
-            catch (JsonException)
-            {
-                if (ResultList != null)
-                {
-                    SetResultListItemsSource(null);
-                }
-
-                AppendHomeLog(L("MainPage/Log/SearchParseFailed"), UiLogLevel.Error);
-            }
+            _allResults.Clear();
+            _allResults.AddRange(results);
+            _hasCompletedSearch = true;
+            UpdateDeveloperFilterOptions();
+            ApplyFilterAndRefresh();
+            AppendHomeLog(LF("MainPage/Log/SearchCompleted", _allResults.Count), UiLogLevel.Success);
         }
 
         private async void AppActionButton_Click(object sender, RoutedEventArgs e)
@@ -383,7 +332,7 @@ namespace IPAbuyer.Pages
                     ReplaceSearchResultStatus(app, ResolveUnpurchasedStatusForPrice(app.price));
                     if (!string.IsNullOrWhiteSpace(account))
                     {
-                        PurchasedAppDb.RemovePurchasedApp(bundleId, account);
+                        PurchaseHistoryService.RemoveMark(bundleId, account);
                     }
                 }
                 else
@@ -391,7 +340,7 @@ namespace IPAbuyer.Pages
                     ReplaceSearchResultStatus(app, status);
                     if (!string.IsNullOrWhiteSpace(account))
                     {
-                        PurchasedAppDb.SavePurchasedApp(bundleId, account, status);
+                        PurchaseHistoryService.Mark(bundleId, account, status);
                     }
                 }
             }
@@ -426,7 +375,7 @@ namespace IPAbuyer.Pages
 
             try
             {
-                string countryCode = NormalizeCountryCode(KeychainConfig.GetCountryCode(GetActiveAccount()));
+                string countryCode = AppCatalogService.NormalizeCountryCode(ApplicationSettings.GetCountryCode());
                 var appStoreUri = new Uri(FormattableString.Invariant($"https://apps.apple.com/{countryCode}/app/id{trackId}"));
                 bool opened = await Windows.System.Launcher.LaunchUriAsync(appStoreUri);
                 if (opened)
@@ -491,6 +440,53 @@ namespace IPAbuyer.Pages
             if (button != null)
             {
                 button.IsChecked = string.Equals(_selectedFilter, filter, StringComparison.Ordinal);
+            }
+        }
+
+        private void DeveloperFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_isUpdatingDeveloperFilter || DeveloperFilterComboBox.SelectedItem is not ComboBoxItem item)
+            {
+                return;
+            }
+
+            _selectedDeveloper = item.Tag is string developer && !string.Equals(developer, "All", StringComparison.Ordinal)
+                ? developer
+                : null;
+            ApplyFilterAndRefresh();
+        }
+
+        private void UpdateDeveloperFilterOptions()
+        {
+            if (DeveloperFilterComboBox == null)
+            {
+                return;
+            }
+
+            _isUpdatingDeveloperFilter = true;
+            try
+            {
+                while (DeveloperFilterComboBox.Items.Count > 1)
+                {
+                    DeveloperFilterComboBox.Items.RemoveAt(1);
+                }
+
+                foreach (DeveloperFilterOption developer in DeveloperFilter.BuildOptions(
+                    _allResults.Select(result => result.developer)))
+                {
+                    DeveloperFilterComboBox.Items.Add(new ComboBoxItem
+                    {
+                        Content = developer.DisplayName,
+                        Tag = developer.DisplayName
+                    });
+                }
+
+                _selectedDeveloper = null;
+                DeveloperFilterComboBox.SelectedIndex = 0;
+            }
+            finally
+            {
+                _isUpdatingDeveloperFilter = false;
             }
         }
 
@@ -681,15 +677,20 @@ namespace IPAbuyer.Pages
 
         private List<SearchResult> GetFilteredResults()
         {
-            List<SearchResult> filtered = _selectedFilter switch
+            IEnumerable<SearchResult> filtered = _selectedFilter switch
             {
-                "OnlyPurchased" => _allResults.Where(a => IsPurchasedStatus(a.purchased)).ToList(),
-                "OnlyNotPurchased" => _allResults.Where(a => IsCanPurchaseStatus(a.purchased)).ToList(),
-                "OnlyHad" => _allResults.Where(a => IsOwnedStatus(a.purchased)).ToList(),
-                _ => _allResults.ToList(),
+                "OnlyPurchased" => _allResults.Where(a => IsPurchasedStatus(a.purchased)),
+                "OnlyNotPurchased" => _allResults.Where(a => IsCanPurchaseStatus(a.purchased)),
+                "OnlyHad" => _allResults.Where(a => IsOwnedStatus(a.purchased)),
+                _ => _allResults,
             };
 
-            return filtered;
+            if (!string.IsNullOrWhiteSpace(_selectedDeveloper))
+            {
+                filtered = filtered.Where(app => DeveloperFilter.Matches(app.developer, _selectedDeveloper));
+            }
+
+            return filtered.ToList();
         }
 
         private async Task<bool> PurchaseAppsAsync(List<SearchResult> selectedApps)
@@ -704,10 +705,6 @@ namespace IPAbuyer.Pages
                 return false;
             }
 
-            bool isTestAccount = SessionState.IsLoggedIn
-                && SessionState.IsMockAccount
-                && string.Equals(SessionState.CurrentAccount, account, StringComparison.OrdinalIgnoreCase);
-
             foreach (var app in selectedApps)
             {
                 string bundleId = app.bundleId ?? string.Empty;
@@ -715,63 +712,51 @@ namespace IPAbuyer.Pages
                 {
                     continue;
                 }
+
                 string appLabel = GetAppDisplayLabel(app, bundleId);
+                PurchaseResult result = await PurchaseService.PurchaseAsync(app, account, _pageCts.Token);
+                switch (result.Outcome)
+                {
+                    case PurchaseOutcome.Skipped when string.Equals(result.Detail, "NonFree", StringComparison.Ordinal):
+                        AppendHomeLog(LF("MainPage/Purchase/SkipNonFree", appLabel), UiLogLevel.Tip);
+                        break;
 
-                if (IsPurchasedStatus(app.purchased) || IsOwnedStatus(app.purchased))
-                {
-                    continue;
-                }
-
-                if (!IsPriceFree(app.price))
-                {
-                    AppendHomeLog(LF("MainPage/Purchase/SkipNonFree", appLabel), UiLogLevel.Tip);
-                    continue;
-                }
-
-                if (isTestAccount)
-                {
-                    SearchResult updatedApp = ReplaceSearchResultStatus(app, StatusPurchased);
-                    PurchasedAppDb.SavePurchasedApp(bundleId, account, StatusPurchased);
-                    AppendHomeLog(LF("MainPage/Purchase/MockSuccess", GetAppDisplayLabel(updatedApp, bundleId)), UiLogLevel.Success);
-                    continue;
-                }
-
-                var result = await IpatoolExecution.PurchaseAppAsync(bundleId, account, _pageCts.Token);
-                if (IsPurchaseAlreadyOwned(result.OutputOrError))
-                {
-                    SearchResult updatedApp = ReplaceSearchResultStatus(app, StatusOwned);
-                    PurchasedAppDb.SavePurchasedApp(bundleId, account, StatusOwned);
-                    AppendHomeLog(LF("MainPage/Purchase/OwnedDetected", GetAppDisplayLabel(updatedApp, bundleId)), UiLogLevel.Success);
-                }
-                else if (IsPurchaseSuccess(result.OutputOrError))
-                {
-                    SearchResult updatedApp = ReplaceSearchResultStatus(app, StatusPurchased);
-                    PurchasedAppDb.SavePurchasedApp(bundleId, account, StatusPurchased);
-                    AppendHomeLog(LF("MainPage/Purchase/Success", GetAppDisplayLabel(updatedApp, bundleId)), UiLogLevel.Success);
-                }
-                else
-                {
-                    if (IsStdqOwnedCandidate(result.OutputOrError))
-                    {
-                        bool shouldMarkOwned = await ConfirmMarkOwnedAsync(app).ConfigureAwait(true);
-                        if (shouldMarkOwned)
+                    case PurchaseOutcome.Purchased:
                         {
-                            SearchResult updatedApp = ReplaceSearchResultStatus(app, StatusOwned);
-                            PurchasedAppDb.SavePurchasedApp(bundleId, account, StatusOwned);
+                            SearchResult updatedApp = ReplaceSearchResultStatus(app, PurchaseStatusPolicy.PurchasedStatus);
+                            string key = string.Equals(result.Detail, "Mock", StringComparison.Ordinal)
+                                ? "MainPage/Purchase/MockSuccess"
+                                : "MainPage/Purchase/Success";
+                            AppendHomeLog(LF(key, GetAppDisplayLabel(updatedApp, bundleId)), UiLogLevel.Success);
+                            break;
+                        }
+
+                    case PurchaseOutcome.AlreadyOwned:
+                        {
+                            SearchResult updatedApp = ReplaceSearchResultStatus(app, PurchaseStatusPolicy.OwnedStatus);
+                            AppendHomeLog(LF("MainPage/Purchase/OwnedDetected", GetAppDisplayLabel(updatedApp, bundleId)), UiLogLevel.Success);
+                            break;
+                        }
+
+                    case PurchaseOutcome.NeedsOwnedConfirmation:
+                        if (await ConfirmMarkOwnedAsync(app).ConfigureAwait(true))
+                        {
+                            SearchResult updatedApp = ReplaceSearchResultStatus(app, PurchaseStatusPolicy.OwnedStatus);
+                            PurchaseService.Mark(bundleId, account, PurchaseStatusPolicy.OwnedStatus);
                             AppendHomeLog(LF("MainPage/Purchase/OwnedMarked", GetAppDisplayLabel(updatedApp, bundleId)), UiLogLevel.Success);
                         }
                         else
                         {
                             AppendHomeLog(LF("MainPage/Purchase/OwnedNotMarked", appLabel), UiLogLevel.Info);
                         }
-                    }
-                    else
-                    {
-                        string reason = string.IsNullOrWhiteSpace(result.OutputOrError)
+                        break;
+
+                    case PurchaseOutcome.Failed:
+                        string reason = string.IsNullOrWhiteSpace(result.Detail)
                             ? L("MainPage/Purchase/UnknownError")
-                            : result.OutputOrError;
+                            : result.Detail;
                         AppendHomeLog(LF("MainPage/Purchase/Failed", appLabel, reason), UiLogLevel.Error);
-                    }
+                        break;
                 }
             }
             return true;
@@ -779,7 +764,7 @@ namespace IPAbuyer.Pages
 
         private async Task<bool> ConfirmMarkOwnedAsync(SearchResult app)
         {
-            if (KeychainConfig.GetOwnedCheckEnabled())
+            if (ApplicationSettings.GetOwnedCheckEnabled())
             {
                 return true;
             }
@@ -810,229 +795,41 @@ namespace IPAbuyer.Pages
             bool shouldMark = dialogResult == ContentDialogResult.Primary;
             if (shouldMark && disablePromptCheckBox.IsChecked == true)
             {
-                KeychainConfig.SaveOwnedCheckEnabled(true);
+                ApplicationSettings.SaveOwnedCheckEnabled(true);
             }
 
             return shouldMark;
         }
 
-        private static string NormalizePurchasedStatus(string? status)
-        {
-            if (IsPurchasedStatus(status))
-            {
-                return StatusPurchased;
-            }
-
-            if (IsOwnedStatus(status))
-            {
-                return StatusOwned;
-            }
-
-            return StatusCanPurchase;
-        }
-
-        private static string ResolveSearchStatus(string bundleId, string price, IReadOnlyDictionary<string, string> purchasedDict)
-        {
-            if (!string.IsNullOrWhiteSpace(bundleId) && purchasedDict.TryGetValue(bundleId, out string? purchasedStatus))
-            {
-                return NormalizePurchasedStatus(purchasedStatus);
-            }
-
-            return string.IsNullOrWhiteSpace(price) || IsPriceFree(price)
-                ? StatusCanPurchase
-                : StatusPurchaseBlocked;
-        }
-
         private static string ResolveUnpurchasedStatusForPrice(string? price)
         {
-            return string.IsNullOrWhiteSpace(price) || IsPriceFree(price)
-                ? StatusCanPurchase
-                : StatusPurchaseBlocked;
+            return PurchaseStatusPolicy.ResolveUnpurchasedStatus(price);
         }
 
         private static bool IsPurchasedStatus(string? status)
         {
-            if (string.IsNullOrWhiteSpace(status))
-            {
-                return false;
-            }
-
-            return PurchasedAliases.Any(alias => string.Equals(status, alias, StringComparison.OrdinalIgnoreCase));
+            return PurchaseStatusPolicy.IsPurchased(status);
         }
 
         private static bool IsOwnedStatus(string? status)
         {
-            if (string.IsNullOrWhiteSpace(status))
-            {
-                return false;
-            }
-
-            return OwnedAliases.Any(alias => string.Equals(status, alias, StringComparison.OrdinalIgnoreCase));
+            return PurchaseStatusPolicy.IsOwned(status);
         }
 
         private static bool IsCanPurchaseStatus(string? status)
         {
-            if (string.IsNullOrWhiteSpace(status))
-            {
-                return true;
-            }
-
-            return IsPurchaseBlockedStatus(status)
-                || CanPurchaseAliases.Any(alias => string.Equals(status, alias, StringComparison.OrdinalIgnoreCase));
+            return PurchaseStatusPolicy.IsCanPurchase(status);
         }
 
         private static bool IsPurchaseBlockedStatus(string? status)
         {
-            return !string.IsNullOrWhiteSpace(status)
-                && status.Trim().Equals(StatusPurchaseBlocked, StringComparison.OrdinalIgnoreCase);
-        }
-
-        private static bool IsPurchaseSuccess(string response)
-        {
-            if (string.IsNullOrWhiteSpace(response))
-            {
-                return false;
-            }
-
-            if (response.Contains("\"success\":true", StringComparison.OrdinalIgnoreCase))
-            {
-                return true;
-            }
-
-            foreach (var token in JsonPayload.EnumerateTokens(response))
-            {
-                if (JsonPayload.TryReadBoolean(token, "success", out bool success))
-                {
-                    return success;
-                }
-            }
-
-            return false;
-        }
-
-        private static bool IsPurchaseAlreadyOwned(string response)
-        {
-            if (string.IsNullOrWhiteSpace(response))
-            {
-                return false;
-            }
-
-            if (response.Contains("\"alreadyOwned\":true", StringComparison.OrdinalIgnoreCase))
-            {
-                return true;
-            }
-
-            foreach (var token in JsonPayload.EnumerateTokens(response))
-            {
-                if (JsonPayload.TryReadBoolean(token, "alreadyOwned", out bool alreadyOwned) && alreadyOwned)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return PurchaseStatusPolicy.IsPurchaseBlocked(status);
         }
 
         private static string GetActiveAccount()
         {
             string account = SessionState.IsLoggedIn ? SessionState.CurrentAccount : string.Empty;
             return account.Trim();
-        }
-
-        private static bool IsPriceFree(string? price)
-        {
-            if (string.IsNullOrWhiteSpace(price))
-            {
-                return false;
-            }
-
-            if (decimal.TryParse(price, NumberStyles.Number, CultureInfo.InvariantCulture, out decimal value))
-            {
-                return value <= 0m;
-            }
-
-            string normalized = price.Trim();
-            return normalized.Equals("free", StringComparison.OrdinalIgnoreCase)
-                || normalized.Equals(L("Common/Price/Free"), StringComparison.OrdinalIgnoreCase);
-        }
-
-        private static string? GetBundleId(JsonElement element)
-        {
-            string? bundleId = GetPropertyValue(element, "bundleID");
-            if (!string.IsNullOrWhiteSpace(bundleId))
-            {
-                return bundleId;
-            }
-
-            return GetPropertyValue(element, "bundleId");
-        }
-
-        private static string? GetPropertyValue(JsonElement element, string propertyName)
-        {
-            return element.ValueKind == JsonValueKind.Object && element.TryGetProperty(propertyName, out JsonElement property)
-                ? ReadJsonScalarAsString(property)
-                : null;
-        }
-
-        private static string? GetPriceValue(JsonElement element)
-        {
-            if (element.ValueKind != JsonValueKind.Object || !element.TryGetProperty("price", out JsonElement priceElement))
-            {
-                return null;
-            }
-
-            if (priceElement.ValueKind == JsonValueKind.Number
-                && priceElement.TryGetDecimal(out decimal priceValue))
-            {
-                return priceValue.ToString("0.00", CultureInfo.InvariantCulture);
-            }
-
-            return ReadJsonScalarAsString(priceElement);
-        }
-
-        private static string? ReadJsonScalarAsString(JsonElement element)
-        {
-            return element.ValueKind switch
-            {
-                JsonValueKind.Null or JsonValueKind.Undefined => null,
-                JsonValueKind.String => element.GetString(),
-                JsonValueKind.Number when element.TryGetDecimal(out decimal value) => value.ToString(CultureInfo.InvariantCulture),
-                JsonValueKind.True => "true",
-                JsonValueKind.False => "false",
-                _ => element.GetRawText()
-            };
-        }
-
-        private static string NormalizePriceForDisplay(string? rawPrice)
-        {
-            if (string.IsNullOrWhiteSpace(rawPrice))
-            {
-                return string.Empty;
-            }
-
-            if (decimal.TryParse(rawPrice, NumberStyles.Number, CultureInfo.InvariantCulture, out decimal value)
-                && value <= 0m)
-            {
-                return L("Common/Price/Free");
-            }
-
-            if (rawPrice.Trim().Equals("free", StringComparison.OrdinalIgnoreCase))
-            {
-                return L("Common/Price/Free");
-            }
-
-            return rawPrice.Trim();
-        }
-
-        private static string NormalizeCountryCode(string? code)
-        {
-            if (string.IsNullOrWhiteSpace(code))
-            {
-                return "cn";
-            }
-
-            string normalized = code.Trim().ToLowerInvariant();
-            return KeychainConfig.IsValidCountryCode(normalized) ? normalized : "cn";
         }
 
         private void ShowHomeLogDialog_Click(object sender, RoutedEventArgs e)
@@ -1142,8 +939,8 @@ namespace IPAbuyer.Pages
         {
             _isInactive = true;
             base.OnNavigatedFrom(e);
-            IpatoolExecution.CommandExecuting -= OnIpatoolCommandExecuting;
-            IpatoolExecution.CommandOutputReceived -= OnIpatoolCommandOutputReceived;
+            IpatoolClient.CommandExecuting -= OnIpatoolCommandExecuting;
+            IpatoolClient.CommandOutputReceived -= OnIpatoolCommandOutputReceived;
             _downloadQueueService.LogReceived -= OnDownloadQueueLogReceived;
             _downloadQueueService.QueueChanged -= OnDownloadQueueChanged;
             if (!_pageCts.IsCancellationRequested)
@@ -1159,20 +956,11 @@ namespace IPAbuyer.Pages
         {
             _allResults.Clear();
             _hasCompletedSearch = false;
+            UpdateDeveloperFilterOptions();
             if (ResultList != null)
             {
                 SetResultListItemsSource(null);
             }
-        }
-
-        private static bool IsStdqOwnedCandidate(string response)
-        {
-            if (string.IsNullOrWhiteSpace(response))
-            {
-                return false;
-            }
-
-            return response.Contains("failed to purchase item with param 'STDQ'", StringComparison.OrdinalIgnoreCase);
         }
 
         private void OnIpatoolCommandExecuting(string command)

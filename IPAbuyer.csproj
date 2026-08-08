@@ -28,11 +28,11 @@
             win10-x64;win10-arm64</RuntimeIdentifiers>
         <PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-        <PackageReleaseNotes>更新日志见：https://github.com/ipabuyer/.github/blob/main/CHANGELOG.md</PackageReleaseNotes>
+        <PackageReleaseNotes>更新日志见：https://github.com/ipabuyer/ipabuyer/blob/main/CHANGELOG.md</PackageReleaseNotes>
         <RepositoryType>git</RepositoryType>
-        <RepositoryUrl>https://github.com/ipabuyer/gui</RepositoryUrl>
+        <RepositoryUrl>https://github.com/ipabuyer/ipabuyer</RepositoryUrl>
         <Copyright>Copyright © 2025-2026 IPAbuyer. 保留所有权利。</Copyright>
-        <PackageProjectUrl>https://github.com/ipabuyer/gui</PackageProjectUrl>
+        <PackageProjectUrl>https://github.com/ipabuyer/ipabuyer</PackageProjectUrl>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Platform)' == 'x64' And '$(RuntimeIdentifier)' == ''">
@@ -55,16 +55,16 @@
         <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="3.53.3" />
         <ProjectReference Include="IPAbuyer.Core\IPAbuyer.Core.csproj" />
         <ProjectReference Include="IPAbuyer.Pages\IPAbuyer.Pages.csproj" />
-        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2270" />
+        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2526" />
         <Manifest Include="$(ApplicationManifest)" />
 
-        <Content Include="Include\ipatool-2.3.1-windows-amd64.exe" Condition="'$(Platform)' == 'x64' Or '$(RuntimeIdentifier)' == 'win-x64' Or '$(RuntimeIdentifier)' == 'win10-x64'">
+        <Content Include="Include\ipatool-2.3.2-windows-amd64.exe" Condition="'$(Platform)' == 'x64' Or '$(RuntimeIdentifier)' == 'win-x64' Or '$(RuntimeIdentifier)' == 'win10-x64'">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <TargetPath>ipatool.exe</TargetPath>
             <IncludeInPackage>true</IncludeInPackage>
         </Content>
 
-        <Content Include="Include\ipatool-2.3.1-windows-arm64.exe" Condition="'$(Platform)' == 'ARM64' Or '$(RuntimeIdentifier)' == 'win-arm64' Or '$(RuntimeIdentifier)' == 'win10-arm64'">
+        <Content Include="Include\ipatool-2.3.2-windows-arm64.exe" Condition="'$(Platform)' == 'ARM64' Or '$(RuntimeIdentifier)' == 'win-arm64' Or '$(RuntimeIdentifier)' == 'win10-arm64'">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <TargetPath>ipatool.exe</TargetPath>
             <IncludeInPackage>true</IncludeInPackage>
@@ -83,8 +83,11 @@
         <Compile Remove="IPAbuyer.Core\**\*.cs" />
         <Compile Remove="IPAbuyer.Core.Execution\**\*.cs" />
         <Compile Remove="IPAbuyer.Pages\**\*.cs" />
+        <Compile Remove="IPAbuyer.Tests\**\*.cs" />
         <Page Remove="IPAbuyer.Pages\**\*.xaml" />
         <None Remove="IPAbuyer.Pages\**\*.xaml" />
+        <Page Remove="IPAbuyer.Tests\**\*.xaml" />
+        <None Remove="IPAbuyer.Tests\**\*.xaml" />
     </ItemGroup>
     <ItemGroup>
         <TrimmerRootDescriptor Include="ILLink.Descriptors.xml" />
@@ -125,7 +128,7 @@
         <PublishDir>bin\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\publish\</PublishDir>
         <SelfContained>true</SelfContained>
         <PublishSingleFile>False</PublishSingleFile>
-        <PlatformTarget>AnyCPU</PlatformTarget>
+        <PlatformTarget>$(Platform)</PlatformTarget>
         <SignAssembly>False</SignAssembly>
         <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
         <GenerateAppInstallerFile>False</GenerateAppInstallerFile>

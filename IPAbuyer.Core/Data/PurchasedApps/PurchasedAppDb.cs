@@ -1,3 +1,4 @@
+using IPAbuyer.Core.Services.Purchases;
 using Microsoft.Data.Sqlite;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Diagnostics;
@@ -37,6 +38,8 @@ namespace IPAbuyer.Core.Data.PurchasedApps
                     CREATE INDEX IF NOT EXISTS idx_appid_account 
                     ON PurchasedApp(AppID, Account)";
                 indexCmd.ExecuteNonQuery();
+
+                MigrateStatusTokens(conn);
             }
         }
 
@@ -48,11 +51,16 @@ namespace IPAbuyer.Core.Data.PurchasedApps
         /// <param name="status">状态：已购买 或 已拥有</param>
         public static void SavePurchasedApp(string appID, string account, string? status = null)
         {
-            status ??= L("Common/Status/Purchased");
+            status ??= PurchaseRecordStatus.Purchased;
             if (string.IsNullOrWhiteSpace(appID) || string.IsNullOrWhiteSpace(account))
             {
                 Debug.WriteLine(L("PurchasedAppDb/Debug/AppIdOrAccountRequired"));
                 return;
+            }
+
+            if (!PurchaseRecordStatus.TryNormalize(status, out string normalizedStatus))
+            {
+                throw new ArgumentException("The purchase record status is invalid.", nameof(status));
             }
 
             EnsureDatabaseReady();
@@ -71,7 +79,7 @@ namespace IPAbuyer.Core.Data.PurchasedApps
                       AND LOWER(TRIM(Account)) = $account";
                 updateCmd.Parameters.AddWithValue("$appid", normalizedAppId);
                 updateCmd.Parameters.AddWithValue("$account", normalizedAccount);
-                updateCmd.Parameters.AddWithValue("$status", status);
+                updateCmd.Parameters.AddWithValue("$status", normalizedStatus);
                 int affected = updateCmd.ExecuteNonQuery();
 
                 if (affected == 0)
@@ -252,6 +260,62 @@ namespace IPAbuyer.Core.Data.PurchasedApps
 
                 var result = cmd.ExecuteScalar();
                 return result != null ? Convert.ToInt32(result) : 0;
+            }
+        }
+
+        private static void MigrateStatusTokens(SqliteConnection connection)
+        {
+            using var versionCommand = connection.CreateCommand();
+            versionCommand.CommandText = "PRAGMA user_version";
+            long version = Convert.ToInt64(versionCommand.ExecuteScalar());
+            if (version >= 1)
+            {
+                return;
+            }
+
+            using SqliteTransaction transaction = connection.BeginTransaction();
+            try
+            {
+                var records = new List<(long Id, string? Status)>();
+                using (var selectCommand = connection.CreateCommand())
+                {
+                    selectCommand.Transaction = transaction;
+                    selectCommand.CommandText = "SELECT Id, Status FROM PurchasedApp";
+                    using SqliteDataReader reader = selectCommand.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        records.Add((reader.GetInt64(0), reader.IsDBNull(1) ? null : reader.GetString(1)));
+                    }
+                }
+
+                foreach ((long id, string? status) in records)
+                {
+                    using var changeCommand = connection.CreateCommand();
+                    changeCommand.Transaction = transaction;
+                    if (PurchaseRecordStatus.TryNormalize(status, out string normalizedStatus))
+                    {
+                        changeCommand.CommandText = "UPDATE PurchasedApp SET Status = $status WHERE Id = $id";
+                        changeCommand.Parameters.AddWithValue("$status", normalizedStatus);
+                    }
+                    else
+                    {
+                        changeCommand.CommandText = "DELETE FROM PurchasedApp WHERE Id = $id";
+                    }
+
+                    changeCommand.Parameters.AddWithValue("$id", id);
+                    changeCommand.ExecuteNonQuery();
+                }
+
+                using var setVersionCommand = connection.CreateCommand();
+                setVersionCommand.Transaction = transaction;
+                setVersionCommand.CommandText = "PRAGMA user_version = 1";
+                setVersionCommand.ExecuteNonQuery();
+                transaction.Commit();
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
             }
         }
 
