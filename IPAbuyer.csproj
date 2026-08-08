@@ -83,8 +83,11 @@
         <Compile Remove="IPAbuyer.Core\**\*.cs" />
         <Compile Remove="IPAbuyer.Core.Execution\**\*.cs" />
         <Compile Remove="IPAbuyer.Pages\**\*.cs" />
+        <Compile Remove="IPAbuyer.Tests\**\*.cs" />
         <Page Remove="IPAbuyer.Pages\**\*.xaml" />
         <None Remove="IPAbuyer.Pages\**\*.xaml" />
+        <Page Remove="IPAbuyer.Tests\**\*.xaml" />
+        <None Remove="IPAbuyer.Tests\**\*.xaml" />
     </ItemGroup>
     <ItemGroup>
         <TrimmerRootDescriptor Include="ILLink.Descriptors.xml" />
