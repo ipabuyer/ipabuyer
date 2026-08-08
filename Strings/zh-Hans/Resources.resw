@@ -983,6 +983,9 @@
   <data name="LoginPage/Status/AuthInfoSuccess" xml:space="preserve">
     <value>登录状态正常</value>
   </data>
+  <data name="LoginPage/Status/AuthInfoNotLoggedIn" xml:space="preserve">
+    <value>当前未登录</value>
+  </data>
   <data name="LoginPage/Status/AuthInfoEmailMissing" xml:space="preserve">
     <value>已查询到登录状态，但未获取到邮箱。请先重新登录后再进行购买或下载。</value>
   </data>

@@ -141,6 +141,8 @@ namespace IPAbuyer.Core.Integration.Ipatool
 
         public static bool HasExplicitFailureFlag(string? payload) => IpatoolResponseParser.HasExplicitFailure(payload);
 
+        public static bool IsAccountMissingFromKeyring(string? payload) => IpatoolResponseParser.IsAccountMissingFromKeyring(payload);
+
         private static async Task<IpatoolResult> ExecuteAsync(
             IReadOnlyList<string> commandArguments,
             string? passphrase,

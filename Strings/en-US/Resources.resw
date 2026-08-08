@@ -983,6 +983,9 @@
   <data name="LoginPage/Status/AuthInfoSuccess" xml:space="preserve">
     <value>Login status is normal</value>
   </data>
+  <data name="LoginPage/Status/AuthInfoNotLoggedIn" xml:space="preserve">
+    <value>Not logged in</value>
+  </data>
   <data name="LoginPage/Status/AuthInfoEmailMissing" xml:space="preserve">
     <value>The login status has been queried, but the email address has not been obtained. Please log in again before purchasing or downloading.</value>
   </data>

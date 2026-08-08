@@ -130,6 +130,14 @@ namespace IPAbuyer.Pages
                     cancellationToken: _currentOperationCts.Token);
                 DisposeCurrentOperation();
 
+                if (IpatoolClient.IsAccountMissingFromKeyring(result.OutputOrError))
+                {
+                    SessionState.Reset();
+                    ApplyOperationLock(false);
+                    ShowInfo(L("LoginPage/Status/AuthInfoNotLoggedIn"));
+                    return;
+                }
+
                 string payloadEmail = IpatoolClient.ExtractEmailFromPayload(result.OutputOrError);
                 bool isAuthSuccess = result.IsSuccessResponse
                     && !IpatoolClient.HasExplicitFailureFlag(result.OutputOrError)

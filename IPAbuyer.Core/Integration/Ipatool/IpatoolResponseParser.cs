@@ -46,6 +46,13 @@ namespace IPAbuyer.Core.Integration.Ipatool
                         || payload.Contains("\"success\":false", StringComparison.OrdinalIgnoreCase)));
         }
 
+        internal static bool IsAccountMissingFromKeyring(string? payload)
+        {
+            return !string.IsNullOrWhiteSpace(payload)
+                && payload.Contains("failed to get account", StringComparison.OrdinalIgnoreCase)
+                && payload.Contains("could not be found in the keyring", StringComparison.OrdinalIgnoreCase);
+        }
+
         internal static (string Output, string Error) NormalizeStreams(string? stdout, string? stderr, int exitCode)
         {
             string outputText = stdout?.Trim() ?? string.Empty;
