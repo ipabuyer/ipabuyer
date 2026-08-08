@@ -33,7 +33,12 @@ namespace IPAbuyer.Core.Services.Purchases
 
         public static string NormalizeStoredStatus(string? status)
         {
-            return IsPurchased(status) ? Purchased : IsOwned(status) ? Owned : CanPurchase;
+            if (PurchaseRecordStatus.TryNormalize(status, out string normalizedStatus))
+            {
+                return normalizedStatus == PurchaseRecordStatus.Purchased ? Purchased : Owned;
+            }
+
+            return CanPurchase;
         }
 
         public static string ResolveSearchStatus(string bundleId, string price, IReadOnlyDictionary<string, string> purchasedApps)

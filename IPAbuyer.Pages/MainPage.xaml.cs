@@ -471,28 +471,8 @@ namespace IPAbuyer.Pages
                     DeveloperFilterComboBox.Items.RemoveAt(1);
                 }
 
-                var developers = new Dictionary<string, (string DisplayName, int Count)>(StringComparer.OrdinalIgnoreCase);
-                foreach (SearchResult result in _allResults)
-                {
-                    string developer = result.developer?.Trim() ?? string.Empty;
-                    if (string.IsNullOrWhiteSpace(developer))
-                    {
-                        continue;
-                    }
-
-                    if (developers.TryGetValue(developer, out var existing))
-                    {
-                        developers[developer] = (existing.DisplayName, existing.Count + 1);
-                    }
-                    else
-                    {
-                        developers.Add(developer, (developer, 1));
-                    }
-                }
-
-                foreach (var developer in developers.Values
-                    .OrderByDescending(item => item.Count)
-                    .ThenBy(item => item.DisplayName, StringComparer.CurrentCultureIgnoreCase))
+                foreach (DeveloperFilterOption developer in DeveloperFilter.BuildOptions(
+                    _allResults.Select(result => result.developer)))
                 {
                     DeveloperFilterComboBox.Items.Add(new ComboBoxItem
                     {
@@ -707,10 +687,7 @@ namespace IPAbuyer.Pages
 
             if (!string.IsNullOrWhiteSpace(_selectedDeveloper))
             {
-                filtered = filtered.Where(app => string.Equals(
-                    app.developer?.Trim(),
-                    _selectedDeveloper,
-                    StringComparison.OrdinalIgnoreCase));
+                filtered = filtered.Where(app => DeveloperFilter.Matches(app.developer, _selectedDeveloper));
             }
 
             return filtered.ToList();
