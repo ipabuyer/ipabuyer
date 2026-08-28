@@ -72,7 +72,7 @@ IPAbuyer 是一款 WinUI 3 桌面应用，帮助用户浏览、购买（仅限�
 ## 4. 构建与调试
 
 1. 本地测试使用 Visual Studio packaged 模式；本项目不考虑未打包运行状态，也不实现、不保留未打包回退逻辑。
-2. 单元测试可通过 `dotnet test IPAbuyer.Tests/IPAbuyer.Tests.csproj -p:Platform=x64` 自行构建运行（测试项目仅引用 `IPAbuyer.Core`，无需打包）。
+2. 单元测试可通过 `dotnet test --project IPAbuyer.Tests/IPAbuyer.Tests.csproj -p:Platform=x64` 自行构建运行（测试项目仅引用 `IPAbuyer.Core`，无需打包）；`global.json` 已声明 `Microsoft.Testing.Platform` 测试运行器，适配 .NET 10 SDK 的 dotnet test MTP 模式。
 
 ## 5. 发布与版本管理
 
