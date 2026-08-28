@@ -15,7 +15,6 @@ namespace IPAbuyer.Core.Services.Purchases
 
             string value = status.Trim();
             if (value.Equals(Purchased, StringComparison.OrdinalIgnoreCase)
-                || value.Equals("Purchased", StringComparison.OrdinalIgnoreCase)
                 || value.Equals("已购买", StringComparison.Ordinal))
             {
                 normalizedStatus = Purchased;
