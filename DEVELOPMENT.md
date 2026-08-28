@@ -32,7 +32,7 @@ IPAbuyer 是一款 WinUI 3 桌面应用，帮助用户浏览、购买（仅限�
 
 - 底层工具：[majd/ipatool](https://github.com/majd/ipatool)，本项目通过调用 `ipatool.exe` 完成认证、购买与下载。
 - 代码仓库：<https://github.com/ipabuyer/ipabuyer>
-- 开发者网站：<https://ipa.blazesnow.com>
+- 开发者网站：<https://www.blazesnow.com/ipa/>
 - 更新日志：[CHANGELOG.md](./CHANGELOG.md)
 
 ## 2. 通用约束
@@ -240,7 +240,7 @@ IPAbuyer 是一款 WinUI 3 桌面应用，帮助用户浏览、购买（仅限�
    2. `OwnedCheckEnabled` 为 `true` 时，标记为已拥有不再弹窗询问；为 `false` 时，标记前需要弹窗确认。
 6. 关闭加密密钥轮换功能：
    1. LocalSettings 名称：`KeychainPassphraseRotationEnabled`
-7. 开发者官方网站（按钮跳转 <https://ipa.blazesnow.com>）：
+7. 开发者官方网站（按钮跳转 <https://www.blazesnow.com/ipa/>）：
    1. 需要提示用户：打开开发者官方网站，查看 Q&A 及更多信息。
 8. 项目仓库（按钮打开 <https://github.com/ipabuyer/ipabuyer>）：
    1. 可在 GitHub 项目仓库反馈问题或参与贡献。
@@ -276,6 +276,7 @@ IPAbuyer 是一款 WinUI 3 桌面应用，帮助用户浏览、购买（仅限�
 5. 已购买或已拥有的 App 点击操作按钮后加入全局下载队列，并在队列未运行时启动下载队列。
 6. 下载队列需要支持待下载、下载中、成功、失败、已取消等状态；主页仅显示“终止下载”入口，队列细节由 `DownloadQueueService` 管理（`IPAbuyer.Core/Services/Downloads/DownloadQueueService.cs`）。
 7. 需要捕获 `ipatool` 的输出信息并进行处理；详细日志关闭时避免刷屏，详细日志开启时显示命令、输出和下载进度片段。
+8. 下载命令不设置固定超时；长时间下载依靠用户“终止下载”或应用关闭时终止进程，认证与购买命令仍为 2 分钟超时。
 
 ## 19. 本地化
 
