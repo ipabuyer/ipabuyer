@@ -8,8 +8,8 @@ IPAbuyer：WinUI 3 桌面应用，调用 [ipatool](https://github.com/majd/ipato
 
 1. 本文件是基准文件，不允许修改；DEVELOPMENT.md 为详细开发内容，鼓励修改以同步最新开发进度。
 2. 所有文件均以 UTF-8 格式存储、读取和修改。
-3. 软件文本使用 `.resw`（`Strings/zh-Hans`、`Strings/en-US`）存储并引用，禁止硬编码。
-4. 不需要主动编译；如果编译出错，用户会提供错误日志。
+3. 实际开发中需要注意终端的GBK和UTF-8的问题
+4. 软件文本使用 `.resw`（`Strings/zh-Hans`、`Strings/en-US`）存储并引用，禁止硬编码。
 5. UI 框架为 WinUI 3，控件尽可能用 CommunityToolkit.WinUI（如 `SettingsCard`），避免自绘。
 6. 所有 ipatool 操作通过内置 `ipatool.exe`（`Include/` 目录，区分 amd64/arm64）或用户自定义路径执行，命令需加 `--format json`。
 7. 仅支持 packaged 模式运行与测试（Visual Studio packaged），不做未打包回退逻辑。
@@ -25,13 +25,13 @@ IPAbuyer：WinUI 3 桌面应用，调用 [ipatool](https://github.com/majd/ipato
 
 ## ipatool 命令速查
 
-| 用途 | 命令 |
-| --- | --- |
-| 登录 | `ipatool.exe auth login --auth-code 双重验证码 --email 邮箱 --password 密码 --keychain-passphrase 加密密钥` |
-| 查询登录状态 | `ipatool.exe auth info --keychain-passphrase 加密密钥` |
-| 退出登录 | `ipatool.exe auth revoke` |
-| 购买 | `ipatool.exe purchase --bundle-identifier APPID --keychain-passphrase 加密密钥 --format json --non-interactive --verbose` |
-| 下载 | `ipatool.exe download --output 输出位置 --bundle-identifier APPID --keychain-passphrase 加密密钥 --format json --non-interactive --verbose` |
+| 用途         | 命令                                                                                                                                        |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| 登录         | `ipatool.exe auth login --auth-code 双重验证码 --email 邮箱 --password 密码 --keychain-passphrase 加密密钥`                                 |
+| 查询登录状态 | `ipatool.exe auth info --keychain-passphrase 加密密钥`                                                                                      |
+| 退出登录     | `ipatool.exe auth revoke`                                                                                                                   |
+| 购买         | `ipatool.exe purchase --bundle-identifier APPID --keychain-passphrase 加密密钥 --format json --non-interactive --verbose`                   |
+| 下载         | `ipatool.exe download --output 输出位置 --bundle-identifier APPID --keychain-passphrase 加密密钥 --format json --non-interactive --verbose` |
 
 测试账户：用户名 `test`、密码 `test`，购买/下载一律直接成功。
 
