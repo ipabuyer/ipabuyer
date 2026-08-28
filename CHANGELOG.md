@@ -14,8 +14,7 @@
 3. 修复大体积App下载被固定2分钟超时终止的问题，下载不再设置固定超时
 4. 修复下载队列运行期间高频读写详细日志设置导致的性能问题
 5. 修复双重验证阶段输错验证码时提示不准确的问题
-6. 修复切换显示语言重启成功时误报重启失败的问题
-7. 拆分AGENT.md为AGENTS.md与DEVELOPMENT.md，并新增markdownlint配置
+6. 拆分AGENT.md为AGENTS.md与DEVELOPMENT.md，并新增markdownlint配置
 
 ## v2026.8.1.0
 

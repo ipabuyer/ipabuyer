@@ -83,9 +83,7 @@ namespace IPAbuyer
         {
             try
             {
-                var reason = Microsoft.Windows.AppLifecycle.AppInstance.Restart(string.Empty);
-                // None 表示重启已发起，返回 null 让调用方不提示失败。
-                return reason == Microsoft.Windows.AppLifecycle.AppRestartFailureReason.None ? null : reason.ToString();
+                return Microsoft.Windows.AppLifecycle.AppInstance.Restart(string.Empty).ToString();
             }
             catch (Exception ex)
             {

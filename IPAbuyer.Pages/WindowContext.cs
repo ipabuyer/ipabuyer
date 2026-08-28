@@ -15,13 +15,7 @@ namespace IPAbuyer.Pages
 
         public static string? RequestRestart()
         {
-            Func<string?>? restartApplication = _restartApplication;
-            if (restartApplication == null)
-            {
-                return "Restart handler is unavailable.";
-            }
-
-            return restartApplication();
+            return _restartApplication?.Invoke() ?? "Restart handler is unavailable.";
         }
 
         public static void SetMainWindow(Window window)
