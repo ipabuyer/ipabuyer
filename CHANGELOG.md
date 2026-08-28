@@ -2,7 +2,8 @@
 
 ## v2026.8.29.0
 
-1. 更新依赖包：
+1. 更新ipatool版本：2.3.2 -> 2.4.0
+2. 更新依赖包：
    1. Microsoft.WindowsAppSDK：2.3.1 -> 2.4.0
    2. Microsoft.Data.Sqlite：10.0.10 -> 10.0.11
    3. Microsoft.Windows.SDK.BuildTools：10.0.28000.2526 -> 10.0.28000.2705
