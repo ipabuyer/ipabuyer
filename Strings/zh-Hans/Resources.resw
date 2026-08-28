@@ -252,7 +252,7 @@
     <value>开启后，标记“已拥有”时不再确认。</value>
   </data>
   <data name="Settings/Card/OwnedPrompt.Header" xml:space="preserve">
-    <value>“已拥有”提示弹窗</value>
+    <value>不再确认已拥有</value>
   </data>
   <data name="Settings/Card/KeychainPassphraseRotation.Description" xml:space="preserve">
     <value>关闭后，退出登录时不再自动生成新的加密密钥。</value>

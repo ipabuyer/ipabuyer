@@ -252,7 +252,7 @@
     <value>When turned on, confirmation is skipped when marking an app as "Owned".</value>
   </data>
   <data name="Settings/Card/OwnedPrompt.Header" xml:space="preserve">
-    <value>"Owned" confirmation dialog</value>
+    <value>Skip "Owned" confirmation</value>
   </data>
   <data name="Settings/Card/KeychainPassphraseRotation.Description" xml:space="preserve">
     <value>When turned off, new encryption keys will no longer be automatically generated when logging out.</value>
