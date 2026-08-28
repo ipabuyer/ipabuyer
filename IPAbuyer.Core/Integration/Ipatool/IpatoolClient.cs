@@ -10,6 +10,9 @@ namespace IPAbuyer.Core.Integration.Ipatool
         private static readonly ProcessExecutionService ProcessExecutionService = new();
         private static readonly TimeSpan DefaultTimeout = TimeSpan.FromMinutes(2);
 
+        // 下载大体积 App 可能远超常规命令耗时，不设固定超时，由“终止下载”或应用关闭终止进程。
+        private static readonly TimeSpan DownloadTimeout = System.Threading.Timeout.InfiniteTimeSpan;
+
         public static event Action<string>? CommandExecuting;
         public static event Action<string>? CommandOutputReceived;
 
@@ -106,7 +109,7 @@ namespace IPAbuyer.Core.Integration.Ipatool
                     executablePath,
                     IpatoolPathResolver.GetWorkingDirectory(executablePath),
                     arguments,
-                    DefaultTimeout,
+                    DownloadTimeout,
                     IpatoolCommandBuilder.CreateEnvironmentVariables(),
                     outputChunkCallback);
                 ProcessExecutionResult result = await ProcessExecutionService.ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
