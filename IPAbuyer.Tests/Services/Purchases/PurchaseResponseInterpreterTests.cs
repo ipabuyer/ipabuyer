@@ -41,5 +41,29 @@ namespace IPAbuyer.Tests.Services.Purchases
         {
             Assert.Equal(PurchaseOutcome.NeedsOwnedConfirmation, PurchaseResponseInterpreter.Interpret(payload));
         }
+
+        [Fact]
+        public void Interpret_AlreadyOwnedDetectedInEmbeddedJson()
+        {
+            PurchaseOutcome outcome = PurchaseResponseInterpreter.Interpret("debug\n{\"alreadyOwned\":true}");
+
+            Assert.Equal(PurchaseOutcome.AlreadyOwned, outcome);
+        }
+
+        [Fact]
+        public void Interpret_AlreadyOwnedReadsStringValuesThroughJsonTokens()
+        {
+            PurchaseOutcome outcome = PurchaseResponseInterpreter.Interpret("{\"alreadyOwned\": \"true\"}");
+
+            Assert.Equal(PurchaseOutcome.AlreadyOwned, outcome);
+        }
+
+        [Fact]
+        public void Interpret_FalseFlagsDoNotTriggerOwnedOrPurchased()
+        {
+            PurchaseOutcome outcome = PurchaseResponseInterpreter.Interpret("{\"alreadyOwned\":false,\"success\":false}");
+
+            Assert.Equal(PurchaseOutcome.Failed, outcome);
+        }
     }
 }

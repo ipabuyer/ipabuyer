@@ -89,5 +89,23 @@ namespace IPAbuyer.Tests.Serialization
 
             Assert.Equal(expected, JsonPayload.ReadScalarAsString(price));
         }
+
+        [Fact]
+        public void TryGetProperty_IgnoresCaseAndRejectsNonObjects()
+        {
+            Assert.True(JsonPayload.TryParseToken("{\"Name\":\"value\"}", out JsonElement token));
+
+            Assert.True(JsonPayload.TryGetProperty(token, "name", out JsonElement matched));
+            Assert.Equal("value", matched.GetString());
+            Assert.False(JsonPayload.TryGetProperty(default, "name", out _));
+        }
+
+        [Fact]
+        public void EnumerateTokens_SkipsLinesWithoutJson()
+        {
+            JsonElement[] tokens = JsonPayload.EnumerateTokens("plain\nwords only").ToArray();
+
+            Assert.Empty(tokens);
+        }
     }
 }

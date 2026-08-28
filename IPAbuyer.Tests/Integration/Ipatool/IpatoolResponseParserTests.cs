@@ -81,5 +81,23 @@ namespace IPAbuyer.Tests.Integration.Ipatool
 
             Assert.Equal("{\"success\":true}", result.output);
         }
+
+        [Fact]
+        public void NormalizeStreams_PreservesPlainTextOutputWithoutJson()
+        {
+            (string output, string error) result = IpatoolResponseParser.NormalizeStreams("plain output", null, 0);
+
+            Assert.Equal("plain output", result.output);
+            Assert.Equal(string.Empty, result.error);
+        }
+
+        [Fact]
+        public void NormalizeStreams_ExtractsJsonLinesFromNoisyErrorStream()
+        {
+            (string output, string error) result = IpatoolResponseParser.NormalizeStreams("{\"a\":1}", "debug\n{\"b\":2}", 0);
+
+            Assert.Equal("{\"a\":1}", result.output);
+            Assert.Equal("{\"b\":2}", result.error);
+        }
     }
 }
