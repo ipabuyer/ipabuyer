@@ -59,6 +59,16 @@ namespace IPAbuyer.Core.Execution
                     throw new OperationCanceledException(_shutdownCts.Token);
                 }
 
+                // 立即关闭标准输入：子进程永远读不到输入，任何交互式提示都会因 EOF 立即结束而不是挂起等待。
+                try
+                {
+                    process.StandardInput.Close();
+                }
+                catch
+                {
+                    // 进程可能在关闭输入前已经退出。
+                }
+
                 using var timeoutCts = new CancellationTokenSource(request.Timeout);
                 using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(
                     cancellationToken,
@@ -108,6 +118,7 @@ namespace IPAbuyer.Core.Execution
                 FileName = request.FileName,
                 WorkingDirectory = request.WorkingDirectory,
                 UseShellExecute = false,
+                RedirectStandardInput = true,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 CreateNoWindow = true,

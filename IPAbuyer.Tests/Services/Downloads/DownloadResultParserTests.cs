@@ -40,5 +40,21 @@ namespace IPAbuyer.Tests.Services.Downloads
             Assert.Equal(163, message.Length);
             Assert.EndsWith("...", message, StringComparison.Ordinal);
         }
+
+        [Fact]
+        public void GetErrorMessage_FallsBackToMessageKeyWhenErrorKeyMissing()
+        {
+            var result = new IpatoolResult("debug\n{\"message\":\"disk full\"}", null, 1, false);
+
+            Assert.Equal("disk full", DownloadResultParser.GetErrorMessage(result));
+        }
+
+        [Fact]
+        public void GetErrorMessage_ReturnsShortPlainTextAsIs()
+        {
+            var result = new IpatoolResult("account locked", null, 1, false);
+
+            Assert.Equal("account locked", DownloadResultParser.GetErrorMessage(result));
+        }
     }
 }

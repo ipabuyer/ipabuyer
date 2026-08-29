@@ -71,5 +71,83 @@ namespace IPAbuyer.Tests.Services.Downloads
             Assert.False(update.RequestingLicense);
             Assert.Empty(update.LogLines);
         }
+
+        [Fact]
+        public void ProcessChunk_HandlesWindowsLineEndings()
+        {
+            var parser = new DownloadOutputParser();
+
+            DownloadOutputUpdate update = parser.ProcessChunk("first line\r\nsecond line\r\n");
+
+            Assert.Equal(new[] { "first line", "second line" }, update.LogLines);
+        }
+
+        [Fact]
+        public void ProcessChunk_SuppressesConsecutiveIdenticalLines()
+        {
+            var parser = new DownloadOutputParser();
+
+            _ = parser.ProcessChunk("same line\n");
+            DownloadOutputUpdate update = parser.ProcessChunk("same line\n");
+
+            Assert.Empty(update.LogLines);
+        }
+
+        [Fact]
+        public void ProcessChunk_ExtractsProgressFromJsonFields()
+        {
+            var parser = new DownloadOutputParser();
+
+            DownloadOutputUpdate update = parser.ProcessChunk("{\"progress\":\"0.5\"}\n");
+
+            Assert.Equal(new[] { "{\"progress\":\"0.5\"}" }, update.LogLines);
+        }
+
+        [Fact]
+        public void ProcessChunk_ConvertsFractionalJsonProgressToPercent()
+        {
+            var parser = new DownloadOutputParser();
+
+            DownloadOutputUpdate first = parser.ProcessChunk("{\"completed\":\"0.25\"}\n");
+            DownloadOutputUpdate second = parser.ProcessChunk("{\"completed\":\"0.75\"}\n");
+
+            Assert.Single(first.LogLines);
+            Assert.Single(second.LogLines);
+        }
+
+        [Fact]
+        public void ProcessChunk_ClampsOutOfRangeJsonProgress()
+        {
+            var parser = new DownloadOutputParser();
+
+            DownloadOutputUpdate first = parser.ProcessChunk("{\"percent\":250}\n");
+            DownloadOutputUpdate second = parser.ProcessChunk("Cap 100%\n");
+
+            Assert.Single(first.LogLines);
+            Assert.Empty(second.LogLines);
+        }
+
+        [Fact]
+        public void ProcessChunk_SuppressesSameProgressAcrossTextAndJsonFormats()
+        {
+            var parser = new DownloadOutputParser();
+
+            DownloadOutputUpdate first = parser.ProcessChunk("{\"progress\":\"0.5\"}\n");
+            DownloadOutputUpdate second = parser.ProcessChunk("Halfway there 50%\n");
+
+            Assert.Single(first.LogLines);
+            Assert.Empty(second.LogLines);
+        }
+
+        [Fact]
+        public void Flush_OnFreshParserProducesNoLines()
+        {
+            var parser = new DownloadOutputParser();
+
+            DownloadOutputUpdate update = parser.Flush();
+
+            Assert.False(update.RequestingLicense);
+            Assert.Empty(update.LogLines);
+        }
     }
 }

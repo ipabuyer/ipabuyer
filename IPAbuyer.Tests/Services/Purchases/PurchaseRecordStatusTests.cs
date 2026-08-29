@@ -38,5 +38,19 @@ namespace IPAbuyer.Tests.Services.Purchases
             Assert.False(normalized);
             Assert.Equal(string.Empty, actual);
         }
+
+        [Theory]
+        [InlineData("  purchased  ", "purchased")]
+        [InlineData("OWNED", "owned")]
+        [InlineData(" ALREADY OWNED ", "owned")]
+        [InlineData(" 已购买 ", "purchased")]
+        [InlineData(" 已拥有 ", "owned")]
+        public void TryNormalize_TrimsWhitespaceAndIgnoresCase(string status, string expected)
+        {
+            bool normalized = PurchaseRecordStatus.TryNormalize(status, out string actual);
+
+            Assert.True(normalized);
+            Assert.Equal(expected, actual);
+        }
     }
 }

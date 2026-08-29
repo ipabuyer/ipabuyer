@@ -252,7 +252,7 @@
     <value>开启后，标记“已拥有”时不再确认。</value>
   </data>
   <data name="Settings/Card/OwnedPrompt.Header" xml:space="preserve">
-    <value>“已拥有”提示弹窗</value>
+    <value>不再确认已拥有</value>
   </data>
   <data name="Settings/Card/KeychainPassphraseRotation.Description" xml:space="preserve">
     <value>关闭后，退出登录时不再自动生成新的加密密钥。</value>
@@ -300,7 +300,7 @@
     <value>内置 ipatool</value>
   </data>
   <data name="IpatoolPage/Release/VersionTextBlock.Text" xml:space="preserve">
-    <value>release@2.3.2</value>
+    <value>release@2.4.0</value>
   </data>
   <data name="IpatoolPage/Release/DisplayName" xml:space="preserve">
     <value>内置正式版 ipatool</value>

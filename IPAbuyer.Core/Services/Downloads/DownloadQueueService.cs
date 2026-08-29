@@ -170,6 +170,8 @@ namespace IPAbuyer.Core.Services.Downloads
 
                 EmitLog(LF("DownloadQueue/Log/StartQueue", initialCount, outputDirectory), UiLogLevel.Info);
 
+                // 详细日志设置在队列运行期间缓存，避免下载输出高频回调反复读写配置。
+                bool detailedLogEnabled = ApplicationSettings.GetDetailedIpatoolLogEnabled();
                 int completed = 0;
                 int processed = 0;
                 var processedItems = new System.Collections.Generic.HashSet<DownloadQueueItem>();
@@ -215,7 +217,7 @@ namespace IPAbuyer.Core.Services.Downloads
                                     {
                                         if (!itemCts.IsCancellationRequested)
                                         {
-                                            ApplyOutputUpdate(item, outputParser.ProcessChunk(chunk));
+                                            ApplyOutputUpdate(item, outputParser.ProcessChunk(chunk), detailedLogEnabled);
                                         }
                                     }
                                 },
@@ -225,7 +227,7 @@ namespace IPAbuyer.Core.Services.Downloads
                             {
                                 lock (chunkLogSync)
                                 {
-                                    ApplyOutputUpdate(item, outputParser.Flush());
+                                    ApplyOutputUpdate(item, outputParser.Flush(), detailedLogEnabled);
                                 }
                             }
 
@@ -389,14 +391,14 @@ namespace IPAbuyer.Core.Services.Downloads
             return account.Trim();
         }
 
-        private void ApplyOutputUpdate(DownloadQueueItem item, DownloadOutputUpdate update)
+        private void ApplyOutputUpdate(DownloadQueueItem item, DownloadOutputUpdate update, bool detailedLogEnabled)
         {
             if (update.RequestingLicense)
             {
                 UpdateDownloadStage(item, "DownloadQueue/Status/RequestingLicense", "DownloadQueue/Log/RequestingLicense");
             }
 
-            if (!ApplicationSettings.GetDetailedIpatoolLogEnabled())
+            if (!detailedLogEnabled)
             {
                 return;
             }

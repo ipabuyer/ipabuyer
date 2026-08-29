@@ -92,7 +92,7 @@ namespace IPAbuyer.Core.Data.PurchasedApps
                         DO UPDATE SET Status = $status";
                     insertCmd.Parameters.AddWithValue("$appid", normalizedAppId);
                     insertCmd.Parameters.AddWithValue("$account", normalizedAccount);
-                    insertCmd.Parameters.AddWithValue("$status", status);
+                    insertCmd.Parameters.AddWithValue("$status", normalizedStatus);
                     insertCmd.ExecuteNonQuery();
                 }
             }

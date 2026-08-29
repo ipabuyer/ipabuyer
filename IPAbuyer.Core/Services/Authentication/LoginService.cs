@@ -150,6 +150,12 @@ namespace IPAbuyer.Core.Services.Authentication
                 message = payload;
             }
 
+            // 双重验证阶段：错误消息（如 "invalid auth code"）会同时命中双重验证关键词，需先按验证码错误分类。
+            if (isTwoFactor && DetectAuthCodeInvalid(message))
+            {
+                return new LoginResult(LoginStatus.AuthCodeInvalid, L("LoginService/Status/AuthCodeInvalid"), payload);
+            }
+
             if (DetectTwoFactorRequirement(message) || (!isTwoFactor && DetectGenericAppleAuthFailure(message)))
             {
                 return new LoginResult(LoginStatus.RequiresTwoFactor, L("LoginService/Status/RequiresTwoFactor"), payload);
@@ -158,11 +164,6 @@ namespace IPAbuyer.Core.Services.Authentication
             if (DetectInvalidCredential(message))
             {
                 return new LoginResult(LoginStatus.InvalidCredential, L("LoginService/Status/InvalidCredential"), payload);
-            }
-
-            if (DetectAuthCodeInvalid(message) && isTwoFactor)
-            {
-                return new LoginResult(LoginStatus.AuthCodeInvalid, L("LoginService/Status/AuthCodeInvalid"), payload);
             }
 
             if (DetectNetworkIssue(message))

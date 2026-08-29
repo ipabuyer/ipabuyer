@@ -1,0 +1,6 @@
+{
+    // 行长度不限制：中文文档、表格与 URL 普遍超长
+    "MD013": false,
+    // 允许内联 HTML：README 使用 Microsoft Store 徽章
+    "MD033": false
+}

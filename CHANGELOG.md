@@ -1,5 +1,23 @@
 # 更新日志
 
+## v2026.8.29.0
+
+1. 更新ipatool版本：2.3.2 -> 2.4.0
+2. 更新依赖包：
+   1. Microsoft.WindowsAppSDK：2.3.1 -> 2.4.0
+   2. Microsoft.Data.Sqlite：10.0.10 -> 10.0.11
+   3. Microsoft.Windows.SDK.BuildTools：10.0.28000.2526 -> 10.0.28000.2705
+   4. Microsoft.NET.Test.Sdk：18.8.1 -> 18.9.0
+   5. xunit.v3：3.2.2 -> 4.0.0
+   6. xunit.runner.visualstudio：3.1.5 -> 4.0.0
+3. 修复购买记录插入时状态值未规范化的问题
+4. 修复大体积App下载被固定2分钟超时终止的问题，下载不再设置固定超时
+5. 修复下载队列运行期间高频读写详细日志设置导致的性能问题
+6. 修复双重验证阶段输错验证码时提示不准确的问题
+7. 拆分AGENT.md为AGENTS.md与DEVELOPMENT.md，并新增markdownlint配置
+8. 优化设置页“已拥有”卡片的标题
+9. 缓解登录界面卡死：登录超时缩短至60秒，并避免子进程等待标准输入
+
 ## v2026.8.1.0
 
 1. 更新ipatool版本：2.3.1 -> 2.3.2
