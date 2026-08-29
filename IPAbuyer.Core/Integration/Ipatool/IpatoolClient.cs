@@ -10,6 +10,9 @@ namespace IPAbuyer.Core.Integration.Ipatool
         private static readonly ProcessExecutionService ProcessExecutionService = new();
         private static readonly TimeSpan DefaultTimeout = TimeSpan.FromMinutes(2);
 
+        // 登录最多包含两次认证尝试，正常耗时以秒计；缩短超时以限制异常情况下界面的无响应时长。
+        private static readonly TimeSpan AuthLoginTimeout = TimeSpan.FromSeconds(60);
+
         // 下载大体积 App 可能远超常规命令耗时，不设固定超时，由“终止下载”或应用关闭终止进程。
         private static readonly TimeSpan DownloadTimeout = System.Threading.Timeout.InfiniteTimeSpan;
 
@@ -40,7 +43,7 @@ namespace IPAbuyer.Core.Integration.Ipatool
                 arguments.Add(authCode);
             }
 
-            return ExecuteAsync(arguments, passphrase, cancellationToken);
+            return ExecuteAsync(arguments, passphrase, cancellationToken, timeout: AuthLoginTimeout);
         }
 
         public static Task<IpatoolResult> AuthLogoutAsync(CancellationToken cancellationToken = default)
@@ -150,7 +153,8 @@ namespace IPAbuyer.Core.Integration.Ipatool
             IReadOnlyList<string> commandArguments,
             string? passphrase,
             CancellationToken cancellationToken,
-            bool suppressLogEvents = false)
+            bool suppressLogEvents = false,
+            TimeSpan? timeout = null)
         {
             bool isLogout = IpatoolCommandBuilder.IsLogout(commandArguments);
             string executablePath = IpatoolPathResolver.ResolveExecutablePath();
@@ -175,7 +179,7 @@ namespace IPAbuyer.Core.Integration.Ipatool
                     executablePath,
                     IpatoolPathResolver.GetWorkingDirectory(executablePath),
                     arguments,
-                    DefaultTimeout,
+                    timeout ?? DefaultTimeout,
                     IpatoolCommandBuilder.CreateEnvironmentVariables());
                 ProcessExecutionResult result = await ProcessExecutionService.ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
                 if (result.TimedOut)
